@@ -1,0 +1,18 @@
+{% if data %}
+
+const Transformation = require('../transformation.js');
+
+module.exports = {
+    
+    {% for method in data.methods %}
+    {{method.name}}({
+        {% for parameter in method.parameters %}{{parameter.name | camelCase() }} = {{ parameter.default | getValidDefaultValue() }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+    } = {}) {
+        return new Transformation([`{{method.plugin}}-{{method.name}}({%for parameter in method.parameters%}{{parameter.identifier}}:${ {{parameter.name | camelCase()}} }{%if not loop.last%},{%endif%}{%endfor%})`]);
+    },
+    {% endfor %}
+
+}
+
+{% endif %}

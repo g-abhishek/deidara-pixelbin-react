@@ -1,0 +1,25 @@
+{% if data %}
+
+class Image {
+
+    constructor(_imageUri) {
+        this.imageUri = _imageUri;
+        this.transformation = [];
+        this.host = '{{ "" | getHostUrl() }}';
+    }
+
+    setTransformation(transformation) {
+        this.transformation = transformation.getTransformation();
+        return this;
+    }
+
+    getUrl() {
+        let operations = this.transformation.join({{data.operationSeparator}}).replace(/ /g, "");
+        return JSON.stringify(`${this.host}/${operations}/${this.imageUri}`);
+    }    
+
+}
+
+module.exports = Image;
+
+{% endif %}

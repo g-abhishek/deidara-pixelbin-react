@@ -1,0 +1,23 @@
+{
+  "name": "deidara",
+  "version": "1.0.0",
+  "description": "application to generate SDKs",
+  "main": "index.js",
+  "dependencies": {
+    "camelcase": "^6.3.0",
+    "config": "^3.3.6",
+    "fs-extra": "^10.0.0",
+    "nunjucks": "^3.2.3",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:fynd/regrowth/pixelbin/deidara.git"
+  },
+  "author": "Aditya",
+  "license": "ISC"
+}

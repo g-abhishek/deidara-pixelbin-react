@@ -1,0 +1,18 @@
+{
+
+    "filesPaths" : {
+        "JAVASCRIPT" : {   
+            "OUTPUT" : [
+               "/plugins/",
+               "transformation.js",
+               "image.js" 
+            ],  
+            "TEMPLATES" : [
+                "plugin.nunjucks",
+                "transformation.nunjucks",
+                "image.nunjucks"
+            ]
+        }
+    }
+
+}
