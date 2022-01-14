@@ -15,4 +15,4 @@ class Transformation {
   }
 }
 
-module.exports = Transformation;
+export default Transformation;

@@ -1,7 +1,6 @@
 const camelCase = require("camelcase");
 const config = require('config');
 const nunjucks = require("nunjucks");
-const SwaggerParser = require("@apidevtools/swagger-parser");
 const nunjucksEnv = new nunjucks.Environment(
     new nunjucks.FileSystemLoader("templates"), {
         autoescape: false,
@@ -20,17 +19,9 @@ nunjucksEnv.addFilter("getHostUrl", function() {
     return config.get('services.pixelBin.hostUrl');
 }); 
 
-nunjucksEnv.addFilter("getValidDefaultValue", function(defaultValue) {
-    // if(isNaN(defaultValue)) {
-    //     defaultValue = String.toString(defaultValue);
-    // }
-    return defaultValue+"";
+nunjucksEnv.addFilter("isString", function(defaultValue) {
+    return typeof defaultValue == 'string';
 }); 
-
-
-
-
-
 
 nunjucksEnv.addFilter("getParams", function(method) {
     if (method) {
@@ -77,23 +68,7 @@ nunjucksEnv.addFilter("parseURLForJS", (pathURL) => {
         .join("/");
 });
 
-// nunjucksEnv.addFilter("parseURLForPlatform", (pathURL) => {
-//     return pathURL
-//         .split("/")
-//         .map((word) => {
-//             if (word[0] === "{" && word[word.length - 1] === "}") {
-//                 if (camelCase(word) === "{companyId}") {
-//                     word = "${this.config.companyId}";
-//                 } else if (camelCase(word) === "{applicationId}") {
-//                     word = "${this.applicationId}";
-//                 } else {
-//                     word = "$" + camelCase(word);
-//                 }
-//             }
-//             return word;
-//         })
-//         .join("/");
-// });
+
 
 nunjucksEnv.addFilter("withApplicationId", function(methods) {
     const applicationMethods = methods.filter((method) => {
@@ -560,15 +535,6 @@ function validateDataType(schema) {
     }
 }
 
-function isBase64(schema){
-    if(schema.format == "base64"){
-        if(schema.type == "string"){
-            return true
-        }
-    }
-    return false
-}
-
 nunjucksEnv.addFilter("isBase64Format",isBase64);
 
 nunjucksEnv.addFilter("kotlinDataTypeValidation", validateDataType);
@@ -673,29 +639,6 @@ function getFilterParamsForPlatformPaginator(parameters) {
 nunjucksEnv.addFilter("is_object", function(obj) {
     return typeof obj == "object";
 });
-
-nunjucksEnv.addFilter(
-    "refResolve",
-    function(refObj, sRoot, cb) {
-        if (refObj.$ref) {
-            SwaggerParser.resolve(sRoot)
-                .then(($refs) => {
-                    return $refs.get(refObj.$ref);
-                })
-                .then((data) => {
-                    cb(null, data);
-                })
-                .catch((err) => {
-                    console.error(err);
-                    cb(err);
-                });
-            return;
-        } else {
-            cb(null, refObj);
-        }
-    },
-    true
-);
 
 nunjucksEnv.addFilter("shortForm", shortForm);
 
@@ -849,147 +792,6 @@ nunjucksEnv.addFilter("parseURLForPlatformGolang", function(p, className, enums)
     return `"${path}",` + pathParams.join(", ")
 });
 
-
-async function resolveSwagger(swagger) {
-    return SwaggerParser.resolve(swagger);
-}
-
-// nunjucksEnv.addFilter("addApplicationLevelStuff", function (p) {
-//     var fs = require("fs");
-//     var text = fs.readFileSync("./postman_helpers/application_postman_signature.js").toString('utf-8');
-//     p.event = [
-//         {
-//             "listen": "prerequest",
-//             "script": {
-//                 "type": "text/javascript",
-//                 "exec": [
-//                     text
-//                 ]
-//             }
-//         }
-//     ]
-//     p.auth = {
-// 		"type": "basic",
-// 		"basic": [
-// 			{
-// 				"key": "password",
-// 				"value": "{{applicationToken}}",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"key": "username",
-// 				"value": "{{applicationId}}",
-// 				"type": "string"
-// 			}
-// 		]
-// 	}
-//     p.variable = [
-// 		{
-// 			"key": "baseUrl",
-// 			"value": config.ROOT_DOMAIN
-// 		},
-// 		{
-// 			"key": "applicationId",
-// 			"value": "000000000000000000000003"
-// 		},
-// 		{
-// 			"key": "applicationToken",
-// 			"value": "uUY7IQOBwM"
-// 		},
-//         {
-// 			"key": "cookies",
-// 			"value": "<Cookies>" // x.session=s%3A8-im8SmL9ECpBdp_PAhELMZidODRcj9x.XpLeMsH1b22HN%2BilQfmW%2BBSIc8t%2B216PFtQAV3UTKX8;
-// 		}
-// 	]
-//     p.item.forEach(service => {
-//         service.item.forEach(api => {
-//             api.request.header = api.request.header || [];
-//             api.request.header.push({
-//                 "key": "Cookie",
-//                 "value": "{{cookies}}",
-//                 "type": "text"
-//             })
-//         })
-//     })
-//     return p
-// });
-
-// nunjucksEnv.addFilter("addPlatformLevelStuff", function (p) {
-//     var fs = require("fs");
-//     var text = fs.readFileSync("./postman_helpers/platform_postman_signature.js").toString('utf-8');
-//     p.event = [
-//         {
-//             "listen": "prerequest",
-//             "script": {
-//                 "type": "text/javascript",
-//                 "exec": [
-//                     text
-//                 ]
-//             }
-//         }
-//     ]
-//     p.auth = {
-// 		"type": "bearer",
-// 		"bearer": [
-// 			{
-// 				"key": "token",
-// 				"value": "{{accessToken}}",
-// 				"type": "string"
-// 			}
-// 		]
-// 	}
-//     p.item.forEach(service => {
-//         service.item.forEach(api => {
-//             api.request.url.variable = api.request.url.variable.filter(variable => {
-//                 return variable.key != 'company_id' && variable.key != 'application_id'
-//             });
-
-//             api.request.url.query.map(variable => {
-//                 if (variable.value.includes("#/components/enums/")) {
-//                     variable.value = "<string>";
-//                 }
-//             });
-
-//             let index = api.request.url.path.findIndex(x => x === ':company_id');
-//             api.request.url.path[index] = '{{companyId}}'
-
-//             index = api.request.url.path.findIndex(x => x === ':application_id');
-//             if (index != -1) {
-//                 api.request.url.path[index] = '{{applicationId}}'
-//             }
-//             api.request.header = api.request.header || [];
-//             api.request.header.push({
-//                 "key": "Cookie",
-//                 "value": "{{cookies}}",
-//                 "type": "text"
-//             })
-//         })
-//     })
-//     p.variable = [
-// 		{
-// 			"key": "baseUrl",
-// 			"value": config.ROOT_DOMAIN
-// 		},
-//         {
-// 			"key": "companyId",
-// 			"value": "884"
-// 		},
-// 		{
-// 			"key": "applicationId",
-// 			"value": "000000000000000000000003"
-// 		},
-//         {
-// 			"key": "accessToken",
-// 			"value": "<AccessToken>" // oa-e33853ead0033acc85d2e9ca066636d5ce9f6559
-// 		},
-//         {
-// 			"key": "cookies",
-// 			"value": "<Cookies>" // x.session=s%3A8-im8SmL9ECpBdp_PAhELMZidODRcj9x.XpLeMsH1b22HN%2BilQfmW%2BBSIc8t%2B216PFtQAV3UTKX8;
-// 		}
-// 	]
-//     return p
-// });
-
 function isEnum(schema) {
     if (schema && schema.$ref) {
         let schemaName = schema.$ref.substring(schema.$ref.lastIndexOf("/") + 1)
@@ -1048,7 +850,7 @@ nunjucksEnv.addFilter("filterCompanyAndAppIdParams", function(params) {
     } else {
       return []
     }
- });
+});
 
-exports.resolveSwagger = resolveSwagger;
+// exports.resolveSwagger = resolveSwagger;
 exports.nunjucksEnv = nunjucksEnv;

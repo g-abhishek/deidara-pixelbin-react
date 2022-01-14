@@ -2,7 +2,7 @@
     "env" : "stage",
     "services" : {
         "pixelBin" : {
-            "hostUrl" : "https://cdn.pixelbin.io/cloudName"
+            "hostUrl" : "https://cdn.pixelbin.io"
         }
     }
 }

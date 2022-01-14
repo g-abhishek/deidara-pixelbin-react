@@ -2,7 +2,7 @@
     "env" : "default",
     "services" : {
         "pixelBin" : {
-            "hostUrl" : "https://cdn.pixelbinx0.de/cloudName"
+            "hostUrl" : "https://cdn.pixelbinx0.de"
         }
     }
 }

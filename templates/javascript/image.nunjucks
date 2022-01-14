@@ -2,8 +2,10 @@
 
 class Image {
 
-    constructor(_imageUri) {
+    constructor(_imageUri, _cloudName, _cloudZone) {
         this.imageUri = _imageUri;
+        this.cloudName = _cloudName;
+        this.cloudZone = _cloudZone;
         this.transformation = [];
         this.host = '{{ "" | getHostUrl() }}';
     }
@@ -14,12 +16,12 @@ class Image {
     }
 
     getUrl() {
-        let operations = this.transformation.join({{data.operationSeparator}}).replace(/ /g, "");
-        return JSON.stringify(`${this.host}/${operations}/${this.imageUri}`);
+        let operations = this.transformation.join('~').replace(/ /g, "");
+        return JSON.stringify(`${this.host}/${this.cloudName}/${this.cloudZone}/${operations}/uploads/${this.imageUri}`);
     }    
 
 }
 
-module.exports = Image;
+export default Image;
 
 {% endif %}

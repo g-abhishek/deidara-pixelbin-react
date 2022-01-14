@@ -1,18 +1,24 @@
 {% if data %}
 
-const Transformation = require('../transformation.js');
-
-module.exports = {
+import Transformation from '../transformation.js';
     
-    {% for method in data.methods %}
-    {{method.name}}({
-        {% for parameter in method.parameters %}{{parameter.name | camelCase() }} = {{ parameter.default | getValidDefaultValue() }}{% if not loop.last %},{% endif %}
-        {% endfor %}
-    } = {}) {
-        return new Transformation([`{{method.plugin}}-{{method.name}}({%for parameter in method.parameters%}{{parameter.identifier}}:${ {{parameter.name | camelCase()}} }{%if not loop.last%},{%endif%}{%endfor%})`]);
-    },
-    {% endfor %}
-
+{% for method in data.methods %}
+{% if method.parameters | length %}
+/**
+{% for parameter in method.parameters %}* @param{% raw %}{{% endraw %}{{ parameter.type }}} {{parameter.name | camelCase()}}
+{% endfor %}
+*/
+{% endif %}
+export const {{method.name}} = function({
+    {% for parameter in method.parameters %}{{parameter.name | camelCase() }} = {%if parameter.default | isString(parameter.default)%}'{{parameter.default}}'{% else %}{{parameter.default}}{% endif %}{% if not loop.last %},{% endif %}{% endfor %}
+}) {
+    return new Transformation([`{{method.plugin}}.{{method.name}}({%for parameter in method.parameters%}{{parameter.identifier}}:${ {{parameter.name | camelCase()}} }{%if not loop.last%},{%endif%}{%endfor%})`]);
 }
+{% endfor %}
 
+export default {
+{% for method in data.methods %}
+    {{method.name}}{% if not loop.last %},{% endif %}
+{% endfor %}
+}
 {% endif %}
