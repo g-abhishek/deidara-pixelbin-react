@@ -1,31 +1,35 @@
 {
-  "name": "deidara",
-  "version": "1.0.0",
-  "description": "application to generate SDKs",
-  "main": "index.js",
-  "dependencies": {
-    "camelcase": "^6.3.0",
-    "config": "^3.3.6",
-    "fs-extra": "^10.0.0",
-    "nunjucks": "^3.2.3",
-    "path": "^0.12.7"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.2.3",
-    "babel-preset-es2015": "^6.24.1",
-    "webpack": "^5.66.0",
-    "webpack-cli": "^4.9.1"
-  },
-  "scripts": {
-    "start": "node --experimental-json-modules index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.com:fynd/regrowth/pixelbin/deidara.git"
-  },
-  "author": "Aditya",
-  "license": "ISC"
+    "name": "deidara",
+    "version": "1.0.0",
+    "description": "application to generate SDKs",
+    "main": "index.js",
+    "dependencies": {
+        "camelcase": "^6.3.0",
+        "config": "^3.3.6",
+        "fs-extra": "^10.0.0",
+        "hash": "^0.2.1",
+        "nunjucks": "^3.2.3",
+        "path": "^0.12.7",
+        "request": "^2.88.2",
+        "request-promise": "^4.2.6"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-loader": "^8.2.3",
+        "babel-preset-es2015": "^6.24.1",
+        "prettier": "2.5.1",
+        "webpack": "^5.66.0",
+        "webpack-cli": "^4.9.1"
+    },
+    "scripts": {
+        "start": "node --experimental-json-modules index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "webpack": "webpack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@gitlab.com:fynd/regrowth/pixelbin/deidara.git"
+    },
+    "author": "Aditya",
+    "license": "ISC"
 }

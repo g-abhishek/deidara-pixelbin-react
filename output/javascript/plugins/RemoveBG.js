@@ -1,18 +1,9 @@
+import Transformation from "../transformation.js";
 
-
-import Transformation from '../transformation.js';
-    
-
-
-export const bg = function({
-    
-}) {
+export const bg = function ({}) {
     return new Transformation([`remove.bg()`]);
-}
-
+};
 
 export default {
-
-    bg
-
-}
+    bg,
+};

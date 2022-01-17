@@ -5,10 +5,9 @@ import Transformation from '../transformation.js';
 {% for method in data.methods %}
 {% if method.parameters | length %}
 /**
-{% for parameter in method.parameters %}* @param{% raw %}{{% endraw %}{{ parameter.type }}} {{parameter.name | camelCase()}}
+{% for parameter in method.parameters %}* @param {% raw %}{{% endraw %}{{ parameter.type }}} {{parameter.name | camelCase()}}
 {% endfor %}
-*/
-{% endif %}
+*/{% endif %}
 export const {{method.name}} = function({
     {% for parameter in method.parameters %}{{parameter.name | camelCase() }} = {%if parameter.default | isString(parameter.default)%}'{{parameter.default}}'{% else %}{{parameter.default}}{% endif %}{% if not loop.last %},{% endif %}{% endfor %}
 }) {
@@ -17,8 +16,7 @@ export const {{method.name}} = function({
 {% endfor %}
 
 export default {
-{% for method in data.methods %}
-    {{method.name}}{% if not loop.last %},{% endif %}
+{% for method in data.methods %} {{method.name}}{% if not loop.last %},{% endif %}
 {% endfor %}
 }
 {% endif %}

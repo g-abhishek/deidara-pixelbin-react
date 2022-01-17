@@ -1,23 +1,13 @@
-
-
-import Transformation from '../transformation.js';
-    
-
+import Transformation from "../transformation.js";
 
 /**
-* @param{integer} maximumLabels
+* @param {integer} maximumLabels
 
 */
-
-export const detectLabels = function({
-    maximumLabels = 5
-}) {
-    return new Transformation([`googleVis.detectLabels(l:${ maximumLabels })`]);
-}
-
+export const detectLabels = function ({ maximumLabels = 5 }) {
+    return new Transformation([`googleVis.detectLabels(l:${maximumLabels})`]);
+};
 
 export default {
-
-    detectLabels
-
-}
+    detectLabels,
+};

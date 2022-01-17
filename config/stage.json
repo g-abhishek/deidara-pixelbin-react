@@ -1,8 +1,16 @@
 {
-    "env" : "stage",
-    "services" : {
-        "pixelBin" : {
-            "hostUrl" : "https://cdn.pixelbin.io"
+    "env": "stage",
+    "SERVICE": {
+        "ASSETS": {
+            "url": "https://console.pixelbin.de/service/platform/assets/v1.0",
+            "api-key": "",
+            "content_type": "application/json",
+            "encoding": null,
+            "connection": "",
+            "headers": {}
+        },
+        "PIXELBIN": {
+            "url": ""
         }
     }
 }

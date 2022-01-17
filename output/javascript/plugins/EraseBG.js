@@ -1,23 +1,13 @@
-
-
-import Transformation from '../transformation.js';
-    
-
+import Transformation from "../transformation.js";
 
 /**
-* @param{enum} industryType
+* @param {enum} industryType
 
 */
-
-export const bg = function({
-    industryType = 'general'
-}) {
-    return new Transformation([`erase.bg(i:${ industryType })`]);
-}
-
+export const bg = function ({ industryType = "general" }) {
+    return new Transformation([`erase.bg(i:${industryType})`]);
+};
 
 export default {
-
-    bg
-
-}
+    bg,
+};

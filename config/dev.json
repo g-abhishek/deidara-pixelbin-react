@@ -1,8 +1,16 @@
 {
-    "env" : "dev",
-    "services" : {
-        "pixelBin" : {
-            "hostUrl" : "https://cdn.pixelbinx0.de"
+    "env": "dev",
+    "SERVICE": {
+        "ASSETS": {
+            "url": "https://api.pixelbin.io/service/platform/assets/v1.0",
+            "api-key": "",
+            "content_type": "application/json",
+            "encoding": null,
+            "connection": "",
+            "headers": {}
+        },
+        "PIXELBIN": {
+            "url": "https://cdn.pixelbinx0.de"
         }
     }
 }
