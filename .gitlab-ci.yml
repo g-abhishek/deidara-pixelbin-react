@@ -33,7 +33,6 @@ deploy:
     - cp -R ./output/** artifacts
     - ls ./artifacts/javascript
     - node github_deploy.js
-    - node github_deploy.js
     # - node gitlab_deploy.js
   # only:
   #   - /[\w]*+.([0-9])+.([0-9])+.([0-9])+/

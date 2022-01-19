@@ -1,5 +1,7 @@
 {
-    "env": "stage",
+    "env": {
+        "gitBranch": "main"
+    },
     "SERVICE": {
         "ASSETS": {
             "url": "https://console.pixelbin.de/service/platform/assets/v1.0",
