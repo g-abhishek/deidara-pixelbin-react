@@ -41,7 +41,7 @@ const config = require('config');
               git checkout ${config.env.gitBranch} || git checkout -b ${config.env.gitBranch}
               rm -rf ./*
               pwd
-              cp -R ../output/${sdkList[index]} .
+              cp -R ../artifacts/${sdkList[index]} .
               git add .
               git commit -m "[Auto Generated] ${config.version}"
               ls -la
