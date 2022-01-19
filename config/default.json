@@ -1,5 +1,8 @@
 {
-    "env": "default",
+    "env": {
+        "gitBranch": "master"
+    },
+    "version": "1.0.0",
     "SERVICE": {
         "ASSETS": {
             "url": "https://api.pixelbin.io/service/platform/assets/v1.0",

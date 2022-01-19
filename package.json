@@ -5,13 +5,15 @@
     "main": "index.js",
     "dependencies": {
         "camelcase": "^6.3.0",
+        "capitalize": "^2.0.4",
         "config": "^3.3.6",
         "fs-extra": "^10.0.0",
         "hash": "^0.2.1",
         "nunjucks": "^3.2.3",
         "path": "^0.12.7",
         "request": "^2.88.2",
-        "request-promise": "^4.2.6"
+        "request-promise": "^4.2.6",
+        "shelljs": "^0.8.5"
     },
     "devDependencies": {
         "babel-core": "^6.26.3",
