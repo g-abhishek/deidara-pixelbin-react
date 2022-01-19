@@ -38,9 +38,9 @@ const config = require('config');
               # ${capitalize(sdkList[index])}
               echo "Deploying ${capitalize(sdkList[index])} SDK on Github"
               ${cloneCommand}
-              cd ${sdkList[index]}
               git checkout ${config.env.gitBranch} || git checkout -b ${config.env.gitBranch}
               rm -rf ./*
+              pwd
               cp -R ../output/${sdkList[index]} .
               git add .
               git commit -m "[Auto Generated] ${config.version}"
