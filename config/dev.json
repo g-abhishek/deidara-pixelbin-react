@@ -1,6 +1,6 @@
 {
     "env": {
-        "gitBranch": "main"
+        "gitBranch": "master"
     },
     "SERVICE": {
         "ASSETS": {
