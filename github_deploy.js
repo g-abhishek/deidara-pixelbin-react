@@ -46,6 +46,7 @@ const config = require('config');
               rm -rf ./*
               pwd
               cp -R ../../artifacts/${sdkList[index]} .
+              git config --get remote.origin.url
               git add .
               git commit -m "[Auto Generated] ${config.version}"
               ls -la
