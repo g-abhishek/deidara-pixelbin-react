@@ -14,6 +14,7 @@ build:
     - set NODE_ENV=default
     - node index.js # Build Source Code in Output Directory
     - cp -R ./output/** artifacts
+    - ls
   # only:
   #   - /[\w]*+.([0-9])+.([0-9])+.([0-9])+/
   tags:
