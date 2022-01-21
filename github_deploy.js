@@ -46,12 +46,13 @@ const config = require('config');
               rm -rf ./*
               pwd
               ls -la
-              cp -R ../../artifacts/${sdkList[index]} .
+              cp -R ../../artifacts/${sdkList[index]}/ .
               git config --get remote.origin.url
               git add .
               git commit -m "[Auto Generated] ${config.version}"
               ls -la
               git push --set-upstream https://test-push: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@github.com/Aditya-Baranwal/test-push.git ${config.env.gitBranch}
+              
             `;
         console.log(`[SDK Builder] ${sdkList[index]}`);
         shell.exec(command);
