@@ -84,6 +84,7 @@ let processData = async(data) => {
                     name: operation.method,
                     parameters: operation.params,
                     plugin: plugin.identifier,
+                    description: plugin.description
                 };
                 pluginFunctions.push(functionDetails);
             }

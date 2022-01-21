@@ -1,3 +1,16 @@
+## Getting Started
+
+Get started with the Javascript Development SDK for test-push-3 Platform
+
+### Usage
+
+```
+npm install  @baranwal-adi/test-push-3 --save
+```
+
+### Sample Usage - ApplicationClient
+
+```javascript
 import { resize } from "@baranwal-adi/test-push-3/plugins/Sharp.js";
 import EraseBg from "@baranwal-adi/test-push-3/plugins/EraseBG.js";
 import Pixelbin from "@baranwal-adi/test-push-3";
@@ -13,14 +26,15 @@ let pixelbin = new Pixelbin({
 // initiate image for pixelbin
 let img = pixelbin.image("uploads/original/0b7b31de-6fa5-4883-92fd-23843ce3e286.jpeg");
 
-// get backgroud removal transformation from erasebg. 
+// get backgroud removal transformation from erasebg.
 let t1 = EraseBg.bg();
 
-// get resize transformation from erasebg. 
+// get resize transformation from erasebg.
 let t2 = resize({ height: 1143, width: 995 });
 
-// creating another transformation using t1 and t2. 
+// creating another transformation using t1 and t2.
 let t3 = t1.and(t2);
 
-// prints transformation url. 
+// prints transformation url.
 console.log(img.setTransformation(t3).getUrl());
+```

@@ -34,26 +34,21 @@ const config = require('config');
     const { JS_SDK_USERNAME, JS_SDK_TOKEN } = process.env;
     let cloneCommand;
     for (let index = 0; index < sdkList.length; index++) {
-        cloneCommand = `git clone https://Aditya-Baranwal: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@github.com/Aditya-Baranwal/test-push.git`;
-        // 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
+        cloneCommand = `git clone https://Aditya-Baranwal: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@github.com/Aditya-Baranwal/test-push-3.git`;
         const command = `
               # ${capitalize(sdkList[index])}
               echo "Deploying ${capitalize(sdkList[index])} SDK on Github"
               ${cloneCommand}
-              git remote -v
-              cd test-push
+              cd test-push-3
               git checkout ${config.env.gitBranch} || git checkout -b ${config.env.gitBranch}
               rm -rf ./*
-              pwd
-              ls -la
-              cp -R ../../artifacts/${sdkList[index]}/ .
-              git config --get remote.origin.url
+              cp -R ../../artifacts/${sdkList[index]}/* .
               git add .
               git commit -m "[Auto Generated] ${config.version}"
-              ls -la
-              git push --set-upstream https://test-push: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@github.com/Aditya-Baranwal/test-push.git ${config.env.gitBranch}
-              
-            `;
+              npm install
+              git push --set-upstream https://test-push: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@github.com/Aditya-Baranwal/test-push-3.git ${config.env.gitBranch}
+              npm publish --access public
+              `;
         console.log(`[SDK Builder] ${sdkList[index]}`);
         shell.exec(command);
         // await postSlackMessage(

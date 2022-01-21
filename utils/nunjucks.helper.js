@@ -15,6 +15,10 @@ nunjucksEnv.addFilter("getHostUrl", function() {
     return config.get('SERVICE.PIXELBIN.url');
 });
 
+nunjucksEnv.addFilter("getVersion", function() {
+    return config.get('version');
+});
+
 nunjucksEnv.addFilter("isString", function(defaultValue) {
     return typeof defaultValue == "string";
 });

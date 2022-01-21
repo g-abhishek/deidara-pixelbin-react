@@ -3,11 +3,12 @@
 import Transformation from '../transformation.js';
     
 {% for method in data.methods %}
-{% if method.parameters | length %}
 /**
-{% for parameter in method.parameters %}* @param {% raw %}{{% endraw %}{{ parameter.type }}} {{parameter.name | camelCase()}}
-{% endfor %}
-*/{% endif %}
+* {{ method.description }}
+{% if method.parameters | length %}{% for parameter in method.parameters %}* @param {% raw %}{{% endraw %}{{ parameter.type }}} {{parameter.name | camelCase()}} - {{parameter.title}}
+{% endfor %}{% endif %}
+* returns Transformation
+*/
 export const {{method.name}} = function({
     {% for parameter in method.parameters %}{{parameter.name | camelCase() }} = {%if parameter.default | isString(parameter.default)%}'{{parameter.default}}'{% else %}{{parameter.default}}{% endif %}{% if not loop.last %},{% endif %}{% endfor %}
 }) {

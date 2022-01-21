@@ -1,0 +1,9 @@
+{
+  "name": "@baranwal-adi/test-push-3",
+  "version": "{{ "" | getVersion() }}",
+  "description": "",
+  "main": "javascript/pixelbin.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}

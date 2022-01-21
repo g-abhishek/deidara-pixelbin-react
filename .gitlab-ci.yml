@@ -27,7 +27,7 @@ deploy:
   stage: .post
   needs: ["build"]
   script:
-    - node github_deploy.js
+    - node ./scripts/github_deploy.js
   artifacts:
     paths:
       - artifacts
