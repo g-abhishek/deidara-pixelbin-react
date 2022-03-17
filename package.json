@@ -8,6 +8,7 @@
         "capitalize": "^2.0.4",
         "config": "^3.3.6",
         "fs-extra": "^10.0.0",
+        "get-all-files": "^4.1.0",
         "hash": "^0.2.1",
         "nunjucks": "^3.2.3",
         "path": "^0.12.7",

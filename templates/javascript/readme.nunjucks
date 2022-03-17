@@ -5,15 +5,15 @@ Get started with the Javascript Development SDK for test-push-3 Platform
 ### Usage
 
 ```
-npm install  @baranwal-adi/test-push-3 --save
+npm install  @pixelbin/js --save
 ```
 
 ### Sample Usage - ApplicationClient
 
 ```javascript
-import { resize } from "@baranwal-adi/test-push-3/plugins/Sharp.js";
-import EraseBg from "@baranwal-adi/test-push-3/plugins/EraseBG.js";
-import Pixelbin from "@baranwal-adi/test-push-3";
+import { resize } from "@pixelbin/js/plugins/Sharp.js";
+import EraseBg from "@pixelbin/js/plugins/EraseBG.js";
+import Pixelbin from "@pixelbin/js";
 
 // intiate pixelbin image with cloud name and zone
 let pixelbin = new Pixelbin({

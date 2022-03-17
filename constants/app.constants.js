@@ -10,7 +10,7 @@ module.exports = {
                 "image.nunjucks",
                 "pixelbin.nunjucks",
                 "package.nunjucks",
-                "readme.nunjucks"
+                "readme.nunjucks",
             ]
         },
     },

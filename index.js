@@ -9,7 +9,7 @@ const HttpProxy = require("./proxy/http.proxy");
 const { JAVASCRIPT } = CONSTANTS.filesPaths;
 const utils = require("./utils/helper");
 const { ASSETS } = require("./constants/api-suits.json");
-
+const { getAllFilesSync } = require("get-all-files");
 const templatesDirName = "templates";
 const templateExt = ".nunjucks";
 
@@ -23,7 +23,7 @@ async function renderTemplate(lang, data) {
             fs.mkdirSync(outputDir, { recursive: true });
         }
 
-        let { operationSeparator, plugins } = data;
+        let { operationSeparator,parameterSeparator, plugins } = data;
 
         if (["javascript"].includes(lang)) {
             const { TEMPLATES, OUTPUT } = JAVASCRIPT;
@@ -42,14 +42,42 @@ async function renderTemplate(lang, data) {
                         });
                         fs.writeFileSync(outputFilePath, renderData);
                     }
+                } else if(template.includes("pixelbin")) {
+                    /**
+                     * import all the plugs and export from index
+                     */
+                    outputFilePath = path.join(
+                        __dirname,
+                        `output/${lang}/pixelbin.js`
+                    )
+                    renderData = helpers.nunjucksEnv.render(templateFile, {
+                        data: plugins,
+                    })
+                    fs.writeFileSync(outputFilePath, renderData);
+                
                 } else {
                     outputFilePath = path.join(__dirname, `output/${lang}/${OUTPUT[index]}`);
                     renderData = helpers.nunjucksEnv.render(templateFile, {
-                        data: operationSeparator,
+                        data: {operationSeparator, parameterSeparator},
                     });
                     fs.writeFileSync(outputFilePath, renderData);
                 }
             });
+            const templatesBasePath = path.join(__dirname, `templates/${lang}/`)
+            console.log(__dirname);
+            getAllFilesSync(templatesBasePath)
+                .toArray()
+                .filter((file) => path.extname(file).replace(".","") === "js")
+                .forEach(file => {
+
+                    const outputFilePath = file.replace("templates", "output");
+                    const outputDir = "/"+path.join(...outputFilePath.split("/").slice(0, -1));
+
+                    if(!fs.existsSync(outputDir))
+                        fs.mkdirSync(outputDir, { recursive: true });
+                    fs.writeFileSync(outputFilePath, fs.readFileSync(file), { flag: "w+"});
+                })
+            
         }
     } catch (error) {
         throw error;
@@ -100,6 +128,7 @@ let processData = async(data) => {
 
         return {
             operationSeparator: data.delimiters.operationSeparator,
+            parameterSeparator: data.delimiters.parameterSeparator,
             plugins: pluginDetails,
         };
     } catch (error) {

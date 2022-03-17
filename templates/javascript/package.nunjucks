@@ -1,9 +1,24 @@
 {
-  "name": "@baranwal-adi/test-push-3",
+  "name": "@pixelbin/js",
   "version": "{{ "" | getVersion() }}",
   "description": "",
-  "main": "javascript/pixelbin.js",
-  "scripts": {},
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "peerDependencies": {
+    "axios": "^0.26.1"
+  },
+  "dependencies": {
+    "core-js": "^3.21.1",
+    "regenerator-runtime": "^0.13.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.7",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.3",
+    "webpack": "^5.70.0"
+  },
   "author": "",
   "license": "ISC"
 }

@@ -1,14 +1,18 @@
-import path, { dirname } from "path";
+const path = require("path");
 
-console.log(dirname);
-
-export default {
-    entry: path.resolve("/home/aditya/Desktop/fynd-repo/test-repo", "app.js"),
+module.exports = {
+    entry: {
+        main: path.resolve("./", "index.js")
+    },
+    output: {
+        path: path.resolve("./", "dist"),
+        filename: "[name].[contenthash].js",
+        clean: true,
+    },
     module: {
         rules: [
             {
                 test: /\.(js)$/,
-                exclude: /node_modules/,
                 use: ["babel-loader"],
             },
         ],
@@ -16,11 +20,7 @@ export default {
     resolve: {
         extensions: ["*", ".js"],
     },
-    output: {
-        path: path.resolve("/home/aditya/Desktop/fynd-repo/test-repo", "./dist"),
-        filename: "bundle.js",
-    },
     devServer: {
-        contentBase: path.resolve("/home/aditya/Desktop/fynd-repo/test-repo", "./dist"),
+        contentBase: path.resolve("./", "./dist"),
     },
 };
