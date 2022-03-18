@@ -53,9 +53,10 @@ console.log(demoImage.getUrl());
 
 
 ### Usage in browser
-Add the `umd` distributable in a script tag. 
+Add the `umd` distributable in a script tag along with axios
 ``` html
-<script src="pixelbin.js" />
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="pixelbin.js" ></script>
 ```
 
 ``` javascript
