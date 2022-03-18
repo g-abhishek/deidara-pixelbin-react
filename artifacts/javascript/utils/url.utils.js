@@ -7,20 +7,24 @@ import {
 class UrlUtils {
     constructor(pixelbinObj) {
         this.pixelbin = pixelbinObj;
+        this.config = {
+            operationSeparator: "~",
+            parameterSeparator: ",",
+        };
     }
 
     deconstructPixelbinUrl(url) {
-        return getTransformationsFromUrl(url, this.pixelbin.config, false);
+        return getTransformationsFromUrl(url, this.config, false);
     }
 
     generatePixelbinPattern(transformationList) {
-        return getUrlTransformationString(transformationList, this.pixelbin.config);
+        return getUrlTransformationString(transformationList, this.config);
     }
 
     generatePixelbinUrl(imageUrl, transformationList, version = "v2") {
         return getImageUrlWithOptions(
             imageUrl,
-            this.generatePixelbinPattern(transformationList, this.pixelbin.config),
+            this.generatePixelbinPattern(transformationList, this.config),
             version,
         );
     }

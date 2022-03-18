@@ -27,6 +27,19 @@ async function renderTemplate(lang, data) {
 
         if (["javascript"].includes(lang)) {
             const { TEMPLATES, OUTPUT } = JAVASCRIPT;
+            const templatesBasePath = path.join(__dirname, `templates/${lang}/`)
+            getAllFilesSync(templatesBasePath)
+                .toArray()
+                .filter((file) => path.extname(file).replace(".","") === "js")
+                .forEach(file => {
+
+                    const outputFilePath = file.replace("templates", "output");
+                    const outputDir = "/"+path.join(...outputFilePath.split("/").slice(0, -1));
+
+                    if(!fs.existsSync(outputDir))
+                        fs.mkdirSync(outputDir, { recursive: true });
+                    fs.writeFileSync(outputFilePath, fs.readFileSync(file), { flag: "w+"});
+                });
             TEMPLATES.forEach((template, index) => {
                 let templateFile = path.join(__dirname, `templates/${lang}/${template}`);
                 let outputFilePath = "";
@@ -72,19 +85,7 @@ async function renderTemplate(lang, data) {
                     fs.writeFileSync(outputFilePath, renderData);
                 }
             });
-            const templatesBasePath = path.join(__dirname, `templates/${lang}/`)
-            getAllFilesSync(templatesBasePath)
-                .toArray()
-                .filter((file) => path.extname(file).replace(".","") === "js")
-                .forEach(file => {
-
-                    const outputFilePath = file.replace("templates", "output");
-                    const outputDir = "/"+path.join(...outputFilePath.split("/").slice(0, -1));
-
-                    if(!fs.existsSync(outputDir))
-                        fs.mkdirSync(outputDir, { recursive: true });
-                    fs.writeFileSync(outputFilePath, fs.readFileSync(file), { flag: "w+"});
-                })
+         
             
         }
     } catch (error) {

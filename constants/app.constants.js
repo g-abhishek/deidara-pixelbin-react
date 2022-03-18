@@ -3,7 +3,7 @@ module.exports = {
 
     filesPaths: {
         JAVASCRIPT: {
-            OUTPUT: ["/plugins/", "transformation.js", "image.js", "pixelbin.js", "package.json", "README.md"],
+            OUTPUT: ["/plugins/", "transformation.js", "image.js", "pixelbin.js", "package.json", "README.md", "/utils/url.utils.js"],
             TEMPLATES: [
                 "plugin.nunjucks",
                 "transformation.nunjucks",
@@ -11,6 +11,7 @@ module.exports = {
                 "pixelbin.nunjucks",
                 "package.nunjucks",
                 "readme.nunjucks",
+                "/utils/url.utils.nunjucks"
             ]
         },
     },

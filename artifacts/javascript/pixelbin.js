@@ -32,10 +32,6 @@ class Pixelbin {
     constructor({ cloud: { cloudName, zone } }) {
         this.cloudName = cloudName;
         this.zone = zone === "default" ? "" : zone || "";
-        this.config = {
-            operationSeparator: "~",
-            parameterSeparator: ",",
-        };
     }
 
     /**
