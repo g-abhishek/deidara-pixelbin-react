@@ -31,7 +31,16 @@ async function renderTemplate(lang, data) {
                 let templateFile = path.join(__dirname, `templates/${lang}/${template}`);
                 let outputFilePath = "";
                 let renderData = null;
-                if (templateFile.includes("plugin")) {
+                if (templateFile.includes("readme")){
+                    outputFilePath = path.join(
+                        __dirname,
+                        `output/${lang}/README.md`
+                    );
+                    renderData = helpers.nunjucksEnv.render(templateFile, {
+                        data: plugins,
+                    })
+                    fs.writeFileSync(outputFilePath, renderData);
+                } else if (templateFile.includes("plugin")) {
                     for (let pluginData of plugins) {
                         outputFilePath = path.join(
                             __dirname,
@@ -51,7 +60,7 @@ async function renderTemplate(lang, data) {
                         `output/${lang}/pixelbin.js`
                     )
                     renderData = helpers.nunjucksEnv.render(templateFile, {
-                        data: plugins,
+                        data: {plugins, operationSeparator, parameterSeparator},
                     })
                     fs.writeFileSync(outputFilePath, renderData);
                 
@@ -64,7 +73,6 @@ async function renderTemplate(lang, data) {
                 }
             });
             const templatesBasePath = path.join(__dirname, `templates/${lang}/`)
-            console.log(__dirname);
             getAllFilesSync(templatesBasePath)
                 .toArray()
                 .filter((file) => path.extname(file).replace(".","") === "js")

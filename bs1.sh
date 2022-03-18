@@ -9,4 +9,6 @@ cp -R ./output/** artifacts
 ls ./artifacts/javascript
 npm i --prefix ./artifacts/javascript
 npm run build --prefix ./artifacts/javascript
+rm ./test-code/dist/pixelbin.*
+cp ./artifacts/javascript/dist/* ./test-code/dist/
 # node ./scripts/github_deploy.js

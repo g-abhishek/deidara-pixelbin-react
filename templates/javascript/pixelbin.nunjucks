@@ -5,7 +5,7 @@ import Transformation from "./transformation";
 import * as errors from "./errors/PixelbinErrors";
 import { getUrlUtilsInstance } from "./utils/url.utils";
 import { upload } from "./utils/upload.utils";
-{% if data %}{% for plugin in data %}
+{% if data %}{% for plugin in data.plugins %}
 import * as {{plugin.plugin.name}} from "./plugins/{{plugin.plugin.name}}";
 {% endfor %}
 
@@ -16,9 +16,9 @@ class Pixelbin {
     /**
     * @param {Object} cloud-details takes detail for cloud name and zone
     */
-    constructor({ cloudName, zone }) {
+    constructor( {cloud : { cloudName, zone }}) {
         this.cloudName = cloudName;
-        this.zone = zone || "default";
+        this.zone = zone === "default"? "" : zone || "";
         this.config = {
             {% if data %}operationSeparator: "{{data.operationSeparator}}",
             parameterSeparator: "{{data.parameterSeparator}}",{% endif %}
@@ -53,7 +53,7 @@ class Pixelbin {
     }
 
     static plugins = {
-    {% for plugin in data %}{{plugin.plugin.name}},{% endfor %}
+    {% for plugin in data.plugins %}{{plugin.plugin.name}},{% endfor %}
     }
 
     static Transformation = Transformation
@@ -61,5 +61,8 @@ class Pixelbin {
 
 }
 
-export default Pixelbin;
+export {
+    Pixelbin as default, 
+    Transformation
+};
 {% endif %}

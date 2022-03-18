@@ -34,7 +34,8 @@ class Image {
     */
     getUrl() {
         let operations = this.transformation.join('~').replace(/ /g, "") || "original";
-        return `${this.host}/${this.cloudName}/${this.zone}/${operations}/${this.imageUri}`;
+        
+        return `${this.host}/${this.cloudName}/${this.zone? `${this.zone}/`: ""}${operations}/${this.imageUri}`;
     }
 }
 

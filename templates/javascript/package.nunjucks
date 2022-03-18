@@ -2,7 +2,7 @@
   "name": "@pixelbin/js",
   "version": "{{ "" | getVersion() }}",
   "description": "",
-  "main": "index.js",
+  "main": "pixelbin.js",
   "scripts": {
     "build": "webpack --config webpack.config.js"
   },
@@ -17,7 +17,10 @@
     "@babel/core": "^7.17.7",
     "@babel/preset-env": "^7.16.11",
     "babel-loader": "^8.2.3",
-    "webpack": "^5.70.0"
+    "webpack": "^5.70.0",
+    "core-js": "^3.21.1",
+    "regenerator-runtime": "^0.13.9"
+
   },
   "author": "",
   "license": "ISC"

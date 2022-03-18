@@ -2,7 +2,7 @@ import Pixelbin from "@pixelbin/js";
 
 describe("UrlUtils tests", () => {
     it("should get transformation list from url", async() => {
-        const pixelbin = new Pixelbin({cloudName: "cloudName", zone: "default"});
+        const pixelbin = new Pixelbin({cloud: {cloudName: "cloudName", zone: "default"}});
         const urlUtils = pixelbin.getUrlUtils();
         const transformations =  urlUtils.deconstructPixelbinUrl("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize()/__playground/playground-default.jpeg");
         expect(transformations).toEqual([
@@ -14,7 +14,7 @@ describe("UrlUtils tests", () => {
         ])
     });
     it("should get transformation list from url", async() => {
-        const pixelbin = new Pixelbin({cloudName: "cloudName", zone: "default"});
+        const pixelbin = new Pixelbin({cloud: {cloudName: "cloudName", zone: "default"}});
         const urlUtils = pixelbin.getUrlUtils();
         const transformations =  urlUtils.deconstructPixelbinUrl("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize(h:200,w:100)/__playground/playground-default.jpeg");
         expect(transformations).toEqual([
@@ -36,7 +36,7 @@ describe("UrlUtils tests", () => {
         ])
     });
     it("should get transformation list from url - 2", async() => {
-        const pixelbin = new Pixelbin({cloudName: "cloudName", zone: "default"});
+        const pixelbin = new Pixelbin({cloud: {cloudName: "cloudName", zone: "default"}});
         const urlUtils = pixelbin.getUrlUtils();
         const transformations =  urlUtils.deconstructPixelbinUrl("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()/__playground/playground-default.jpeg");
         expect(transformations).toEqual([
@@ -73,7 +73,7 @@ describe("UrlUtils tests", () => {
     });
     it("deconstruct url with preset", async ()=> {
         const presetUrl = "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.compress()~t.resize()~t.extend()~p.apply(n:presetNameXyx)/alien_fig_tree_planet_x_wallingford_seattle_washington_usa_517559.jpeg";
-        const pixelbin = new Pixelbin({cloudName: "cloudName", zone: "default"});
+        const pixelbin = new Pixelbin({cloud: {cloudName: "cloudName", zone: "default"}});
         const urlUtils = pixelbin.getUrlUtils();
         expect(urlUtils.deconstructPixelbinUrl(presetUrl)).toEqual(
             [{"isPreset": false, "name": "compress", "plugin": "t"}, {"isPreset": false, "name": "resize", "plugin": "t"}, {"isPreset": false, "name": "extend", "plugin": "t"}, {"isPreset": true, "name": "presetNameXyx"}]
@@ -111,7 +111,7 @@ describe("UrlUtils tests", () => {
                 isPreset: false,
             }
         ];
-        const pixelbin = new Pixelbin({cloudName: "cloudName", zone: "default"});
+        const pixelbin = new Pixelbin({cloud: {cloudName: "cloudName", zone: "default"}});
         const urlUtils = pixelbin.getUrlUtils();
         const originalUrl = "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg";
         expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()");
@@ -154,7 +154,7 @@ describe("UrlUtils tests", () => {
                 isPreset: true,
             }
         ];
-        const pixelbin = new Pixelbin({cloudName: "cloudName", zone: "default"});
+        const pixelbin = new Pixelbin({cloud: {cloudName: "cloudName", zone: "default"}});
         const urlUtils = pixelbin.getUrlUtils();
         const originalUrl = "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg";
         expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");

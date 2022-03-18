@@ -1,39 +1,79 @@
-## Getting Started
+# Pixelbin JS SDK
+Pixelbin JS SDK helps you integrate Pixelbin with your Frontend JS Application. 
 
-Get started with the Javascript Development SDK for test-push-3 Platform
-
-### Usage
-
-```
+## Installation
+---
+``` 
 npm install  @pixelbin/js --save
 ```
 
-### Sample Usage - ApplicationClient
+## Usage
+---
+### Setup
 
-```javascript
-import { resize } from "@pixelbin/js/plugins/Sharp.js";
-import EraseBg from "@pixelbin/js/plugins/EraseBG.js";
+``` javascript
+
+// Import the Pixelbin class
 import Pixelbin from "@pixelbin/js";
 
-// intiate pixelbin image with cloud name and zone
-let pixelbin = new Pixelbin({
+// Create your instance
+const pixelbin = new Pixelbin({
     cloud: {
-        name: "yellow-block-cd3e57",
-        zone: "0",
-    },
+        cloudName: "demo",
+        zone: "default", // optional
+    }
 });
+```
+### Transform and Optimize Images
+``` javascript
+// Create a new instance. If you have't (see above for the details)
+const pixelbin = new Pixelbin({/*...*/});
 
-// initiate image for pixelbin
-let img = pixelbin.image("uploads/original/0b7b31de-6fa5-4883-92fd-23843ce3e286.jpeg");
+// create a new image
+const demoImage = pixelbin.image("demo.jpeg");
 
-// get backgroud removal transformation from erasebg. 
-let t1 = EraseBg.bg();
+// Import a transformations from plugins
+import Erase from "@pixelbin/js/plugins/Erase";
 
-// get resize transformation from erasebg. 
-let t2 = resize({ height: 1143, width: 995 });
+// Create Erase.bg transformation
+let t1 = Erase.bg();
 
-// creating another transformation using t1 and t2. 
-let t3 = t1.and(t2);
+// Import the resize transformation
+import {resize} from "@pixelbin/js/plugins/Sharp";
 
-// prints transformation url. 
-console.log(img.setTransformation(t3).getUrl());
+// Create resize transformation
+const t2 = resize({height: 100, width: 100});
+
+// Add the transformations to the image
+demoImage.addTransformations(t1.and(t2));
+
+// Get the image url
+console.log(demoImage.getUrl());
+```
+
+## List of supported transformations
+{% if data %}
+{% for plugin in data %}
+### {{plugin.plugin.name}}
+{% for method in plugin.methods %}
+#### {{loop.index}}{% raw %}.{% endraw %} {{method.name}}
+
+{% if method.parameters | length %}
+##### Supported Configuration
+
+| Property | Type | Defaults |
+| -- | -- | -- | {% for parameter in method.parameters %}
+| {{ parameter.name | camelCase() }} | {%if parameter.type === "enum" %} {{parameter.type}} {% raw %}:{% endraw %}{% for item in parameter.enum %} `{{item}}` {% if not loop.last%},{% endif %} {% endfor %} {% raw %}{% endraw %}{% else %} {{parameter.type}} {% endif %} | {%if parameter.default | isString(parameter.default)%}'{{parameter.default}}'{% else %}{{parameter.default}}{% endif %}|{% endfor %}
+{% endif %}
+##### Usage Example
+``` javascript
+const t = {{ method.name }}({% raw %}{{% endraw %}{% for parameter in method.parameters %}
+    {{ parameter.name | camelCase() }}: {%if parameter.default | isString(parameter.default)%}'{{parameter.default}}'{% else %}{{parameter.default}}{% endif %} {% if not loop.last %},{% endif %}{% endfor %}
+{% raw %}}{% endraw %});
+```
+{% endfor %}
+
+
+{% endfor %}
+
+{% endif %}
