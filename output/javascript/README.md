@@ -4,15 +4,11 @@ Pixelbin JS SDK helps you integrate Pixelbin with your Frontend JS Application.
 
 ## Installation
 
----
-
 ```
 npm install  @pixelbin/js --save
 ```
 
 ## Usage
-
----
 
 ### Setup
 
