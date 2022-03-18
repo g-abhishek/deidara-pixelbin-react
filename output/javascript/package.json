@@ -1,0 +1,26 @@
+{
+    "name": "@pixelbin/js",
+    "version": "1.0.2",
+    "description": "",
+    "main": "pixelbin.js",
+    "scripts": {
+        "build": "webpack --config webpack.config.js"
+    },
+    "peerDependencies": {
+        "axios": "^0.26.1"
+    },
+    "dependencies": {
+        "core-js": "^3.21.1",
+        "regenerator-runtime": "^0.13.9"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.7",
+        "@babel/preset-env": "^7.16.11",
+        "babel-loader": "^8.2.3",
+        "webpack": "^5.70.0",
+        "core-js": "^3.21.1",
+        "regenerator-runtime": "^0.13.9"
+    },
+    "author": "",
+    "license": "ISC"
+}
