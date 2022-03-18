@@ -2,7 +2,7 @@ import Transformation from "../transformation.js";
 
 /**
  * Sharp Image Library Module
- * @param {integer} height - Height* @param {integer} width - Width* @param {enum} fit - Fit* @param {color} background - Background* @param {enum} position - Position
+ * @param {integer} height - Height* @param {integer} width - Width* @param {enum} fit - Fit* @param {color} background - Background* @param {enum} position - Position* @param {enum} algorithm - Algorithm
  * returns Transformation
  */
 export const resize = function (
@@ -12,6 +12,7 @@ export const resize = function (
         fit: "cover",
         background: "000000",
         position: "center",
+        algorithm: "lanczos3",
     },
 ) {
     const paramIdMap = {
@@ -20,9 +21,10 @@ export const resize = function (
         fit: "f",
         background: "b",
         position: "p",
+        algorithm: "k",
     };
-    const params = ["height", "width", "fit", "background", "position"].filter((param) =>
-        config.hasOwnProperty(param),
+    const params = ["height", "width", "fit", "background", "position", "algorithm"].filter(
+        (param) => config.hasOwnProperty(param),
     );
     const transformation = ["t.resize", "("];
     params.map((param, idx) => {
@@ -40,7 +42,7 @@ export const resize = function (
  */
 export const compress = function (
     config = {
-        quality: 90,
+        quality: 80,
     },
 ) {
     const paramIdMap = {
@@ -428,21 +430,19 @@ export const tint = function (
 
 /**
  * Sharp Image Library Module
- * @param {integer} quality - Quality* @param {boolean} progressive - Progressive
+ * @param {enum} format - Format
  * returns Transformation
  */
-export const jpg = function (
+export const toFormat = function (
     config = {
-        quality: 90,
-        progressive: false,
+        format: "jpeg",
     },
 ) {
     const paramIdMap = {
-        quality: "q",
-        progressive: "p",
+        format: "f",
     };
-    const params = ["quality", "progressive"].filter((param) => config.hasOwnProperty(param));
-    const transformation = ["t.jpg", "("];
+    const params = ["format"].filter((param) => config.hasOwnProperty(param));
+    const transformation = ["t.toFormat", "("];
     params.map((param, idx) => {
         transformation.push(`${paramIdMap[param]}:${config[param]}`);
         if (idx !== params.length - 1) transformation.push(",");
@@ -453,25 +453,48 @@ export const jpg = function (
 
 /**
  * Sharp Image Library Module
- * @param {integer} quality - Quality* @param {boolean} progressive - Progressive* @param {integer} compressionLevel - Compressionlevel
+ * @param {enum} mode - Mode* @param {file} image - Image* @param {color} background - Background* @param {integer} height - Height* @param {integer} width - Width* @param {integer} top - Top* @param {integer} left - Left* @param {enum} gravity - Gravity* @param {enum} blend - Blend* @param {boolean} tile - Tile
  * returns Transformation
  */
-export const png = function (
+export const merge = function (
     config = {
-        quality: 90,
-        progressive: false,
-        compressionLevel: 9,
+        mode: "overlay",
+        image: "",
+        background: "00000000",
+        height: 0,
+        width: 0,
+        top: 0,
+        left: 0,
+        gravity: "center",
+        blend: "over",
+        tile: false,
     },
 ) {
     const paramIdMap = {
-        quality: "q",
-        progressive: "p",
-        compressionLevel: "c",
+        mode: "m",
+        image: "i",
+        background: "bg",
+        height: "h",
+        width: "w",
+        top: "t",
+        left: "l",
+        gravity: "g",
+        blend: "b",
+        tile: "r",
     };
-    const params = ["quality", "progressive", "compressionLevel"].filter((param) =>
-        config.hasOwnProperty(param),
-    );
-    const transformation = ["t.png", "("];
+    const params = [
+        "mode",
+        "image",
+        "background",
+        "height",
+        "width",
+        "top",
+        "left",
+        "gravity",
+        "blend",
+        "tile",
+    ].filter((param) => config.hasOwnProperty(param));
+    const transformation = ["t.merge", "("];
     params.map((param, idx) => {
         transformation.push(`${paramIdMap[param]}:${config[param]}`);
         if (idx !== params.length - 1) transformation.push(",");
@@ -499,6 +522,6 @@ export default {
     modulate,
     grey,
     tint,
-    jpg,
-    png,
+    toFormat,
+    merge,
 };

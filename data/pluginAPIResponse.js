@@ -1,57 +1,63 @@
 module.exports = {
     pluginApi: {
-        delimiters: {
-            operationSeparator: "~",
-            parameterSeparator: ",",
+        "delimiters": {
+            "operationSeparator": "~",
+            "parameterSeparator": ","
         },
-        plugins: {
-            t: {
-                identifier: "t",
-                name: "Sharp",
-                description: "Sharp Image Library Module",
-                credentials: {
-                    required: false,
+        "plugins": {
+            "t": {
+                "identifier": "t",
+                "name": "Sharp",
+                "description": "Sharp Image Library Module",
+                "credentials": {
+                    "required": false
                 },
-                operations: [
+                "operations": [
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "height",
-                                type: "integer",
-                                default: 0,
-                                min: 0,
-                                max: 2000,
-                                identifier: "h",
-                                title: "Height",
+                                "name": "height",
+                                "type": "integer",
+                                "default": 0,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "h",
+                                "title": "Height"
                             },
                             {
-                                name: "width",
-                                type: "integer",
-                                default: 0,
-                                min: 0,
-                                max: 2000,
-                                identifier: "w",
-                                title: "Width",
+                                "name": "width",
+                                "type": "integer",
+                                "default": 0,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "w",
+                                "title": "Width"
                             },
                             {
-                                name: "fit",
-                                type: "enum",
-                                enum: ["cover", "contain", "fill", "inside", "outside"],
-                                default: "cover",
-                                identifier: "f",
-                                title: "Fit",
+                                "name": "fit",
+                                "type": "enum",
+                                "enum": [
+                                    "cover",
+                                    "contain",
+                                    "fill",
+                                    "inside",
+                                    "outside"
+                                ],
+                                "default": "cover",
+                                "identifier": "f",
+                                "title": "Fit"
                             },
                             {
-                                name: "background",
-                                type: "color",
-                                default: "000000",
-                                identifier: "b",
-                                title: "Background",
+                                "name": "background",
+                                "type": "color",
+                                "default": "000000",
+                                "identifier": "b",
+                                "title": "Background"
                             },
                             {
-                                name: "position",
-                                type: "enum",
-                                enum: [
+                                "name": "position",
+                                "type": "enum",
+                                "enum": [
                                     "top",
                                     "bottom",
                                     "left",
@@ -60,668 +66,813 @@ module.exports = {
                                     "right_bottom",
                                     "left_top",
                                     "left_bottom",
-                                    "center",
+                                    "center"
                                 ],
-                                default: "center",
-                                identifier: "p",
-                                title: "Position",
+                                "default": "center",
+                                "identifier": "p",
+                                "title": "Position"
                             },
+                            {
+                                "name": "algorithm",
+                                "type": "enum",
+                                "enum": [
+                                    "nearest",
+                                    "cubic",
+                                    "mitchell",
+                                    "lanczos2",
+                                    "lanczos3"
+                                ],
+                                "default": "lanczos3",
+                                "identifier": "k",
+                                "title": "Algorithm"
+                            }
                         ],
-                        displayName: "Resize an image",
-                        method: "resize",
-                        description:
-                            "Resize your images by setting the width and/or height parameters, using different crop parameters like cover, fill etc..",
+                        "displayName": "Resize an image",
+                        "method": "resize",
+                        "description": "Resize your images by setting the width and/or height parameters, using different crop parameters like cover, fill etc.."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "quality",
-                                type: "integer",
-                                default: 90,
-                                min: 0,
-                                max: 100,
-                                identifier: "q",
-                                title: "Quality",
-                            },
+                                "name": "quality",
+                                "type": "integer",
+                                "default": 80,
+                                "min": 0,
+                                "max": 100,
+                                "identifier": "q",
+                                "title": "Quality"
+                            }
                         ],
-                        displayName: "Compress an image",
-                        method: "compress",
-                        description: "Compress any image to desired size",
+                        "displayName": "Compress an image",
+                        "method": "compress",
+                        "description": "Compress any image to desired size"
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "top",
-                                type: "integer",
-                                default: 10,
-                                min: 0,
-                                max: 500,
-                                identifier: "t",
-                                title: "Top",
+                                "name": "top",
+                                "type": "integer",
+                                "default": 10,
+                                "min": 0,
+                                "max": 500,
+                                "identifier": "t",
+                                "title": "Top"
                             },
                             {
-                                name: "left",
-                                type: "integer",
-                                default: 10,
-                                min: 0,
-                                max: 500,
-                                identifier: "l",
-                                title: "Left",
+                                "name": "left",
+                                "type": "integer",
+                                "default": 10,
+                                "min": 0,
+                                "max": 500,
+                                "identifier": "l",
+                                "title": "Left"
                             },
                             {
-                                name: "bottom",
-                                type: "integer",
-                                default: 10,
-                                min: 0,
-                                max: 500,
-                                identifier: "b",
-                                title: "Bottom",
+                                "name": "bottom",
+                                "type": "integer",
+                                "default": 10,
+                                "min": 0,
+                                "max": 500,
+                                "identifier": "b",
+                                "title": "Bottom"
                             },
                             {
-                                name: "right",
-                                type: "integer",
-                                default: 10,
-                                min: 0,
-                                max: 500,
-                                identifier: "r",
-                                title: "Right",
+                                "name": "right",
+                                "type": "integer",
+                                "default": 10,
+                                "min": 0,
+                                "max": 500,
+                                "identifier": "r",
+                                "title": "Right"
                             },
                             {
-                                name: "background",
-                                type: "color",
-                                default: "000000",
-                                identifier: "bc",
-                                title: "Background",
-                            },
+                                "name": "background",
+                                "type": "color",
+                                "default": "000000",
+                                "identifier": "bc",
+                                "title": "Background"
+                            }
                         ],
-                        displayName: "Extend an image",
-                        method: "extend",
-                        description:
-                            "Extends/pads the edges of the image with the provided background colour. This operation will always occur after resizing and extraction, if any.",
+                        "displayName": "Extend an image",
+                        "method": "extend",
+                        "description": "Extends/pads the edges of the image with the provided background colour. This operation will always occur after resizing and extraction, if any."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "top",
-                                type: "integer",
-                                default: 10,
-                                min: 0,
-                                max: 2000,
-                                identifier: "t",
-                                title: "Top",
+                                "name": "top",
+                                "type": "integer",
+                                "default": 10,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "t",
+                                "title": "Top"
                             },
                             {
-                                name: "left",
-                                type: "integer",
-                                default: 10,
-                                min: 0,
-                                max: 2000,
-                                identifier: "l",
-                                title: "Left",
+                                "name": "left",
+                                "type": "integer",
+                                "default": 10,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "l",
+                                "title": "Left"
                             },
                             {
-                                name: "height",
-                                type: "integer",
-                                default: 50,
-                                min: 0,
-                                max: 2000,
-                                identifier: "h",
-                                title: "Height",
+                                "name": "height",
+                                "type": "integer",
+                                "default": 50,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "h",
+                                "title": "Height"
                             },
                             {
-                                name: "width",
-                                type: "integer",
-                                default: 20,
-                                min: 0,
-                                max: 2000,
-                                identifier: "w",
-                                title: "Width",
-                            },
+                                "name": "width",
+                                "type": "integer",
+                                "default": 20,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "w",
+                                "title": "Width"
+                            }
                         ],
-                        displayName: "Extract a region of the image",
-                        method: "extract",
-                        description:
-                            "Extract a region by setting parameters like top, height, width etc..",
+                        "displayName": "Extract a region of the image",
+                        "method": "extract",
+                        "description": "Extract a region by setting parameters like top, height, width etc.."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "threshold",
-                                type: "integer",
-                                default: 10,
-                                min: 1,
-                                max: 500,
-                                identifier: "t",
-                                title: "Threshold",
-                            },
+                                "name": "threshold",
+                                "type": "integer",
+                                "default": 10,
+                                "min": 1,
+                                "max": 500,
+                                "identifier": "t",
+                                "title": "Threshold"
+                            }
                         ],
-                        displayName: "Trim an image",
-                        method: "trim",
-                        description:
-                            'Trim "boring" pixels from all edges that contain values similar to the top-left pixel. Images consisting entirely of a single colour will calculate "boring" using the alpha channel, if any.',
+                        "displayName": "Trim an image",
+                        "method": "trim",
+                        "description": "Trim \"boring\" pixels from all edges that contain values similar to the top-left pixel. Images consisting entirely of a single colour will calculate \"boring\" using the alpha channel, if any."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "angle",
-                                type: "integer",
-                                default: 0,
-                                min: -360,
-                                max: 360,
-                                identifier: "a",
-                                title: "Angle",
+                                "name": "angle",
+                                "type": "integer",
+                                "default": 0,
+                                "min": -360,
+                                "max": 360,
+                                "identifier": "a",
+                                "title": "Angle"
                             },
                             {
-                                name: "background",
-                                type: "color",
-                                default: "000000",
-                                identifier: "b",
-                                title: "Background",
-                            },
+                                "name": "background",
+                                "type": "color",
+                                "default": "000000",
+                                "identifier": "b",
+                                "title": "Background"
+                            }
                         ],
-                        displayName: "Rotate an image",
-                        method: "rotate",
-                        description: "Rotate Image by setting the angle parameter.",
+                        "displayName": "Rotate an image",
+                        "method": "rotate",
+                        "description": "Rotate Image by setting the angle parameter."
                     },
                     {
-                        params: [],
-                        displayName: "Flip an image",
-                        method: "flip",
-                        description: "Rotate Flips image on X-Axis.",
+                        "params": [],
+                        "displayName": "Flip an image vertically",
+                        "method": "flip",
+                        "description": "Mirror the image vertically."
                     },
                     {
-                        params: [],
-                        displayName: "Flop an image",
-                        method: "flop",
-                        description: "Rotate Flips image on Y-Axis.",
+                        "params": [],
+                        "displayName": "Flip an image horizontally",
+                        "method": "flop",
+                        "description": "Mirror the image horizontally."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "sigma",
-                                type: "integer",
-                                default: 1,
-                                min: 1,
-                                max: 500,
-                                identifier: "s",
-                                title: "Sigma",
+                                "name": "sigma",
+                                "type": "integer",
+                                "default": 1,
+                                "min": 1,
+                                "max": 500,
+                                "identifier": "s",
+                                "title": "Sigma"
                             },
                             {
-                                name: "flat",
-                                type: "integer",
-                                default: 1,
-                                min: 1,
-                                max: 100,
-                                identifier: "f",
-                                title: "Flat",
+                                "name": "flat",
+                                "type": "integer",
+                                "default": 1,
+                                "min": 1,
+                                "max": 100,
+                                "identifier": "f",
+                                "title": "Flat"
                             },
                             {
-                                name: "jagged",
-                                type: "integer",
-                                default: 2,
-                                min: 1,
-                                max: 100,
-                                identifier: "j",
-                                title: "Jagged",
-                            },
+                                "name": "jagged",
+                                "type": "integer",
+                                "default": 2,
+                                "min": 1,
+                                "max": 100,
+                                "identifier": "j",
+                                "title": "Jagged"
+                            }
                         ],
-                        displayName: "Sharpen an image",
-                        method: "sharpen",
-                        description:
-                            "Sharpen an image by playing with different parameters like sigma, flat and jagged.",
+                        "displayName": "Sharpen an image",
+                        "method": "sharpen",
+                        "description": "Sharpen an image by playing with different parameters like sigma, flat and jagged."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "size",
-                                type: "integer",
-                                default: 3,
-                                min: 1,
-                                max: 10,
-                                identifier: "s",
-                                title: "Size",
-                            },
+                                "name": "size",
+                                "type": "integer",
+                                "default": 3,
+                                "min": 1,
+                                "max": 10,
+                                "identifier": "s",
+                                "title": "Size"
+                            }
                         ],
-                        displayName: "Apply Median Filter",
-                        method: "median",
-                        description:
-                            "Apply a Median Filter to reduce impulsive, or salt-and-pepper noise",
+                        "displayName": "Apply Median Filter",
+                        "method": "median",
+                        "description": "Apply a Median Filter to reduce impulsive, or salt-and-pepper noise"
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "sigma",
-                                type: "integer",
-                                default: 1,
-                                min: 1,
-                                max: 1000,
-                                identifier: "s",
-                                title: "Sigma",
-                            },
+                                "name": "sigma",
+                                "type": "integer",
+                                "default": 1,
+                                "min": 1,
+                                "max": 1000,
+                                "identifier": "s",
+                                "title": "Sigma"
+                            }
                         ],
-                        displayName: "Blur an image",
-                        method: "blur",
-                        description:
-                            "Apply blur effect on your image. Use the sigma parameter to apply an accurate Gaussian Blur.",
+                        "displayName": "Blur an image",
+                        "method": "blur",
+                        "description": "Apply blur effect on your image. Use the sigma parameter to apply an accurate Gaussian Blur."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "background",
-                                type: "color",
-                                default: "000000",
-                                identifier: "b",
-                                title: "Background",
-                            },
+                                "name": "background",
+                                "type": "color",
+                                "default": "000000",
+                                "identifier": "b",
+                                "title": "Background"
+                            }
                         ],
-                        displayName: "Flatten an image",
-                        method: "flatten",
-                        description:
-                            "Merge alpha transparency channel, if any, with a background, then remove the alpha channel.",
+                        "displayName": "Flatten an image",
+                        "method": "flatten",
+                        "description": "Merge alpha transparency channel, if any, with a background, then remove the alpha channel."
                     },
                     {
-                        params: [],
-                        displayName: 'Produce the "negative" of an image.',
-                        method: "negate",
-                        description: "Creates the negative of the image.",
+                        "params": [],
+                        "displayName": "Produce the \"negative\" of an image.",
+                        "method": "negate",
+                        "description": "Creates the negative of the image."
                     },
                     {
-                        params: [],
-                        displayName: "Normalise an image",
-                        method: "normalise",
-                        description: "Color Normalise Image.",
+                        "params": [],
+                        "displayName": "Normalise an image",
+                        "method": "normalise",
+                        "description": "Color Normalise Image."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "a",
-                                type: "integer",
-                                default: 1,
-                                min: 0,
-                                max: 50,
-                                identifier: "a",
-                                title: "A",
+                                "name": "a",
+                                "type": "integer",
+                                "default": 1,
+                                "min": 0,
+                                "max": 50,
+                                "identifier": "a",
+                                "title": "A"
                             },
                             {
-                                name: "b",
-                                type: "integer",
-                                default: 0,
-                                min: 0,
-                                max: 50,
-                                identifier: "b",
-                                title: "B",
-                            },
+                                "name": "b",
+                                "type": "integer",
+                                "default": 0,
+                                "min": 0,
+                                "max": 50,
+                                "identifier": "b",
+                                "title": "B"
+                            }
                         ],
-                        displayName: "Use Levels adjustment on an image",
-                        method: "linear",
-                        description: "Apply the linear formula a * input + b to the image.",
+                        "displayName": "Use Levels adjustment on an image",
+                        "method": "linear",
+                        "description": "Apply the linear formula a * input + b to the image."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "brightness",
-                                type: "integer",
-                                default: 1,
-                                min: 1,
-                                max: 10,
-                                identifier: "b",
-                                title: "Brightness",
+                                "name": "brightness",
+                                "type": "integer",
+                                "default": 1,
+                                "min": 1,
+                                "max": 10,
+                                "identifier": "b",
+                                "title": "Brightness"
                             },
                             {
-                                name: "saturation",
-                                type: "integer",
-                                default: 1,
-                                min: 1,
-                                max: 10,
-                                identifier: "s",
-                                title: "Saturation",
+                                "name": "saturation",
+                                "type": "integer",
+                                "default": 1,
+                                "min": 1,
+                                "max": 10,
+                                "identifier": "s",
+                                "title": "Saturation"
                             },
                             {
-                                name: "hue",
-                                type: "integer",
-                                default: 90,
-                                min: -360,
-                                max: 360,
-                                identifier: "h",
-                                title: "Hue",
-                            },
+                                "name": "hue",
+                                "type": "integer",
+                                "default": 90,
+                                "min": -360,
+                                "max": 360,
+                                "identifier": "h",
+                                "title": "Hue"
+                            }
                         ],
-                        displayName: "Modulate an image",
-                        method: "modulate",
-                        description:
-                            "Transforms the image using brightness, saturation, hue rotation, and lightness. Brightness and lightness both operate on luminance, with the difference being that brightness is multiplicative whereas lightness is additive.",
+                        "displayName": "Modulate an image",
+                        "method": "modulate",
+                        "description": "Transforms the image using brightness, saturation, hue rotation, and lightness. Brightness and lightness both operate on luminance, with the difference being that brightness is multiplicative whereas lightness is additive."
                     },
                     {
-                        params: [],
-                        displayName: "Apply grey scale filter on an image",
-                        method: "grey",
-                        description: "Grey scales Image",
+                        "params": [],
+                        "displayName": "Apply grey scale filter on an image",
+                        "method": "grey",
+                        "description": "Grey scales Image"
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "color",
-                                type: "color",
-                                default: "000000",
-                                identifier: "c",
-                                title: "Color",
-                            },
+                                "name": "color",
+                                "type": "color",
+                                "default": "000000",
+                                "identifier": "c",
+                                "title": "Color"
+                            }
                         ],
-                        displayName: "Tint an image",
-                        method: "tint",
-                        description: "Creates tint on Image",
+                        "displayName": "Tint an image",
+                        "method": "tint",
+                        "description": "Creates tint on Image"
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "quality",
-                                type: "integer",
-                                default: 90,
-                                min: 0,
-                                max: 100,
-                                identifier: "q",
-                                title: "Quality",
-                            },
-                            {
-                                name: "progressive",
-                                type: "boolean",
-                                default: false,
-                                identifier: "p",
-                                title: "Progressive",
-                            },
+                                "name": "format",
+                                "type": "enum",
+                                "enum": [
+                                    "jpeg",
+                                    "png",
+                                    "webp"
+                                ],
+                                "default": "jpeg",
+                                "identifier": "f",
+                                "title": "Format"
+                            }
                         ],
-                        displayName: "Optimize JPG",
-                        method: "jpg",
-                        description: "JPG format optimizations",
+                        "displayName": "Change image format",
+                        "method": "toFormat",
+                        "description": "Change image to a different format"
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "quality",
-                                type: "integer",
-                                default: 90,
-                                min: 0,
-                                max: 100,
-                                identifier: "q",
-                                title: "Quality",
+                                "name": "mode",
+                                "type": "enum",
+                                "default": "overlay",
+                                "enum": [
+                                    "overlay",
+                                    "underlay"
+                                ],
+                                "identifier": "m",
+                                "title": "Mode"
                             },
                             {
-                                name: "progressive",
-                                type: "boolean",
-                                default: false,
-                                identifier: "p",
-                                title: "Progressive",
+                                "name": "image",
+                                "type": "file",
+                                "default": "",
+                                "identifier": "i",
+                                "title": "Image"
                             },
                             {
-                                name: "compressionLevel",
-                                type: "integer",
-                                default: 9,
-                                min: 0,
-                                max: 9,
-                                identifier: "c",
-                                title: "Compressionlevel",
+                                "name": "background",
+                                "type": "color",
+                                "default": "00000000",
+                                "identifier": "bg",
+                                "title": "Background"
                             },
+                            {
+                                "name": "height",
+                                "type": "integer",
+                                "default": 0,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "h",
+                                "title": "Height"
+                            },
+                            {
+                                "name": "width",
+                                "type": "integer",
+                                "default": 0,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "w",
+                                "title": "Width"
+                            },
+                            {
+                                "name": "top",
+                                "type": "integer",
+                                "default": 0,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "t",
+                                "title": "Top"
+                            },
+                            {
+                                "name": "left",
+                                "type": "integer",
+                                "default": 0,
+                                "min": 0,
+                                "max": 12000,
+                                "identifier": "l",
+                                "title": "Left"
+                            },
+                            {
+                                "name": "gravity",
+                                "type": "enum",
+                                "default": "center",
+                                "enum": [
+                                    "northwest",
+                                    "north",
+                                    "northeast",
+                                    "east",
+                                    "center",
+                                    "west",
+                                    "southwest",
+                                    "south",
+                                    "southeast",
+                                    "custom"
+                                ],
+                                "identifier": "g",
+                                "title": "Gravity"
+                            },
+                            {
+                                "name": "blend",
+                                "type": "enum",
+                                "default": "over",
+                                "enum": [
+                                    "over",
+                                    "in",
+                                    "out",
+                                    "atop",
+                                    "dest",
+                                    "dest-over",
+                                    "dest-in",
+                                    "dest-out",
+                                    "dest-atop",
+                                    "xor",
+                                    "add",
+                                    "saturate",
+                                    "multiply",
+                                    "screen",
+                                    "overlay",
+                                    "darken",
+                                    "lighten",
+                                    "colour-dodge",
+                                    "color-dodge",
+                                    "colour-burn",
+                                    "color-burn",
+                                    "hard-light",
+                                    "soft-light",
+                                    "difference",
+                                    "exclusion"
+                                ],
+                                "identifier": "b",
+                                "title": "Blend"
+                            },
+                            {
+                                "name": "tile",
+                                "type": "boolean",
+                                "default": false,
+                                "identifier": "r",
+                                "title": "Tile"
+                            }
                         ],
-                        displayName: "Optimize PNG",
-                        method: "png",
-                        description: "PNG format optimizations",
-                    },
+                        "displayName": "Merge two image",
+                        "method": "merge",
+                        "description": "Overlay or Underlay an image over the another one"
+                    }
                 ],
-                enabled: true,
+                "enabled": true
             },
-            remove: {
-                identifier: "remove",
-                name: "RemoveBG",
-                description: "RemoveBG Background Removal Module",
-                credentials: {
-                    required: true,
-                    schema: {
-                        type: "object",
-                        properties: {
-                            apiKey: {
-                                id: "apiKey",
-                                title: "API Key",
-                                description: "API Key",
-                                type: "string",
-                            },
+            "remove": {
+                "identifier": "remove",
+                "name": "RemoveBG",
+                "description": "RemoveBG Background Removal Module",
+                "credentials": {
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "apiKey": {
+                                "id": "apiKey",
+                                "title": "API Key",
+                                "description": "API Key",
+                                "type": "string"
+                            }
                         },
-                        required: ["apiKey"],
-                    },
+                        "required": [
+                            "apiKey"
+                        ]
+                    }
                 },
-                operations: [
+                "operations": [
                     {
-                        params: [],
-                        displayName: "RemoveBG Background Removal",
-                        method: "bg",
-                        description: "RemoveBG Background Removal",
-                    },
+                        "params": [],
+                        "displayName": "Remove background of any image",
+                        "method": "bg",
+                        "description": "RemoveBG Background Removal"
+                    }
                 ],
-                enabled: false,
+                "enabled": false
             },
-            erase: {
-                identifier: "erase",
-                name: "EraseBG",
-                description: "EraseBG Background Removal Module",
-                credentials: {
-                    required: false,
+            "erase": {
+                "identifier": "erase",
+                "name": "EraseBG",
+                "description": "EraseBG Background Removal Module",
+                "credentials": {
+                    "required": false
                 },
-                operations: [
+                "operations": [
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "Industry Type",
-                                type: "enum",
-                                enum: ["general", "ecommerce"],
-                                default: "general",
-                                identifier: "i",
-                                title: "Industry type",
-                            },
+                                "name": "Industry Type",
+                                "type": "enum",
+                                "enum": [
+                                    "general",
+                                    "ecommerce"
+                                ],
+                                "default": "general",
+                                "identifier": "i",
+                                "title": "Industry type"
+                            }
                         ],
-                        displayName: "Remove background of an image",
-                        method: "bg",
-                        description:
-                            "Use the EraseBG add-on to remove the background of any image.",
-                    },
+                        "displayName": "Remove background of an image",
+                        "method": "bg",
+                        "description": "Remove the background of any image."
+                    }
                 ],
-                enabled: true,
+                "enabled": true
             },
-            sr: {
-                identifier: "sr",
-                name: "SuperResolution",
-                description: "Super Resolution Module",
-                credentials: {},
-                operations: [
+            "sr": {
+                "identifier": "sr",
+                "name": "SuperResolution",
+                "description": "Super Resolution Module",
+                "credentials": {},
+                "operations": [
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "type",
-                                type: "enum",
-                                enum: ["2x", "4x"],
-                                default: "2x",
-                                identifier: "t",
-                                title: "Type",
-                            },
+                                "name": "type",
+                                "type": "enum",
+                                "enum": [
+                                    "2x",
+                                    "4x"
+                                ],
+                                "default": "2x",
+                                "identifier": "t",
+                                "title": "Type"
+                            }
                         ],
-                        displayName: "Upscale image resolution",
-                        method: "upscale",
-                        description:
-                            "Use the Super Resolution add-on to upscale your images to a larger resolution.",
-                    },
+                        "displayName": "Upscale image resolution",
+                        "method": "upscale",
+                        "description": "Upscale your images to a larger resolution."
+                    }
                 ],
-                enabled: true,
+                "enabled": true
             },
-            af: {
-                identifier: "af",
-                name: "Artifact",
-                description: "Artifact Removal Plugin",
-                credentials: {},
-                operations: [
+            "af": {
+                "identifier": "af",
+                "name": "Artifact",
+                "description": "Artifact Removal Plugin",
+                "credentials": {},
+                "operations": [
                     {
-                        params: [],
-                        displayName: "Artifact Removal",
-                        method: "remove",
-                        description:
-                            "Use the Artifact Removal plugin to remove JPEG compression artifact noise and get cleaner images.",
-                    },
+                        "params": [],
+                        "displayName": "Artifact Removal",
+                        "method": "remove",
+                        "description": "Remove JPEG compression artifact noise and get cleaner images."
+                    }
                 ],
-                enabled: true,
+                "enabled": true
             },
-            wm: {
-                identifier: "wm",
-                name: "WatermarkRemoval",
-                description: "Watermark Removal Plugin",
-                credentials: {},
-                operations: [
+            "wm": {
+                "identifier": "wm",
+                "name": "WatermarkRemoval",
+                "description": "Watermark Removal Plugin",
+                "credentials": {},
+                "operations": [
                     {
-                        params: [],
-                        displayName: "Remove Watermarks from image",
-                        method: "remove",
-                        description:
-                            "Use the Watermark Removal Plugin to produce watermark free images.",
-                    },
+                        "params": [],
+                        "displayName": "Remove Watermarks from image",
+                        "method": "remove",
+                        "description": "Produce watermark free images."
+                    }
                 ],
-                enabled: true,
+                "enabled": true
             },
-            awsRek: {
-                identifier: "awsRek",
-                name: "AWS Rekognition Plugin",
-                description: "AWS Rekognition Plugin",
-                credentials: {
-                    required: true,
-                    schema: {
-                        type: "object",
-                        properties: {
-                            region: {
-                                id: "region",
-                                title: "AWS Region",
-                                description: "AWS Region",
-                                type: "string",
+            "awsRek": {
+                "identifier": "awsRek",
+                "name": "AWS Rekognition Plugin",
+                "description": "AWS Rekognition Plugin",
+                "credentials": {
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "region": {
+                                "id": "region",
+                                "title": "AWS Region",
+                                "description": "AWS Region",
+                                "type": "string"
                             },
-                            accessKeyId: {
-                                id: "accessKeyId",
-                                title: "AWS Access Key ID",
-                                description: "AWS Access Key ID",
-                                type: "string",
+                            "accessKeyId": {
+                                "id": "accessKeyId",
+                                "title": "AWS Access Key ID",
+                                "description": "AWS Access Key ID",
+                                "type": "string"
                             },
-                            secretAccessKey: {
-                                id: "secretAccessKey",
-                                title: "AWS Secret Access Key",
-                                description: "AWS Secret Access Key",
-                                type: "string",
-                            },
+                            "secretAccessKey": {
+                                "id": "secretAccessKey",
+                                "title": "AWS Secret Access Key",
+                                "description": "AWS Secret Access Key",
+                                "type": "string"
+                            }
                         },
-                        required: ["region", "accessKeyId", "secretAccessKey"],
-                    },
+                        "required": [
+                            "region",
+                            "accessKeyId",
+                            "secretAccessKey"
+                        ]
+                    }
                 },
-                operations: [
+                "operations": [
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "Maximum Labels",
-                                type: "integer",
-                                default: 5,
-                                min: 0,
-                                max: 10,
-                                identifier: "l",
-                                title: "Maximum labels",
+                                "name": "Maximum Labels",
+                                "type": "integer",
+                                "default": 5,
+                                "min": 0,
+                                "max": 10,
+                                "identifier": "l",
+                                "title": "Maximum labels"
                             },
                             {
-                                name: "Minimum Confidence",
-                                type: "integer",
-                                default: 55,
-                                min: 0,
-                                max: 99,
-                                identifier: "c",
-                                title: "Minimum confidence",
-                            },
+                                "name": "Minimum Confidence",
+                                "type": "integer",
+                                "default": 55,
+                                "min": 0,
+                                "max": 99,
+                                "identifier": "c",
+                                "title": "Minimum confidence"
+                            }
                         ],
-                        displayName: "AWS Rekognition DetectLabels",
-                        method: "detectLabels",
-                        description:
-                            "Use this AWS Rekognition transformation to detect labels in images.",
+                        "displayName": "AWS Rekognition DetectLabels",
+                        "method": "detectLabels",
+                        "description": "Detect objects in images."
                     },
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "Minimum Confidence",
-                                type: "integer",
-                                default: 55,
-                                min: 0,
-                                max: 99,
-                                identifier: "c",
-                                title: "Minimum confidence",
-                            },
+                                "name": "Minimum Confidence",
+                                "type": "integer",
+                                "default": 55,
+                                "min": 0,
+                                "max": 99,
+                                "identifier": "c",
+                                "title": "Minimum confidence"
+                            }
                         ],
-                        displayName: "AWS Rekognition Moderation",
-                        method: "moderation",
-                        description:
-                            "Use this AWS Rekognition transformation to detect content that is inappropriate, unwanted, or offensive.",
-                    },
+                        "displayName": "AWS Rekognition Moderation",
+                        "method": "moderation",
+                        "description": "Detect content that is inappropriate, unwanted, or offensive."
+                    }
                 ],
-                enabled: false,
+                "enabled": false
             },
-            googleVis: {
-                identifier: "googleVis",
-                name: "Google Vision Plugin",
-                description: "Google Vision Plugin",
-                credentials: {
-                    required: true,
-                    schema: {
-                        type: "object",
-                        properties: {
-                            apiKey: {
-                                id: "apiKey",
-                                title: "API Key",
-                                description: "API Key",
-                                type: "string",
-                            },
+            "googleVis": {
+                "identifier": "googleVis",
+                "name": "Google Vision Plugin",
+                "description": "Google Vision Plugin",
+                "credentials": {
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "apiKey": {
+                                "id": "apiKey",
+                                "title": "API Key",
+                                "description": "API Key",
+                                "type": "string"
+                            }
                         },
-                        required: ["apiKey"],
-                    },
+                        "required": [
+                            "apiKey"
+                        ]
+                    }
                 },
-                operations: [
+                "operations": [
                     {
-                        params: [
+                        "params": [
                             {
-                                name: "Maximum Labels",
-                                type: "integer",
-                                default: 5,
-                                min: 0,
-                                max: 10,
-                                identifier: "l",
-                                title: "Maximum labels",
-                            },
+                                "name": "Maximum Labels",
+                                "type": "integer",
+                                "default": 5,
+                                "min": 0,
+                                "max": 10,
+                                "identifier": "l",
+                                "title": "Maximum labels"
+                            }
                         ],
-                        displayName: "Google Vision DetectLabels",
-                        method: "detectLabels",
-                        description:
-                            "Use this Google Vision transformation to detect labels in images.",
-                    },
+                        "displayName": "Google Vision DetectLabels",
+                        "method": "detectLabels",
+                        "description": "Detect objects in images."
+                    }
                 ],
-                enabled: false,
+                "enabled": false
             },
+            "iGen": {
+                "identifier": "iGen",
+                "name": "ImageGeneration",
+                "description": "Image Generation Module",
+                "credentials": {},
+                "operations": [
+                    {
+                        "params": [
+                            {
+                                "name": "Prompt",
+                                "type": "string",
+                                "default": "A cute puppy",
+                                "maxLength": 255,
+                                "identifier": "p",
+                                "title": "Prompt"
+                            }
+                        ],
+                        "displayName": "Image Generation",
+                        "method": "generate",
+                        "description": "Use this add-on to generate new images using AI."
+                    }
+                ],
+                "enabled": true
+            },
+            "face": {
+                "identifier": "face",
+                "name": "Face Restoration",
+                "description": "Face Restoration Module",
+                "credentials": {
+                    "required": false
+                },
+                "operations": [
+                    {
+                        "params": [],
+                        "displayName": "Face Restoration",
+                        "method": "restore",
+                        "description": "Restore heavily degraded faces."
+                    }
+                ],
+                "enabled": true
+            }
         },
-        presets: [
+        "presets": [
             {
-                _id: "600e9365-cc1a-43a0-8248-f90838d89ee4",
-                createdAt: "2022-01-06T13:25:17.208Z",
-                updatedAt: "2022-01-06T13:25:17.208Z",
-                isActive: true,
-                orgId: "-99",
-                presetName: "__name",
-                transformation: "t.resize(h:509,w:1235)",
-                archived: false,
+                "_id": "91726ddd-2615-4f83-8772-3cc33d98c378",
+                "createdAt": "2022-02-14T10:06:17.803Z",
+                "updatedAt": "2022-02-14T10:06:17.803Z",
+                "isActive": true,
+                "orgId": "265",
+                "presetName": "compressor",
+                "transformation": "t.compress(q:95)",
+                "archived": false
             },
             {
-                _id: "f1192c10-2d22-4c32-8567-f89528a6f100",
-                createdAt: "2022-01-05T09:57:36.535Z",
-                updatedAt: "2022-01-05T09:57:36.535Z",
-                isActive: true,
-                orgId: "-99",
-                presetName: "test",
-                transformation: "t.resize(h:350,w:226)~t.flip()",
-                archived: false,
-            },
-        ],
+                "_id": "2b43e839-e01d-4a99-a8a2-54288cc2ae1c",
+                "createdAt": "2022-02-25T06:02:15.563Z",
+                "updatedAt": "2022-02-25T06:02:15.563Z",
+                "isActive": true,
+                "orgId": "265",
+                "presetName": "erase_bg",
+                "transformation": "erase.bg()",
+                "archived": false
+            }
+        ]
     },
 };

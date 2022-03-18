@@ -31,11 +31,11 @@ class Pixelbin {
     }
 
     /**
-    * provides a url utils instance with the pixelbin object context
+    * provides a url utils instance
     * returns UrlUtils
     */
-    getUrlUtils() {
-        return getUrlUtilsInstance(this);
+    static get urlUtils() {
+        return getUrlUtilsInstance();
     }
 
     /**

@@ -1,8 +1,7 @@
 import { getTransformationsFromUrl, getUrlTransformationString, getImageUrlWithOptions } from "./transformation.utils";
 
 class UrlUtils {
-    constructor(pixelbinObj) {
-        this.pixelbin = pixelbinObj;
+    constructor() {
         this.config = {
             {% if data %}operationSeparator: "{{data.operationSeparator}}",
             parameterSeparator: "{{data.parameterSeparator}}",{% endif %}

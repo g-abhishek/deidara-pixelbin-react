@@ -22,6 +22,10 @@ import * as AWSRekognitionPlugin from "./plugins/AWSRekognitionPlugin";
 
 import * as GoogleVisionPlugin from "./plugins/GoogleVisionPlugin";
 
+import * as ImageGeneration from "./plugins/ImageGeneration";
+
+import * as FaceRestoration from "./plugins/FaceRestoration";
+
 /**
  * class to create a Pixelbin object
  */
@@ -44,11 +48,11 @@ class Pixelbin {
     }
 
     /**
-     * provides a url utils instance with the pixelbin object context
+     * provides a url utils instance
      * returns UrlUtils
      */
-    getUrlUtils() {
-        return getUrlUtilsInstance(this);
+    static get urlUtils() {
+        return getUrlUtilsInstance();
     }
 
     /**
@@ -70,6 +74,8 @@ class Pixelbin {
         WatermarkRemoval,
         AWSRekognitionPlugin,
         GoogleVisionPlugin,
+        ImageGeneration,
+        FaceRestoration,
     };
 
     static Transformation = Transformation;

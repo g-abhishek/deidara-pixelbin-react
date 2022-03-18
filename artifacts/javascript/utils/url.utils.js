@@ -5,8 +5,7 @@ import {
 } from "./transformation.utils";
 
 class UrlUtils {
-    constructor(pixelbinObj) {
-        this.pixelbin = pixelbinObj;
+    constructor() {
         this.config = {
             operationSeparator: "~",
             parameterSeparator: ",",
