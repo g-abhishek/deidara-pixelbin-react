@@ -7,7 +7,7 @@ export const getImageUrlWithOptions = function (url, pattern, version = "v2") {
         throw new PDKInvalidUrlError(
             "Invalid pixelbin url. Please make sure the version is correct.",
         );
-    urlParts["pattern"] = pattern;
+    urlParts["pattern"] = pattern || "original";
     urlParts["version"] = version || "v2";
     const urlKeySorted = ["host", "version", "cloudName", "zoneSlug", "pattern", "filePath"];
     const urlArr = [];
@@ -111,10 +111,10 @@ export const getOriginalFormOfUrl = function (url) {
 };
 
 export const getUrlTransformationString = function (transformationList, config) {
-    return transformationList.length
+    return transformationList?.length
         ? transformationList
               .map((o) => {
-                  if (o) {
+                  if (o.hasOwnProperty("name")) {
                       if (o.isPreset) {
                           return `p:${o.name}`;
                       } else {

@@ -121,42 +121,8 @@ describe("UrlUtils tests", () => {
         url = Pixelbin.url.objToUrl(obj);
         expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg");
     })
-    it("should generate url from transformation list", async()=> {
-        const transformations = [
-            {
-                "plugin": "t",
-                "name": "resize",
-                isPreset: false,
-                "values": [
-                    {
-                        "key": "h",
-                        "value": "200"
-                    },
-                    {
-                        "key": "w",
-                        "value": "100"
-                    },
-                    {
-                        key: "fill",
-                        value: "999"
-                    }
-                ]
-            },
-            {
-                "plugin": "erase",
-                "name": "bg",
-                isPreset: false,
-            },
-            {
-                "plugin": "t",
-                "name": "extend",
-                isPreset: false,
-            },
-            {
-                "name": "preset1",
-                isPreset: true,
-            }
-        ];
+    it("should generate url from transformation list when empty", async()=> {
+        const transformations = [];
         const obj = {
             cloudName: "red-scene-95b6ea",
             zone: "z-slug",
@@ -166,10 +132,39 @@ describe("UrlUtils tests", () => {
         };
         let url = Pixelbin.url.objToUrl(obj);
         // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
-        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
         obj.version = "v1";
         url = Pixelbin.url.objToUrl(obj);
-        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+    })
+    it("should generate url from transformation list undefined", async()=> {
+        const obj = {
+            cloudName: "red-scene-95b6ea",
+            zone: "z-slug",
+            version: "v2",
+            original: "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+        };
+        let url = Pixelbin.url.objToUrl(obj);
+        // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
+        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        obj.version = "v1";
+        url = Pixelbin.url.objToUrl(obj);
+        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+    })
+    it("should generate url from transformation list undefined", async()=> {
+        const obj = {
+            cloudName: "red-scene-95b6ea",
+            zone: "z-slug",
+            version: "v2",
+            transformations: [{}],
+            original: "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+        };
+        let url = Pixelbin.url.objToUrl(obj);
+        // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
+        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        obj.version = "v1";
+        url = Pixelbin.url.objToUrl(obj);
+        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
     })
 
 });
