@@ -18,35 +18,33 @@ import Pixelbin from "@pixelbin/js";
 
 // Create your instance
 const pixelbin = new Pixelbin({
-    cloud: {
-        cloudName: "demo",
-        zone: "default", // optional
-    },
+    cloudName: "demo",
+    zone: "default", // optional
 });
 ```
+
+---
 
 ### Transform and Optimize Images
 
 ```javascript
+// Import transformations from plugins
+import EraseBg from "@pixelbin/js/plugins/EraseBg";
+import Sharp from "@pixelbin/js/plugins/Sharp";
+
 // Create a new instance. If you have't (see above for the details)
 const pixelbin = new Pixelbin({
     /*...*/
 });
 
-// create a new image
-const demoImage = pixelbin.image("demo.jpeg");
-
-// Import a transformations from plugins
-import EraseBg from "@pixelbin/js/plugins/EraseBg";
-
 // Create EraseBg.bg transformation
 let t1 = EraseBg.bg();
 
-// Import the resize transformation
-import { resize } from "@pixelbin/js/plugins/Sharp";
-
 // Create resize transformation
-const t2 = resize({ height: 100, width: 100 });
+const t2 = Sharp.resize({ height: 100, width: 100 });
+
+// create a new image
+const demoImage = pixelbin.image("path/to/image"); // File Path on Pixelbin
 
 // Add the transformations to the image
 demoImage.setTransformations(t1.and(t2));
@@ -55,18 +53,23 @@ demoImage.setTransformations(t1.and(t2));
 console.log(demoImage.getUrl());
 ```
 
-### Usage in browser
+```
+https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/erase.bg()~t.resize(h:100,w:100)/path/to/image
+```
 
-Add the `umd` distributable in a script tag along with axios
+---
+
+### Add Pixelbin to HTML
+
+Add the [this](./dist/pixelbin.js) distributable in a script tag along with axios
 
 ```html
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="pixelbin.js"></script>
 ```
 
 ```javascript
 // Pixelbin is available in the browser as `Pixelbin` on the window object
-const pixelbin = new Pixelbin({ cloud: { cloudName: "demo", zone: "default" } });
+const pixelbin = new Pixelbin({ cloudName: "demo", zone: "default" });
 
 // create an image with the pixelbin object
 const image = pixelbin.image("demoImage.jpeg");
@@ -75,42 +78,148 @@ const image = pixelbin.image("demoImage.jpeg");
 let t = Pixelbin.plugins.Sharp.resize({ height: 100, width: 100 });
 
 // add Transformations to the image
-image.setTransfromation(t);
+image.setTransformation(t);
 
 // get the url
 image.getUrl();
 ```
 
+---
+
 ### Upload images to pixelbin
 
-The SDK provides a `upload` utility to upload images directly from the broswer with a presigned url.
+The SDK provides a `upload` utility to upload images directly from the browser with a presigned url.
 
 #### upload(file, presignedUrl, fields):
 
-| Parameter | type   |
-| --------- | ------ |
-| file      | File   |
-| url       | string |
-| fields    | Object |
+| parameter | type                                                          |
+| --------- | ------------------------------------------------------------- |
+| file      | [File](https://developer.mozilla.org/en-US/docs/Web/API/File) |
+| url       | string                                                        |
+| fields    | Object                                                        |
 
 **returns**: Promise
 
-`url` and `fields` can be generated with the Pixelbin Backend SDK.
+`url` and `fields` can be generated with the Pixelbin Backend SDK @pixelbin/core.
 
-### Using the URL Utils
+<details>
+<summary>Example</summary>
 
-Pixelbin gives access to URL Utils on the Pixelbin class. It provides the following features.
+```html
+<input type="file" id="fileInput" />
+```
 
 ```javascript
-const urlUtils = Pixelbin.urlUtils;
+const fileInput = document.getElementById("fileInput");
+// the signed url and fields can be generated and served with @pixelbin/core
+const { url: signedUrl, fields } = {
+    url: "PRESIGNED-URL",
+    fields: {
+        key: "FIELD-SET-FROM-BACKEND",
+        acl: "FIELD-SET-FROM-BACKEND",
+        "x-amz-meta-assetData": "FIELD-SET-FROM-BACKEND",
+        bucket: "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Algorithm": "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Credential": "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Date": "FIELD-SET-FROM-BACKEND",
+        Policy: "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Signature": "FIELD-SET-FROM-BACKEND",
+    },
+};
 
-// get a list of transformations from image url
-const transformationList = urlUtils.deconstructPixelbinUrl(pixelbinUrl);
+const handleFileInputEvent = function (e) {
+    const file = e.target.files[0];
+    Pixelbin.upload(file, signedUrl, fields)
+        .then(() => console.log("Uploaded Successfully"))
+        .catch((err) => console.log("Error while uploading"));
+};
+fileInput.addEventListener("change", handleFileInputEvent);
+```
 
-const originalImageUrl = "INSERT-ORIGINAL-URL";
+</details>
 
+---
+
+### Using the URL utilities
+
+Pixelbin provides url utilities to construct and deconstruct pixelbin urls.
+
+#### 1. urlToObj
+
+| parameter   | type   |
+| ----------- | ------ |
+| pixelbinUrl | String |
+
+```javascript
+const pixelbinUrl =
+    "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg";
+
+const obj = Pixelbin.url.urlToObj(pixelbinUrl);
+```
+
+**Returns**:
+
+| property        | type            | example                           |
+| --------------- | --------------- | --------------------------------- |
+| cloudName       | String          | `your-cloud-name`                 |
+| zone            | String          | `z-slug`                          |
+| version         | String          | `v2`                              |
+| transformations | Transformations | example                           |
+| pattern         | String          | `t.resize(h:100, w:200)~t.flip()` |
+
+```json
+// obj
+{
+    "cloudName": "your-cloud-name",
+    "zone": "z-slug",
+    "version": "v2",
+    "transformations": [
+        {
+            "plugin": "t",
+            "name": "resize",
+            "isPreset": false,
+            "values": [
+                {
+                    "key": "h",
+                    "value": "100"
+                },
+                {
+                    "key": "w",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "plugin": "t",
+            "name": "flip",
+            "isPreset": false
+        }
+    ],
+    "original": "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg"
+}
+```
+
+#### 2. objToUrl
+
+| parameter       | type              | example                           |
+| --------------- | ----------------- | --------------------------------- |
+| cloudName       | String            | `your-cloud-name`                 |
+| zone            | String            | `z-slug`                          |
+| version         | String            | `v2`                              |
+| transformations | Transformations   | example                           |
+| pattern         | String [optional] | `t.resize(h:100, w:200)~t.flip()` |
+
+```javascript
 // add transformations to another image.
-const url = urlUtils.generatePixelbinUrl(originalImageUrl, transformationList);
+const url = Pixelbin.url.objToUrl(obj); // obj is as shown above
+```
+
+**Returns**:
+
+-   Pixelbin url
+
+```
+https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg
 ```
 
 ## List of supported transformations
@@ -122,14 +231,14 @@ const url = urlUtils.generatePixelbinUrl(originalImageUrl, transformationList);
 
 #### Supported Configuration
 
-| Property   | Type                                                                                                              | Defaults   |
+| parameter  | type                                                                                                              | defaults   |
 | ---------- | ----------------------------------------------------------------------------------------------------------------- | ---------- |
 | height     | integer                                                                                                           | 0          |
 | width      | integer                                                                                                           | 0          |
-| fit        | enum : `cover` , `contain` , `fill` , `inside` , `outside`                                                        | 'cover'    |
-| background | color                                                                                                             | '000000'   |
-| position   | enum : `top` , `bottom` , `left` , `right` , `right_top` , `right_bottom` , `left_top` , `left_bottom` , `center` | 'center'   |
-| algorithm  | enum : `nearest` , `cubic` , `mitchell` , `lanczos2` , `lanczos3`                                                 | 'lanczos3' |
+| fit        | enum : `cover` , `contain` , `fill` , `inside` , `outside`                                                        | `cover`    |
+| background | color                                                                                                             | `000000`   |
+| position   | enum : `top` , `bottom` , `left` , `right` , `right_top` , `right_bottom` , `left_top` , `left_bottom` , `center` | `center`   |
+| algorithm  | enum : `nearest` , `cubic` , `mitchell` , `lanczos2` , `lanczos3`                                                 | `lanczos3` |
 
 #### Usage Example
 
@@ -151,9 +260,9 @@ const t = resize({
 
 #### Supported Configuration
 
-| Property | Type    | Defaults |
-| -------- | ------- | -------- |
-| quality  | integer | 80       |
+| parameter | type    | defaults |
+| --------- | ------- | -------- |
+| quality   | integer | 80       |
 
 #### Usage Example
 
@@ -170,13 +279,13 @@ const t = compress({
 
 #### Supported Configuration
 
-| Property   | Type    | Defaults |
+| parameter  | type    | defaults |
 | ---------- | ------- | -------- |
 | top        | integer | 10       |
 | left       | integer | 10       |
 | bottom     | integer | 10       |
 | right      | integer | 10       |
-| background | color   | '000000' |
+| background | color   | `000000` |
 
 #### Usage Example
 
@@ -197,12 +306,12 @@ const t = extend({
 
 #### Supported Configuration
 
-| Property | Type    | Defaults |
-| -------- | ------- | -------- |
-| top      | integer | 10       |
-| left     | integer | 10       |
-| height   | integer | 50       |
-| width    | integer | 20       |
+| parameter | type    | defaults |
+| --------- | ------- | -------- |
+| top       | integer | 10       |
+| left      | integer | 10       |
+| height    | integer | 50       |
+| width     | integer | 20       |
 
 #### Usage Example
 
@@ -222,7 +331,7 @@ const t = extract({
 
 #### Supported Configuration
 
-| Property  | Type    | Defaults |
+| parameter | type    | defaults |
 | --------- | ------- | -------- |
 | threshold | integer | 10       |
 
@@ -241,10 +350,10 @@ const t = trim({
 
 #### Supported Configuration
 
-| Property   | Type    | Defaults |
+| parameter  | type    | defaults |
 | ---------- | ------- | -------- |
 | angle      | integer | 0        |
-| background | color   | '000000' |
+| background | color   | `000000` |
 
 #### Usage Example
 
@@ -284,11 +393,11 @@ const t = flop({});
 
 #### Supported Configuration
 
-| Property | Type    | Defaults |
-| -------- | ------- | -------- |
-| sigma    | integer | 1        |
-| flat     | integer | 1        |
-| jagged   | integer | 2        |
+| parameter | type    | defaults |
+| --------- | ------- | -------- |
+| sigma     | integer | 1        |
+| flat      | integer | 1        |
+| jagged    | integer | 2        |
 
 #### Usage Example
 
@@ -307,9 +416,9 @@ const t = sharpen({
 
 #### Supported Configuration
 
-| Property | Type    | Defaults |
-| -------- | ------- | -------- |
-| size     | integer | 3        |
+| parameter | type    | defaults |
+| --------- | ------- | -------- |
+| size      | integer | 3        |
 
 #### Usage Example
 
@@ -326,9 +435,9 @@ const t = median({
 
 #### Supported Configuration
 
-| Property | Type    | Defaults |
-| -------- | ------- | -------- |
-| sigma    | integer | 1        |
+| parameter | type    | defaults |
+| --------- | ------- | -------- |
+| sigma     | integer | 1        |
 
 #### Usage Example
 
@@ -345,9 +454,9 @@ const t = blur({
 
 #### Supported Configuration
 
-| Property   | Type  | Defaults |
+| parameter  | type  | defaults |
 | ---------- | ----- | -------- |
-| background | color | '000000' |
+| background | color | `000000` |
 
 #### Usage Example
 
@@ -386,10 +495,10 @@ const t = normalise({});
 
 #### Supported Configuration
 
-| Property | Type    | Defaults |
-| -------- | ------- | -------- |
-| a        | integer | 1        |
-| b        | integer | 0        |
+| parameter | type    | defaults |
+| --------- | ------- | -------- |
+| a         | integer | 1        |
+| b         | integer | 0        |
 
 #### Usage Example
 
@@ -407,7 +516,7 @@ const t = linear({
 
 #### Supported Configuration
 
-| Property   | Type    | Defaults |
+| parameter  | type    | defaults |
 | ---------- | ------- | -------- |
 | brightness | integer | 1        |
 | saturation | integer | 1        |
@@ -441,9 +550,9 @@ const t = grey({});
 
 #### Supported Configuration
 
-| Property | Type  | Defaults |
-| -------- | ----- | -------- |
-| color    | color | '000000' |
+| parameter | type  | defaults |
+| --------- | ----- | -------- |
+| color     | color | `000000` |
 
 #### Usage Example
 
@@ -460,9 +569,9 @@ const t = tint({
 
 #### Supported Configuration
 
-| Property | Type                           | Defaults |
-| -------- | ------------------------------ | -------- |
-| format   | enum : `jpeg` , `png` , `webp` | 'jpeg'   |
+| parameter | type                           | defaults |
+| --------- | ------------------------------ | -------- |
+| format    | enum : `jpeg` , `png` , `webp` | `jpeg`   |
 
 #### Usage Example
 
@@ -479,17 +588,17 @@ const t = toFormat({
 
 #### Supported Configuration
 
-| Property   | Type                                                                                                                                                                                                                                                                                                                   | Defaults   |
+| parameter  | type                                                                                                                                                                                                                                                                                                                   | defaults   |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| mode       | enum : `overlay` , `underlay`                                                                                                                                                                                                                                                                                          | 'overlay'  |
-| image      | file                                                                                                                                                                                                                                                                                                                   | ''         |
-| background | color                                                                                                                                                                                                                                                                                                                  | '00000000' |
+| mode       | enum : `overlay` , `underlay`                                                                                                                                                                                                                                                                                          | `overlay`  |
+| image      | file                                                                                                                                                                                                                                                                                                                   | ``         |
+| background | color                                                                                                                                                                                                                                                                                                                  | `00000000` |
 | height     | integer                                                                                                                                                                                                                                                                                                                | 0          |
 | width      | integer                                                                                                                                                                                                                                                                                                                | 0          |
 | top        | integer                                                                                                                                                                                                                                                                                                                | 0          |
 | left       | integer                                                                                                                                                                                                                                                                                                                | 0          |
-| gravity    | enum : `northwest` , `north` , `northeast` , `east` , `center` , `west` , `southwest` , `south` , `southeast` , `custom`                                                                                                                                                                                               | 'center'   |
-| blend      | enum : `over` , `in` , `out` , `atop` , `dest` , `dest-over` , `dest-in` , `dest-out` , `dest-atop` , `xor` , `add` , `saturate` , `multiply` , `screen` , `overlay` , `darken` , `lighten` , `colour-dodge` , `color-dodge` , `colour-burn` , `color-burn` , `hard-light` , `soft-light` , `difference` , `exclusion` | 'over'     |
+| gravity    | enum : `northwest` , `north` , `northeast` , `east` , `center` , `west` , `southwest` , `south` , `southeast` , `custom`                                                                                                                                                                                               | `center`   |
+| blend      | enum : `over` , `in` , `out` , `atop` , `dest` , `dest-over` , `dest-in` , `dest-out` , `dest-atop` , `xor` , `add` , `saturate` , `multiply` , `screen` , `overlay` , `darken` , `lighten` , `colour-dodge` , `color-dodge` , `colour-burn` , `color-burn` , `hard-light` , `soft-light` , `difference` , `exclusion` | `over`     |
 | tile       | boolean                                                                                                                                                                                                                                                                                                                | false      |
 
 #### Usage Example
@@ -531,9 +640,9 @@ const t = bg({});
 
 #### Supported Configuration
 
-| Property     | Type                           | Defaults  |
+| parameter    | type                           | defaults  |
 | ------------ | ------------------------------ | --------- |
-| industryType | enum : `general` , `ecommerce` | 'general' |
+| industryType | enum : `general` , `ecommerce` | `general` |
 
 #### Usage Example
 
@@ -552,9 +661,9 @@ const t = bg({
 
 #### Supported Configuration
 
-| Property | Type               | Defaults |
-| -------- | ------------------ | -------- |
-| type     | enum : `2x` , `4x` | '2x'     |
+| parameter | type               | defaults |
+| --------- | ------------------ | -------- |
+| type      | enum : `2x` , `4x` | `2x`     |
 
 #### Usage Example
 
@@ -599,7 +708,7 @@ const t = remove({});
 
 #### Supported Configuration
 
-| Property          | Type    | Defaults |
+| parameter         | type    | defaults |
 | ----------------- | ------- | -------- |
 | maximumLabels     | integer | 5        |
 | minimumConfidence | integer | 55       |
@@ -620,7 +729,7 @@ const t = detectLabels({
 
 #### Supported Configuration
 
-| Property          | Type    | Defaults |
+| parameter         | type    | defaults |
 | ----------------- | ------- | -------- |
 | minimumConfidence | integer | 55       |
 
@@ -641,7 +750,7 @@ const t = moderation({
 
 #### Supported Configuration
 
-| Property      | Type    | Defaults |
+| parameter     | type    | defaults |
 | ------------- | ------- | -------- |
 | maximumLabels | integer | 5        |
 
@@ -662,9 +771,9 @@ const t = detectLabels({
 
 #### Supported Configuration
 
-| Property | Type   | Defaults       |
-| -------- | ------ | -------------- |
-| prompt   | string | 'A cute puppy' |
+| parameter | type   | defaults       |
+| --------- | ------ | -------------- |
+| prompt    | string | `A cute puppy` |
 
 #### Usage Example
 

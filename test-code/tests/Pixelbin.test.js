@@ -7,9 +7,7 @@ import { upscale } from "@pixelbin/js/plugins/SuperResolution";
 describe("SDK tests", () => {
     it("should run", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         });
 
         expect(pixelbin.cloudName).toBe("cloudname");
@@ -17,27 +15,21 @@ describe("SDK tests", () => {
     })
     it("should accept an image uri and fetch url for original image", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         })
         const image = pixelbin.image("test-image.jpeg");
         expect(image.getUrl()).toBe("https://cdn.pixelbinx0.de/cloudname/original/test-image.jpeg");
     });
     it("should accept an image uri and fetch url for original image with zone slug", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "testsl"
-            }
+            cloudName: "cloudname", zone: "testsl"
         })
         const image = pixelbin.image("test-image.jpeg");
         expect(image.getUrl()).toBe("https://cdn.pixelbinx0.de/cloudname/testsl/original/test-image.jpeg");
     });
     it("should accept an image uri and fetch url for sharp resize", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         })
         const image = pixelbin.image("test-image.jpeg");
         let t = new Transformation();
@@ -47,9 +39,7 @@ describe("SDK tests", () => {
     });
     it("should accept an image uri and fetch url for sharp flip", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         })
         const image = pixelbin.image("test-image.jpeg");
         let t = new Transformation();
@@ -59,9 +49,7 @@ describe("SDK tests", () => {
     });
     it("should accept an image uri and fetch url for sharp resize => erase.bg for ecommerce", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         })
         const image = pixelbin.image("test-image.jpeg");
         let t = new Transformation();
@@ -72,9 +60,7 @@ describe("SDK tests", () => {
     });
     it("should accept an image uri and fetch url for sharp resize => erase.bg", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         })
         const image = pixelbin.image("test-image.jpeg");
         let t = new Transformation();
@@ -85,9 +71,7 @@ describe("SDK tests", () => {
     });
     it("should accept an image uri and fetch url for sharp resize => sharp extend => upscale", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         })
         const image = pixelbin.image("test-image.jpeg");
         let t = new Transformation();
@@ -99,9 +83,7 @@ describe("SDK tests", () => {
     });
     it("should accept an image uri and fetch url for sharp resize => sharp extend => upscale 4x", async () => {
         const pixelbin = new Pixelbin({
-            cloud: {
-                cloudName: "cloudname", zone: "default"
-            }
+            cloudName: "cloudname", zone: "default"
         })
         const image = pixelbin.image("test-image.jpeg");
         let t = new Transformation();

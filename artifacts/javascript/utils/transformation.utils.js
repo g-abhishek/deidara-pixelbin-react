@@ -8,7 +8,7 @@ export const getImageUrlWithOptions = function (url, pattern, version = "v2") {
             "Invalid pixelbin url. Please make sure the version is correct.",
         );
     urlParts["pattern"] = pattern;
-    urlParts["version"] = version;
+    urlParts["version"] = version || "v2";
     const urlKeySorted = ["host", "version", "cloudName", "zoneSlug", "pattern", "filePath"];
     const urlArr = [];
     urlKeySorted.forEach((key) => {
@@ -99,11 +99,11 @@ const getTransformationsFromPattern = function (pattern, url, config, flatten = 
     return opts;
 };
 
-export const getTransformationsFromUrl = function (url, config, flatten) {
-    // const pattern = getTransformationPatternFromURL(url);
-    const { pattern } = getUrlParts(url);
-    // const extname = path.extname(url).replace(".", "");
-    return getTransformationsFromPattern(pattern, url, config, flatten);
+export const getObjFromUrl = function (url, config, flatten) {
+    const parts = getUrlParts(url);
+    parts.transformations = getTransformationsFromPattern(parts.pattern, url, config, flatten);
+    parts.original = getImageUrlWithOptions(url, "original", parts.version);
+    return parts;
 };
 
 export const getOriginalFormOfUrl = function (url) {

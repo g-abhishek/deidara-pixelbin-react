@@ -1,9 +1,10 @@
 # Pixelbin JS SDK
-Pixelbin JS SDK helps you integrate Pixelbin with your Frontend JS Application. 
+
+Pixelbin JS SDK helps you integrate Pixelbin with your Frontend JS Application.
 
 ## Installation
 
-``` 
+```
 npm install  @pixelbin/js --save
 ```
 
@@ -11,38 +12,39 @@ npm install  @pixelbin/js --save
 
 ### Setup
 
-``` javascript
-
+```javascript
 // Import the Pixelbin class
 import Pixelbin from "@pixelbin/js";
 
 // Create your instance
 const pixelbin = new Pixelbin({
-    cloud: {
-        cloudName: "demo",
-        zone: "default", // optional
-    }
+    cloudName: "demo",
+    zone: "default", // optional
 });
 ```
+
+---
+
 ### Transform and Optimize Images
-``` javascript
-// Create a new instance. If you have't (see above for the details)
-const pixelbin = new Pixelbin({/*...*/});
 
-// create a new image
-const demoImage = pixelbin.image("demo.jpeg");
-
-// Import a transformations from plugins
+```javascript
+// Import transformations from plugins
 import EraseBg from "@pixelbin/js/plugins/EraseBg";
+import Sharp from "@pixelbin/js/plugins/Sharp";
+
+// Create a new instance. If you have't (see above for the details)
+const pixelbin = new Pixelbin({
+    /*...*/
+});
 
 // Create EraseBg.bg transformation
 let t1 = EraseBg.bg();
 
-// Import the resize transformation
-import {resize} from "@pixelbin/js/plugins/Sharp";
-
 // Create resize transformation
-const t2 = resize({height: 100, width: 100});
+const t2 = Sharp.resize({ height: 100, width: 100 });
+
+// create a new image
+const demoImage = pixelbin.image("path/to/image"); // File Path on Pixelbin
 
 // Add the transformations to the image
 demoImage.setTransformations(t1.and(t2));
@@ -50,68 +52,174 @@ demoImage.setTransformations(t1.and(t2));
 // Get the image url
 console.log(demoImage.getUrl());
 ```
-
-
-### Usage in browser
-Add the `umd` distributable in a script tag along with axios
-``` html
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="pixelbin.js" ></script>
+```
+https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/erase.bg()~t.resize(h:100,w:100)/path/to/image
 ```
 
-``` javascript
+---
+
+### Add Pixelbin to HTML
+
+Add the [this](./dist/pixelbin.js) distributable in a script tag along with axios
+
+```html
+<script src="pixelbin.js"></script>
+```
+
+```javascript
 // Pixelbin is available in the browser as `Pixelbin` on the window object
-const pixelbin = new Pixelbin({cloud: {cloudName: "demo", zone:"default"}});
+const pixelbin = new Pixelbin({ cloudName: "demo", zone: "default" });
 
 // create an image with the pixelbin object
 const image = pixelbin.image("demoImage.jpeg");
 
 // create a transformation
-let t = Pixelbin.plugins.Sharp.resize({height: 100, width: 100});
+let t = Pixelbin.plugins.Sharp.resize({ height: 100, width: 100 });
 
-// add Transformations to the image 
-image.setTransfromation(t);
+// add Transformations to the image
+image.setTransformation(t);
 
 // get the url
 image.getUrl();
 ```
 
+---
+
 ### Upload images to pixelbin
 
-The SDK provides a `upload` utility to upload images directly from the broswer with a presigned url. 
+The SDK provides a `upload` utility to upload images directly from the browser with a presigned url.
 
-#### upload(file, presignedUrl, fields): 
+#### upload(file, presignedUrl, fields):
 
-| Parameter | type |
-| --------- | ---- |
-| file | File |
-| url  | string |
-| fields | Object | 
+| parameter | type                                                          |
+| --------- | ------------------------------------------------------------- |
+| file      | [File](https://developer.mozilla.org/en-US/docs/Web/API/File) |
+| url       | string                                                        |
+| fields    | Object                                                        |
 
 **returns**: Promise
 
-`url` and `fields` can be generated with the Pixelbin Backend SDK. 
+`url` and `fields` can be generated with the Pixelbin Backend SDK @pixelbin/core.
 
-### Using the URL Utils
+<details>
+<summary>Example</summary>
 
-Pixelbin gives access to URL Utils on the Pixelbin class. It provides the following features.
-
-``` javascript
-const urlUtils = Pixelbin.urlUtils;
-
-// get a list of transformations from image url
-const transformationList = urlUtils.deconstructPixelbinUrl(pixelbinUrl);
-
-const originalImageUrl = "INSERT-ORIGINAL-URL";
-
-// add transformations to another image.
-const url = urlUtils.generatePixelbinUrl(originalImageUrl, transformationList);
-
+```html
+<input type="file" id="fileInput" />
 ```
 
+```javascript
+const fileInput = document.getElementById("fileInput");
+// the signed url and fields can be generated and served with @pixelbin/core
+const { url: signedUrl, fields } = {
+    url: "PRESIGNED-URL",
+    fields: {
+        key: "FIELD-SET-FROM-BACKEND",
+        acl: "FIELD-SET-FROM-BACKEND",
+        "x-amz-meta-assetData": "FIELD-SET-FROM-BACKEND",
+        bucket: "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Algorithm": "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Credential": "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Date": "FIELD-SET-FROM-BACKEND",
+        Policy: "FIELD-SET-FROM-BACKEND",
+        "X-Amz-Signature": "FIELD-SET-FROM-BACKEND",
+    },
+};
 
+const handleFileInputEvent = function (e) {
+    const file = e.target.files[0];
+    Pixelbin.upload(file, signedUrl, fields)
+        .then(() => console.log("Uploaded Successfully"))
+        .catch((err) => console.log("Error while uploading"));
+};
+fileInput.addEventListener("change", handleFileInputEvent);
+```
 
+</details>
 
+---
+
+### Using the URL utilities
+
+Pixelbin provides url utilities to construct and deconstruct pixelbin urls.
+
+#### 1. urlToObj
+
+| parameter   | type   |
+| ----------- | ------ |
+| pixelbinUrl | String |
+
+```javascript
+const pixelbinUrl =
+    "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg";
+
+const obj = Pixelbin.url.urlToObj(pixelbinUrl);
+```
+
+**Returns**:
+
+| property        | type            | example                           |
+| --------------- | --------------- | --------------------------------- |
+| cloudName       | String          | `your-cloud-name`                 |
+| zone            | String          | `z-slug`                          |
+| version         | String          | `v2`                              |
+| transformations | Transformations | example                           |
+| pattern         | String          | `t.resize(h:100, w:200)~t.flip()` |
+
+```json
+// obj
+{
+    "cloudName": "your-cloud-name",
+    "zone": "z-slug",
+    "version": "v2",
+    "transformations": [
+        {
+            "plugin": "t",
+            "name": "resize",
+            "isPreset": false,
+            "values": [
+                {
+                    "key": "h",
+                    "value": "100"
+                },
+                {
+                    "key": "w",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "plugin": "t",
+            "name": "flip",
+            "isPreset": false
+        }
+    ],
+    "original": "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg"
+}
+```
+
+#### 2. objToUrl
+
+| parameter       | type              | example                           |
+| --------------- | ----------------- | --------------------------------- |
+| cloudName       | String            | `your-cloud-name`                 |
+| zone            | String            | `z-slug`                          |
+| version         | String            | `v2`                              |
+| transformations | Transformations   | example                           |
+| pattern         | String [optional] | `t.resize(h:100, w:200)~t.flip()` |
+
+```javascript
+// add transformations to another image.
+const url = Pixelbin.url.objToUrl(obj); // obj is as shown above
+```
+
+**Returns**:
+
+-   Pixelbin url
+
+```
+https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg
+```
 
 ## List of supported transformations
 {% if data %}
@@ -124,9 +232,9 @@ const url = urlUtils.generatePixelbinUrl(originalImageUrl, transformationList);
 {% if method.parameters | length %}
 #### Supported Configuration
 
-| Property | Type | Defaults |
+| parameter | type | defaults |
 | -- | -- | -- | {% for parameter in method.parameters %}
-| {{ parameter.name | camelCase() }} | {%if parameter.type === "enum" %} {{parameter.type}} {% raw %}:{% endraw %}{% for item in parameter.enum %} `{{item}}` {% if not loop.last%},{% endif %} {% endfor %} {% raw %}{% endraw %}{% else %} {{parameter.type}} {% endif %} | {%if parameter.default | isString(parameter.default)%}'{{parameter.default}}'{% else %}{{parameter.default}}{% endif %}|{% endfor %}
+| {{ parameter.name | camelCase() }} | {%if parameter.type === "enum" %} {{parameter.type}} {% raw %}:{% endraw %}{% for item in parameter.enum %} `{{item}}` {% if not loop.last%},{% endif %} {% endfor %} {% raw %}{% endraw %}{% else %} {{parameter.type}} {% endif %} | {%if parameter.default | isString(parameter.default)%}`{{parameter.default}}`{% else %}{{parameter.default}}{% endif %}|{% endfor %}
 {% endif %}
 #### Usage Example
 ``` javascript

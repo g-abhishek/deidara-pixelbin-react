@@ -14,14 +14,6 @@ module.exports = {
         libraryExport: "default",
         clean: true,
     },
-    externals: {
-        axios: {
-          commonjs: 'axios',
-          commonjs2: 'axios',
-          amd: 'axios',
-          root: 'axios',
-        },
-    },
     module: {
         rules: [
             {

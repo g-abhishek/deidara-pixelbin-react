@@ -1,14 +1,14 @@
 import axios from "axios";
 
-async function signedUpload(url, form, size) {
-    return axios.post(url, form)
+async function signedUpload(url, form) {
+    return axios
+        .post(url, form)
         .then((res) => {
-            Promise.resolve(res)
+            Promise.resolve(res);
         })
         .catch((err) => {
-            console.log("Error");
-            Promise.reject(err);
-        })
+            return Promise.reject(err);
+        });
 }
 
 async function upload(file, url, fields) {
@@ -18,9 +18,7 @@ async function upload(file, url, fields) {
         form.append(k, v);
     });
     form.append("file", file);
-    return signedUpload(url, form, file.size);
+    return signedUpload(url, form);
 }
 
-export {
-    upload,
-}
+export { upload };
