@@ -47,7 +47,7 @@ const t2 = Sharp.resize({ height: 100, width: 100 });
 const demoImage = pixelbin.image("path/to/image"); // File Path on Pixelbin
 
 // Add the transformations to the image
-demoImage.setTransformations(t1.and(t2));
+demoImage.setTransformation(t1.and(t2));
 
 // Get the image url
 console.log(demoImage.getUrl());
@@ -221,6 +221,48 @@ const url = Pixelbin.url.objToUrl(obj); // obj is as shown above
 https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg
 ```
 
+## Transformation
+A transformation is an operation or a list of operations that can be performed on an image. Please refer [list of supported transformations](#list-of-supported-transformations) for details. 
+
+``` javascript
+// import a resize transformation
+import { resize } from "@pixelbin/js/plugins/Sharp";
+
+// create the sharp transformation
+const t = resize({height: 100, width: 100});
+```
+
+Multiple transformations can be chained by using `and` on the created transformation object
+
+``` javascript
+// import a resize transformation
+import { resize, flip } from "@pixelbin/js/plugins/Sharp";
+
+// create the sharp transformation
+const t1 = resize({height: 100, width: 100});
+const t2 = flip();
+const t3 = t1.and(t2);
+```
+
+## Image
+Image class represents an image on Pixelbin. 
+
+``` javascript
+//To create an Image, call image method on the pixelbin object;
+const image = pixelbin.image("path/to/image");
+```
+
+Transformations can be set on an image by using `setTransformation` on the image object. 
+
+``` javascript
+image.setTransformation(t)
+```
+
+To get the url of the image with the applied transformations, use the `getUrl` on the image object.
+``` javascript
+image.getUrl()
+```
+For a working example, refer [here](#transform-and-optimize-images)
 ## List of supported transformations
 {% if data %}
 {% for plugin in data %}
