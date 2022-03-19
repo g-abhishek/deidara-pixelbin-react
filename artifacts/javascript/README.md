@@ -150,6 +150,9 @@ Pixelbin provides url utilities to construct and deconstruct pixelbin urls.
 | ----------- | ------ |
 | pixelbinUrl | String |
 
+<details>
+<summary> Example </summary>
+
 ```javascript
 const pixelbinUrl =
     "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg";
@@ -157,15 +160,21 @@ const pixelbinUrl =
 const obj = Pixelbin.url.urlToObj(pixelbinUrl);
 ```
 
+</details>
+
 **Returns**:
 
-| property        | type            | example                           |
-| --------------- | --------------- | --------------------------------- |
-| cloudName       | String          | `your-cloud-name`                 |
-| zone            | String          | `z-slug`                          |
-| version         | String          | `v2`                              |
-| transformations | Transformations | example                           |
-| pattern         | String          | `t.resize(h:100, w:200)~t.flip()` |
+| property        | type            | example                                                                         |
+| --------------- | --------------- | ------------------------------------------------------------------------------- |
+| cloudName       | String          | `your-cloud-name`                                                               |
+| zone            | String          | `z-slug`                                                                        |
+| version         | String          | `v2`                                                                            |
+| transformations | Transformations | example                                                                         |
+| pattern         | String          | `t.resize(h:100, w:200)~t.flip()`                                               |
+| original        | String          | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg` |
+
+<details>
+<summary> Example </summary>
 
 ```json
 // obj
@@ -199,20 +208,28 @@ const obj = Pixelbin.url.urlToObj(pixelbinUrl);
 }
 ```
 
+</details>
+
 #### 2. objToUrl
 
-| parameter       | type              | example                           |
-| --------------- | ----------------- | --------------------------------- |
-| cloudName       | String            | `your-cloud-name`                 |
-| zone            | String            | `z-slug`                          |
-| version         | String            | `v2`                              |
-| transformations | Transformations   | example                           |
-| pattern         | String [optional] | `t.resize(h:100, w:200)~t.flip()` |
+| parameter       | type              | example                                                                         |
+| --------------- | ----------------- | ------------------------------------------------------------------------------- |
+| cloudName       | String            | `your-cloud-name`                                                               |
+| zone            | String            | `z-slug`                                                                        |
+| version         | String            | `v2`                                                                            |
+| transformations | Transformations   | example                                                                         |
+| pattern         | String [optional] | `t.resize(h:100, w:200)~t.flip()`                                               |
+| original        | String            | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg` |
+
+<details>
+<summary> Example </summary>
 
 ```javascript
 // add transformations to another image.
 const url = Pixelbin.url.objToUrl(obj); // obj is as shown above
 ```
+
+</details>
 
 **Returns**:
 
