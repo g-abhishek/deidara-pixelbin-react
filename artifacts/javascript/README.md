@@ -61,7 +61,7 @@ https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/erase.bg()~t.resize(h:100,w:10
 
 ### Add Pixelbin to HTML
 
-Add the [this](./dist/pixelbin.js) distributable in a script tag along with axios
+Add the [this](./dist) distributable in a script tag along with axios
 
 ```html
 <script src="pixelbin.js"></script>
