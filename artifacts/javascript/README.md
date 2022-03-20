@@ -189,7 +189,7 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 //     ],
 //     "filePath": "path/to/image.jpeg",
 //     "pattern": "t.resize(h:100,w:200)~t.flip()",
-//     "basePath": "https://cdn.pixelbin.io"
+//     "baseUrl": "https://cdn.pixelbin.io"
 // }
 ```
 
@@ -236,7 +236,7 @@ const obj = {
     ],
     filePath: "path/to/image.jpeg",
     pattern: "t.resize(h:100,w:200)~t.flip()",
-    basePath: "https://cdn.pixelbin.io",
+    baseUrl: "https://cdn.pixelbin.io",
 };
 const url = Pixelbin.utils.objToUrl(obj); // obj is as shown above
 // url
