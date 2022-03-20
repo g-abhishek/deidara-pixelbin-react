@@ -5,8 +5,9 @@ const urlWithZone = /^\/(.*)\/([a-zA-Z0-9_-]{6})\/(.+)\/(.*)$/;
 const urlWithoutZone = /\/(.*)\/(.+)\/(.*)/;
 
 const getUrlParts = function (pixelbinUrl) {
-    const { host, pathname, search } = new URL(pixelbinUrl);
+    const { protocol, host, pathname, search } = new URL(pixelbinUrl);
     const urlDetails = {
+        protocol,
         host,
         search,
         version: "v1",

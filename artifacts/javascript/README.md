@@ -92,12 +92,15 @@ The SDK provides a `upload` utility to upload images directly from the browser w
 
 ### upload(file, signedDetails):
 
-| parameter                                                            | type                                                                           |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| file ([File](https://developer.mozilla.org/en-US/docs/Web/API/File)) | File to upload to Pixelbin                                                     |
-| signedDetails (Object)                                               | `signedDetails` can be generated with the Pixelbin Backend SDK @pixelbin/core. |
+| parameter                                                            | type                                                                                                                            |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| file ([File](https://developer.mozilla.org/en-US/docs/Web/API/File)) | File to upload to Pixelbin                                                                                                      |
+| signedDetails (Object)                                               | `signedDetails` can be generated with the Pixelbin Backend SDK [@pixelbin/core](https://github.com/pixelbin-dev/pixelbin-core). |
 
 **returns**: Promise
+
+-   Resolves with no response on success.
+-   Rejects with error on failure.
 
 Example :
 
@@ -140,14 +143,15 @@ Deconstruct a pixelbin url
 
 **Returns**:
 
-| property                | description                                   | example                                                                         |
-| ----------------------- | --------------------------------------------- | ------------------------------------------------------------------------------- |
-| cloudName (string)      | The cloudname extracted from the url          | `your-cloud-name`                                                               |
-| zone (string)           | 6 character zone slug                         | `z-slug`                                                                        |
-| version (string)        | cdn api version                               | `v2`                                                                            |
-| transformations (array) | Extracted transformations from the url        |                                                                                 |
-| pattern (string)        | Transformation pattern extracted from the url | `t.resize(h:100, w:200)~t.flip()`                                               |
-| original (string)       | Url of the original image                     | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg` |
+| property                | description                                   | example                           |
+| ----------------------- | --------------------------------------------- | --------------------------------- |
+| cloudName (string)      | The cloudname extracted from the url          | `your-cloud-name`                 |
+| zone (string)           | 6 character zone slug                         | `z-slug`                          |
+| version (string)        | cdn api version                               | `v2`                              |
+| transformations (array) | Extracted transformations from the url        |                                   |
+| pattern (string)        | Transformation pattern extracted from the url | `t.resize(h:100, w:200)~t.flip()` |
+| filePath                | Path to the file on Pixelbin storage          | `/path/to/image.jpeg`             |
+| baseUrl (string)        | Base url                                      | `https://cdn.pixelbin.io/`        |
 
 Example:
 
@@ -183,7 +187,9 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 //             "isPreset": false
 //         }
 //     ],
-//     "original": "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg"
+//     "filePath": "path/to/image.jpeg",
+//     "pattern": "t.resize(h:100,w:200)~t.flip()",
+//     "basePath": "https://cdn.pixelbin.io"
 // }
 ```
 
@@ -191,14 +197,15 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 
 Converts the extracted url obj to a Pixelbin url.
 
-| property                | description                                   | example                                                                         |
-| ----------------------- | --------------------------------------------- | ------------------------------------------------------------------------------- |
-| cloudName (string)      | The cloudname extracted from the url          | `your-cloud-name`                                                               |
-| zone (string)           | 6 character zone slug                         | `z-slug`                                                                        |
-| version (string)        | cdn api version                               | `v2`                                                                            |
-| transformations (array) | Extracted transformations from the url        |                                                                                 |
-| pattern (string)        | Transformation pattern extracted from the url | `t.resize(h:100, w:200)~t.flip()`                                               |
-| original (string)       | Url of the original image                     | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg` |
+| property                | description                                   | example                           |
+| ----------------------- | --------------------------------------------- | --------------------------------- |
+| cloudName (string)      | The cloudname extracted from the url          | `your-cloud-name`                 |
+| zone (string)           | 6 character zone slug                         | `z-slug`                          |
+| version (string)        | cdn api version                               | `v2`                              |
+| transformations (array) | Extracted transformations from the url        |                                   |
+| pattern (string)        | Transformation pattern extracted from the url | `t.resize(h:100, w:200)~t.flip()` |
+| filePath                | Path to the file on Pixelbin storage          | `/path/to/image.jpeg`             |
+| baseUrl (string)        | Base url                                      | `https://cdn.pixelbin.io/`        |
 
 ```javascript
 const obj = {
@@ -227,7 +234,9 @@ const obj = {
             isPreset: false,
         },
     ],
-    original: "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg",
+    filePath: "path/to/image.jpeg",
+    pattern: "t.resize(h:100,w:200)~t.flip()",
+    basePath: "https://cdn.pixelbin.io",
 };
 const url = Pixelbin.utils.objToUrl(obj); // obj is as shown above
 // url

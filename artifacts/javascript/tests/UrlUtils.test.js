@@ -1,23 +1,29 @@
+import { PDKIllegalArgumentError } from "../errors/PixelbinErrors";
 import { objToUrl, urlToObj } from "../utils";
 
 describe("UrlUtils tests", () => {
-    it("should get transformation list from url", async () => {
-        const { transformations } = urlToObj(
+    it("should get obj from url", async () => {
+        const obj = urlToObj(
             "https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.resize()/__playground/playground-default.jpeg",
         );
-        expect(transformations).toEqual([
+        expect(obj.transformations).toEqual([
             {
                 plugin: "t",
                 name: "resize",
                 isPreset: false,
             },
         ]);
+        expect(obj.cloudName).toBe("red-scene-95b6ea");
+        expect(obj.zone).toBeUndefined();
+        expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
+        expect(obj.pattern).toBe("t.resize()");
+        expect(obj.filePath).toBe("__playground/playground-default.jpeg");
     });
-    it("should get transformation list from url", async () => {
-        const { transformations } = urlToObj(
+    it("should get obj from url - 1", async () => {
+        const obj = urlToObj(
             "https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.resize(h:200,w:100)/__playground/playground-default.jpeg",
         );
-        expect(transformations).toEqual([
+        expect(obj.transformations).toEqual([
             {
                 plugin: "t",
                 name: "resize",
@@ -34,12 +40,17 @@ describe("UrlUtils tests", () => {
                 ],
             },
         ]);
+        expect(obj.cloudName).toBe("red-scene-95b6ea");
+        expect(obj.zone).toBeUndefined();
+        expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
+        expect(obj.pattern).toBe("t.resize(h:200,w:100)");
+        expect(obj.filePath).toBe("__playground/playground-default.jpeg");
     });
-    it("should get transformation list from url - 2", async () => {
-        const { transformations } = urlToObj(
+    it("should get obj from url - 2", async () => {
+        const obj = urlToObj(
             "https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()/__playground/playground-default.jpeg",
         );
-        expect(transformations).toEqual([
+        expect(obj.transformations).toEqual([
             {
                 plugin: "t",
                 name: "resize",
@@ -70,19 +81,31 @@ describe("UrlUtils tests", () => {
                 isPreset: false,
             },
         ]);
+        expect(obj.cloudName).toBe("red-scene-95b6ea");
+        expect(obj.zone).toBeUndefined();
+        expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
+        expect(obj.pattern).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()");
+        expect(obj.filePath).toBe("__playground/playground-default.jpeg");
     });
-    it("deconstruct url with preset", async () => {
+    it("should get obj from url with preset", async () => {
         const presetUrl =
             "https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.compress()~t.resize()~t.extend()~p.apply(n:presetNameXyx)/alien_fig_tree_planet_x_wallingford_seattle_washington_usa_517559.jpeg";
-        const { transformations } = urlToObj(presetUrl);
-        expect(transformations).toEqual([
+        const obj = urlToObj(presetUrl);
+        expect(obj.transformations).toEqual([
             { isPreset: false, name: "compress", plugin: "t" },
             { isPreset: false, name: "resize", plugin: "t" },
             { isPreset: false, name: "extend", plugin: "t" },
             { isPreset: true, name: "presetNameXyx" },
         ]);
+        expect(obj.cloudName).toBe("red-scene-95b6ea");
+        expect(obj.zone).toBeUndefined();
+        expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
+        expect(obj.pattern).toBe("t.compress()~t.resize()~t.extend()~p.apply(n:presetNameXyx)");
+        expect(obj.filePath).toBe(
+            "alien_fig_tree_planet_x_wallingford_seattle_washington_usa_517559.jpeg",
+        );
     });
-    it("should generate url from transformation list", async () => {
+    it("should generate url from obj", async () => {
         const transformations = [
             {
                 plugin: "t",
@@ -123,8 +146,8 @@ describe("UrlUtils tests", () => {
             zone: "z-slug",
             version: "v2",
             transformations: transformations,
-            original:
-                "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            baseUrl: "https://cdn.pixelbin.io",
+            filePath: "__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
         expect(url).toBe(
@@ -136,15 +159,15 @@ describe("UrlUtils tests", () => {
             "https://cdn.pixelbin.io/v1/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg",
         );
     });
-    it("should generate url from transformation list when empty", async () => {
+    it("should generate url from obj when empty", async () => {
         const transformations = [];
         const obj = {
             cloudName: "red-scene-95b6ea",
             zone: "z-slug",
             version: "v2",
             transformations: transformations,
-            original:
-                "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            baseUrl: "https://cdn.pixelbin.io",
+            filePath: "__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
         // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
@@ -157,13 +180,13 @@ describe("UrlUtils tests", () => {
             "https://cdn.pixelbin.io/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg",
         );
     });
-    it("should generate url from transformation list undefined", async () => {
+    it("should generate url from obj undefined", async () => {
         const obj = {
             cloudName: "red-scene-95b6ea",
             zone: "z-slug",
             version: "v2",
-            original:
-                "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            baseUrl: "https://cdn.pixelbin.io",
+            filePath: "__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
         // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
@@ -176,14 +199,14 @@ describe("UrlUtils tests", () => {
             "https://cdn.pixelbin.io/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg",
         );
     });
-    it("should generate url from transformation list undefined", async () => {
+    it("should generate url from obj  empty object", async () => {
         const obj = {
             cloudName: "red-scene-95b6ea",
             zone: "z-slug",
             version: "v2",
             transformations: [{}],
-            original:
-                "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            baseUrl: "https://cdn.pixelbin.io",
+            filePath: "__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
         // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
@@ -195,5 +218,21 @@ describe("UrlUtils tests", () => {
         expect(url).toBe(
             "https://cdn.pixelbin.io/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg",
         );
+    });
+    it("should throw error to generate url from obj if filePath not defined", async () => {
+        const obj = {
+            cloudName: "red-scene-95b6ea",
+            zone: "z-slug",
+            version: "v2",
+            transformations: [{}],
+            baseUrl: "https://cdn.pixelbin.io",
+            filePath: "",
+        };
+        try {
+            objToUrl(obj);
+            throw new Error("should not be called");
+        } catch (err) {
+            expect(err).toBeInstanceOf(PDKIllegalArgumentError);
+        }
     });
 });

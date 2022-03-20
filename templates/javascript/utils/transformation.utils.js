@@ -1,21 +1,33 @@
 import { getUrlParts, version2Regex } from "./common.utils";
-import {PDKInvalidUrlError} from "../errors/PixelbinErrors";
+import {PDKInvalidUrlError, PDKIllegalArgumentError} from "../errors/PixelbinErrors";
 
-
-export const getImageUrlWithOptions = function (url, pattern, version = "v2") {
-    const urlParts = getUrlParts(url);
-    if(!version2Regex.test(version))
-        throw new PDKInvalidUrlError("Invalid pixelbin url. Please make sure the version is correct.");
-    urlParts["pattern"] = pattern || "original";
-    urlParts["version"] = version || "v2";
-    urlParts["host"] = "cdn.pixelbin.io";
-    const urlKeySorted = ["host", "version", "cloudName", "zoneSlug", "pattern", "filePath"];
+export const getUrlFromObj = function (obj, config){
+    if(!obj.baseUrl) obj["baseUrl"] = "https://cdn.pixelbin.io";
+    if(!obj.cloudName) throw new PDKIllegalArgumentError("key cloudName should be defined");
+    if(!obj.filePath) throw new PDKIllegalArgumentError("key filePath should be defined");
+    if(!obj.pattern) obj["pattern"] = getPatternFromTransformations(obj["transformations"], config) || "original";
+    if(!obj.version || !version2Regex.test(obj.version)) obj.version = "v2";
+    if(!obj.zone || !/([a-zA-Z0-9_-]{6})/.test(obj.zone)) obj.zone = "";
+    const urlKeySorted = ["baseUrl", "version", "cloudName", "zoneSlug", "pattern", "filePath"];
     const urlArr = [];
     urlKeySorted.forEach((key) => {
-        if (urlParts[key]) urlArr.push(urlParts[key]);
+        if (obj[key]) urlArr.push(obj[key]);
     });
-    return `https://${urlArr.join("/")}`;
+    return urlArr.join("/");
+
 };
+
+const getPartsFromUrl = function (url) {
+    const parts = getUrlParts(url);
+    return {
+            baseUrl: `${parts["protocol"]}//${parts["host"]}`,
+            filePath: parts["filePath"],
+            pattern: parts["pattern"],
+            version: parts["version"],
+            zone: parts["zoneSlug"],
+            cloudName: parts["cloudName"],
+    }
+}
 
 function removeLeadingDash(str) {
     if (str.charAt(0) === "-") {
@@ -102,17 +114,12 @@ const getTransformationsFromPattern = function (pattern, url, config, flatten = 
 };
 
 export const getObjFromUrl = function (url, config, flatten) {
-    const parts = getUrlParts(url);
+    const parts = getPartsFromUrl(url);
     parts.transformations = getTransformationsFromPattern(parts.pattern, url, config, flatten);
-    parts.original = getImageUrlWithOptions(url, "original", parts.version);
     return parts;
 };
 
-export const getOriginalFormOfUrl = function (url) {
-    return getImageUrlWithOptions(url, "original");
-};
-
-export const getUrlTransformationString = function (transformationList, config) {
+export const getPatternFromTransformations = function (transformationList, config) {
     return transformationList?.length
         ? transformationList
               .map((o) => {

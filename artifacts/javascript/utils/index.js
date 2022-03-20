@@ -1,7 +1,7 @@
 import {
     getObjFromUrl,
-    getUrlTransformationString,
-    getImageUrlWithOptions,
+    getUrlFromObj,
+    getPatternFromTransformations,
 } from "./transformation.utils";
 
 const config = {
@@ -14,15 +14,11 @@ const urlToObj = function (url) {
 };
 
 const generatePixelbinPattern = function (transformationList) {
-    return getUrlTransformationString(transformationList, config);
+    return getPatternFromTransformations(transformationList, config);
 };
 
 const objToUrl = function (obj) {
-    return getImageUrlWithOptions(
-        obj.original,
-        generatePixelbinPattern(obj.transformations, config),
-        obj.version,
-    );
+    return getUrlFromObj(obj, config);
 };
 
 export { urlToObj, objToUrl };

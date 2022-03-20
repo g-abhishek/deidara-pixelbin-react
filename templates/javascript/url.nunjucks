@@ -1,4 +1,4 @@
-import { getObjFromUrl, getUrlTransformationString, getImageUrlWithOptions } from "./transformation.utils";
+import { getObjFromUrl, getUrlFromObj, getPatternFromTransformations } from "./transformation.utils";
 
 const config = {
     {% if data %}operationSeparator: "{{data.operationSeparator}}",
@@ -10,11 +10,11 @@ const urlToObj = function (url) {
 };
 
 const generatePixelbinPattern = function (transformationList) {
-    return getUrlTransformationString(transformationList, config);
+    return getPatternFromTransformations(transformationList, config);
 }
 
 const objToUrl = function (obj) {
-    return getImageUrlWithOptions(obj.original, generatePixelbinPattern(obj.transformations, config), obj.version);
+    return getUrlFromObj(obj, config);
 };
 
 export { 
