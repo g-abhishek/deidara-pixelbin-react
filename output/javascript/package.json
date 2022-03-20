@@ -1,17 +1,17 @@
 {
     "name": "@pixelbin/js",
     "version": "1.0.0",
-    "description": "",
+    "description": "Pixelbin JS SDK helps you integrate Pixelbin with your Frontend JS Application.",
     "main": "pixelbin.js",
     "scripts": {
         "build": "webpack --config webpack.config.js"
     },
     "peerDependencies": {
-        "axios": "^0.26.1"
+        "axios": "0.26.1"
     },
     "dependencies": {
-        "core-js": "^3.21.1",
-        "regenerator-runtime": "^0.13.9"
+        "core-js": "3.21.1",
+        "regenerator-runtime": "0.13.9"
     },
     "devDependencies": {
         "@babel/core": "7.17.7",
