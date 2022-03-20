@@ -53,7 +53,7 @@ function getParamsObject(paramsList) {
     return params.length && params;
 }
 
-function txtToOptions(dSplit, originalFormat, config, flatten, isPreset = false) {
+function txtToOptions(dSplit) {
     // Figure Out Module
     const fullFnName = dSplit.split("(")[0];
 
@@ -82,13 +82,7 @@ function txtToOptions(dSplit, originalFormat, config, flatten, isPreset = false)
     return transformation;
 }
 
-const getExtensionFromUrl = function (url) {
-    if (url?.includes(".")) return url?.split(".").slice(url?.split(".").length - 1) || "";
-    return "";
-};
-
 const getTransformationsFromPattern = function (pattern, url, config, flatten = false) {
-    const originalFormat = getExtensionFromUrl(url);
     if (pattern === "original") {
         return [];
     }
@@ -100,7 +94,7 @@ const getTransformationsFromPattern = function (pattern, url, config, flatten = 
                 const [, presetString] = x.split(":");
                 x = `p.apply(n:${presetString})`;
             }
-            return txtToOptions(x, originalFormat, config, flatten);
+            return txtToOptions(x);
         })
         .flat(); // Flatten preset sub-lists
     if (flatten) opts = opts.flat();
