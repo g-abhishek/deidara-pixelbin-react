@@ -150,7 +150,6 @@ Deconstruct a pixelbin url
 | zone (string)          | 6 character zone slug          | `z-slug` |
 | version (string)    | cdn api version          | `v2` |
 | transformations (array) | Extracted transformations from the url |   |
-| pattern (string)  | Transformation pattern extracted from the url          | `t.resize(h:100, w:200)~t.flip()` |
 | filePath | Path to the file on Pixelbin storage | `/path/to/image.jpeg` |
 | baseUrl (string) | Base url | `https://cdn.pixelbin.io/`|
 
@@ -186,7 +185,6 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 //         }
 //     ],
 //     "filePath": "path/to/image.jpeg",
-//     "pattern": "t.resize(h:100,w:200)~t.flip()",
 //     "baseUrl": "https://cdn.pixelbin.io"
 // }
 ```
