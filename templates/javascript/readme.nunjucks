@@ -30,7 +30,7 @@ const pixelbin = new Pixelbin({
 ```javascript
 // Import transformations from plugins
 import EraseBg from "@pixelbin/js/plugins/EraseBg";
-import Sharp from "@pixelbin/js/plugins/Sharp";
+import Basic from "@pixelbin/js/plugins/Basic";
 
 // Create a new instance. If you have't (see above for the details)
 const pixelbin = new Pixelbin({
@@ -41,7 +41,7 @@ const pixelbin = new Pixelbin({
 let t1 = EraseBg.bg();
 
 // Create resize transformation
-const t2 = Sharp.resize({ height: 100, width: 100 });
+const t2 = Basic.resize({ height: 100, width: 100 });
 
 // create a new image
 const demoImage = pixelbin.image("path/to/image"); // File Path on Pixelbin
@@ -74,7 +74,7 @@ const pixelbin = new Pixelbin({ cloudName: "demo", zone: "default" });
 const image = pixelbin.image("demoImage.jpeg");
 
 // create a transformation
-let t = Pixelbin.plugins.Sharp.resize({ height: 100, width: 100 });
+let t = Pixelbin.plugins.Basic.resize({ height: 100, width: 100 });
 
 // add Transformations to the image
 image.setTransformation(t);
@@ -240,9 +240,9 @@ A transformation is an operation or a list of operations that can be performed o
 
 ``` javascript
 // import a resize transformation
-import { resize } from "@pixelbin/js/plugins/Sharp";
+import { resize } from "@pixelbin/js/plugins/Basic";
 
-// create the sharp transformation
+// create the resize transformation
 const t = resize({height: 100, width: 100});
 ```
 
@@ -250,9 +250,9 @@ Multiple transformations can be chained by using `and` on the created transforma
 
 ``` javascript
 // import a resize transformation
-import { resize, flip } from "@pixelbin/js/plugins/Sharp";
+import { resize, flip } from "@pixelbin/js/plugins/Basic";
 
-// create the sharp transformation
+// create the basic transformations
 const t1 = resize({height: 100, width: 100});
 const t2 = flip();
 const t3 = t1.and(t2);

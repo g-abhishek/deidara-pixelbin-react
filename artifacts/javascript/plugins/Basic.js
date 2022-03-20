@@ -1,7 +1,7 @@
 import Transformation from "../transformation.js";
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} height - Height* @param {integer} width - Width* @param {enum} fit - Fit* @param {color} background - Background* @param {enum} position - Position* @param {enum} algorithm - Algorithm
  * returns Transformation
  */
@@ -36,7 +36,7 @@ export const resize = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} quality - Quality
  * returns Transformation
  */
@@ -59,7 +59,7 @@ export const compress = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} top - Top* @param {integer} left - Left* @param {integer} bottom - Bottom* @param {integer} right - Right* @param {color} background - Background
  * returns Transformation
  */
@@ -92,7 +92,7 @@ export const extend = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} top - Top* @param {integer} left - Left* @param {integer} height - Height* @param {integer} width - Width
  * returns Transformation
  */
@@ -123,7 +123,7 @@ export const extract = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} threshold - Threshold
  * returns Transformation
  */
@@ -146,7 +146,7 @@ export const trim = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} angle - Angle* @param {color} background - Background
  * returns Transformation
  */
@@ -171,7 +171,7 @@ export const rotate = function (
 };
 
 /**
-* Sharp Image Library Module
+* Basic Image Library Module
 
 * returns Transformation
 */
@@ -188,7 +188,7 @@ export const flip = function (config = {}) {
 };
 
 /**
-* Sharp Image Library Module
+* Basic Image Library Module
 
 * returns Transformation
 */
@@ -205,7 +205,7 @@ export const flop = function (config = {}) {
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} sigma - Sigma* @param {integer} flat - Flat* @param {integer} jagged - Jagged
  * returns Transformation
  */
@@ -232,7 +232,7 @@ export const sharpen = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} size - Size
  * returns Transformation
  */
@@ -255,7 +255,7 @@ export const median = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} sigma - Sigma
  * returns Transformation
  */
@@ -278,7 +278,7 @@ export const blur = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {color} background - Background
  * returns Transformation
  */
@@ -301,7 +301,7 @@ export const flatten = function (
 };
 
 /**
-* Sharp Image Library Module
+* Basic Image Library Module
 
 * returns Transformation
 */
@@ -318,7 +318,7 @@ export const negate = function (config = {}) {
 };
 
 /**
-* Sharp Image Library Module
+* Basic Image Library Module
 
 * returns Transformation
 */
@@ -335,7 +335,7 @@ export const normalise = function (config = {}) {
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} a - A* @param {integer} b - B
  * returns Transformation
  */
@@ -360,7 +360,7 @@ export const linear = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {integer} brightness - Brightness* @param {integer} saturation - Saturation* @param {integer} hue - Hue
  * returns Transformation
  */
@@ -389,7 +389,7 @@ export const modulate = function (
 };
 
 /**
-* Sharp Image Library Module
+* Basic Image Library Module
 
 * returns Transformation
 */
@@ -406,7 +406,7 @@ export const grey = function (config = {}) {
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {color} color - Color
  * returns Transformation
  */
@@ -429,7 +429,7 @@ export const tint = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {enum} format - Format
  * returns Transformation
  */
@@ -452,7 +452,7 @@ export const toFormat = function (
 };
 
 /**
- * Sharp Image Library Module
+ * Basic Image Library Module
  * @param {enum} mode - Mode* @param {file} image - Image* @param {color} background - Background* @param {integer} height - Height* @param {integer} width - Width* @param {integer} top - Top* @param {integer} left - Left* @param {enum} gravity - Gravity* @param {enum} blend - Blend* @param {boolean} tile - Tile
  * returns Transformation
  */

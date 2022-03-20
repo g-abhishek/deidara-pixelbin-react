@@ -7,8 +7,8 @@ module.exports = {
         "plugins": {
             "t": {
                 "identifier": "t",
-                "name": "Sharp",
-                "description": "Sharp Image Library Module",
+                "name": "Basic",
+                "description": "Basic Image Library Module",
                 "credentials": {
                     "required": false
                 },
@@ -661,7 +661,7 @@ module.exports = {
             },
             "af": {
                 "identifier": "af",
-                "name": "Artifact",
+                "name": "Artifact Removal",
                 "description": "Artifact Removal Plugin",
                 "credentials": {},
                 "operations": [
@@ -691,7 +691,7 @@ module.exports = {
             },
             "awsRek": {
                 "identifier": "awsRek",
-                "name": "AWS Rekognition Plugin",
+                "name": "AWS Rekognition",
                 "description": "AWS Rekognition Plugin",
                 "credentials": {
                     "required": true,
@@ -771,7 +771,7 @@ module.exports = {
             },
             "googleVis": {
                 "identifier": "googleVis",
-                "name": "Google Vision Plugin",
+                "name": "Google Vision",
                 "description": "Google Vision Plugin",
                 "credentials": {
                     "required": true,
@@ -809,68 +809,17 @@ module.exports = {
                     }
                 ],
                 "enabled": false
-            },
-            "iGen": {
-                "identifier": "iGen",
-                "name": "ImageGeneration",
-                "description": "Image Generation Module",
-                "credentials": {},
-                "operations": [
-                    {
-                        "params": [
-                            {
-                                "name": "Prompt",
-                                "type": "string",
-                                "default": "A cute puppy",
-                                "maxLength": 255,
-                                "identifier": "p",
-                                "title": "Prompt"
-                            }
-                        ],
-                        "displayName": "Image Generation",
-                        "method": "generate",
-                        "description": "Use this add-on to generate new images using AI."
-                    }
-                ],
-                "enabled": true
-            },
-            "face": {
-                "identifier": "face",
-                "name": "Face Restoration",
-                "description": "Face Restoration Module",
-                "credentials": {
-                    "required": false
-                },
-                "operations": [
-                    {
-                        "params": [],
-                        "displayName": "Face Restoration",
-                        "method": "restore",
-                        "description": "Restore heavily degraded faces."
-                    }
-                ],
-                "enabled": true
             }
         },
         "presets": [
             {
-                "_id": "91726ddd-2615-4f83-8772-3cc33d98c378",
-                "createdAt": "2022-02-14T10:06:17.803Z",
-                "updatedAt": "2022-02-14T10:06:17.803Z",
+                "_id": "5ae70981-1cf7-4b4c-858b-f3291c5f22a2",
+                "createdAt": "2022-02-15T13:42:37.292Z",
+                "updatedAt": "2022-02-15T13:42:37.292Z",
                 "isActive": true,
-                "orgId": "265",
+                "orgId": "1936",
                 "presetName": "compressor",
-                "transformation": "t.compress(q:95)",
-                "archived": false
-            },
-            {
-                "_id": "2b43e839-e01d-4a99-a8a2-54288cc2ae1c",
-                "createdAt": "2022-02-25T06:02:15.563Z",
-                "updatedAt": "2022-02-25T06:02:15.563Z",
-                "isActive": true,
-                "orgId": "265",
-                "presetName": "erase_bg",
-                "transformation": "erase.bg()",
+                "transformation": "t.compress()",
                 "archived": false
             }
         ]

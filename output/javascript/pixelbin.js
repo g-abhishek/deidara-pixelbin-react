@@ -6,16 +6,14 @@ import * as errors from "./errors/PixelbinErrors";
 import { urlToObj, objToUrl } from "./url";
 import { upload } from "./upload";
 
-import * as Sharp from "./plugins/Sharp";
+import * as Basic from "./plugins/Basic";
 import * as RemoveBG from "./plugins/RemoveBG";
 import * as EraseBG from "./plugins/EraseBG";
 import * as SuperResolution from "./plugins/SuperResolution";
-import * as Artifact from "./plugins/Artifact";
+import * as ArtifactRemoval from "./plugins/ArtifactRemoval";
 import * as WatermarkRemoval from "./plugins/WatermarkRemoval";
-import * as AWSRekognitionPlugin from "./plugins/AWSRekognitionPlugin";
-import * as GoogleVisionPlugin from "./plugins/GoogleVisionPlugin";
-import * as ImageGeneration from "./plugins/ImageGeneration";
-import * as FaceRestoration from "./plugins/FaceRestoration";
+import * as AWSRekognition from "./plugins/AWSRekognition";
+import * as GoogleVision from "./plugins/GoogleVision";
 
 /**
  * class to create a Pixelbin object
@@ -57,16 +55,14 @@ class Pixelbin {
     }
 
     static plugins = {
-        Sharp,
+        Basic,
         RemoveBG,
         EraseBG,
         SuperResolution,
-        Artifact,
+        ArtifactRemoval,
         WatermarkRemoval,
-        AWSRekognitionPlugin,
-        GoogleVisionPlugin,
-        ImageGeneration,
-        FaceRestoration,
+        AWSRekognition,
+        GoogleVision,
     };
 
     static Transformation = Transformation;

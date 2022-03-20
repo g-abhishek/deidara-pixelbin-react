@@ -288,7 +288,7 @@ For a working example, refer [here](#transform-and-optimize-images)
 
 ## List of supported transformations
 
-### 1. Sharp
+### 1. Basic
 
 <details>
 <summary> 1. resize </summary>
@@ -739,7 +739,7 @@ const t = upscale({
 
 </details>
 
-### 5. Artifact
+### 5. ArtifactRemoval
 
 <details>
 <summary> 1. remove </summary>
@@ -765,7 +765,7 @@ const t = remove({});
 
 </details>
 
-### 7. AWSRekognitionPlugin
+### 7. AWSRekognition
 
 <details>
 <summary> 1. detectLabels </summary>
@@ -807,7 +807,7 @@ const t = moderation({
 
 </details>
 
-### 8. GoogleVisionPlugin
+### 8. GoogleVision
 
 <details>
 <summary> 1. detectLabels </summary>
@@ -824,40 +824,6 @@ const t = moderation({
 const t = detectLabels({
     maximumLabels: 5,
 });
-```
-
-</details>
-
-### 9. ImageGeneration
-
-<details>
-<summary> 1. generate </summary>
-
-#### Supported Configuration
-
-| parameter | type   | defaults       |
-| --------- | ------ | -------------- |
-| prompt    | string | `A cute puppy` |
-
-#### Usage Example
-
-```javascript
-const t = generate({
-    prompt: "A cute puppy",
-});
-```
-
-</details>
-
-### 10. FaceRestoration
-
-<details>
-<summary> 1. restore </summary>
-
-#### Usage Example
-
-```javascript
-const t = restore({});
 ```
 
 </details>
