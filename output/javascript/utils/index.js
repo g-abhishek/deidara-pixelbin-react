@@ -2,7 +2,7 @@ import {
     getObjFromUrl,
     getUrlTransformationString,
     getImageUrlWithOptions,
-} from "./utils/transformation.utils";
+} from "./transformation.utils";
 
 const config = {
     operationSeparator: "~",

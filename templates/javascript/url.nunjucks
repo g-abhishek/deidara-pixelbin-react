@@ -1,4 +1,4 @@
-import { getObjFromUrl, getUrlTransformationString, getImageUrlWithOptions } from "./utils/transformation.utils";
+import { getObjFromUrl, getUrlTransformationString, getImageUrlWithOptions } from "./transformation.utils";
 
 const config = {
     {% if data %}operationSeparator: "{{data.operationSeparator}}",

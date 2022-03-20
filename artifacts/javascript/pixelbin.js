@@ -3,7 +3,7 @@ import "regenerator-runtime/runtime";
 import Image from "./image.js";
 import Transformation from "./transformation";
 import * as errors from "./errors/PixelbinErrors";
-import { urlToObj, objToUrl } from "./url";
+import { urlToObj, objToUrl } from "./utils";
 import { upload } from "./upload";
 
 import * as Basic from "./plugins/Basic";
@@ -40,18 +40,18 @@ class Pixelbin {
      * provides access to url utilities
      * returns Object
      */
-    static get url() {
+    static get utils() {
         return { objToUrl, urlToObj };
     }
 
     /**
-     * provides functionality to upload files.
+     *
      * @param {File} file
-     * @param {string} signedUrl
-     * @param {Object} fields
+     * @param {Object} signedDetails generated with @pixelbin/core sdk
+     * @returns Promise
      */
-    static async upload(file, signedUrl, fields) {
-        return upload(file, signedUrl, fields);
+    static async upload(file, signedDetails) {
+        return upload(file, signedDetails);
     }
 
     static plugins = {

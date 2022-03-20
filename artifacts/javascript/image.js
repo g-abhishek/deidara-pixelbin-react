@@ -12,7 +12,7 @@ class Image {
         this.cloudName = _cloudName;
         this.zone = _zone;
         this.transformation = [];
-        this.host = "https://cdn.pixelbinx0.de";
+        this.host = "https://cdn.pixelbin.io";
     }
 
     /**

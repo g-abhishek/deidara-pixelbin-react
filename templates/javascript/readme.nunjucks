@@ -51,9 +51,8 @@ demoImage.setTransformation(t1.and(t2));
 
 // Get the image url
 console.log(demoImage.getUrl());
-```
-```
-https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/erase.bg()~t.resize(h:100,w:100)/path/to/image
+// output
+// https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/erase.bg()~t.resize(h:100,w:100)/path/to/image
 ```
 
 ---
@@ -81,102 +80,126 @@ image.setTransformation(t);
 
 // get the url
 image.getUrl();
+// output
+// https://cdn.pixelbin.io/v2/demo/default/t.resize(h:100,w:100)/demoImage.jpeg
+
 ```
 
 ---
 
-### Upload images to pixelbin
+## Upload images to pixelbin
 
 The SDK provides a `upload` utility to upload images directly from the browser with a presigned url.
 
-#### upload(file, presignedUrl, fields):
+### upload(file, signedDetails):
 
 | parameter | type                                                          |
 | --------- | ------------------------------------------------------------- |
 | file      | [File](https://developer.mozilla.org/en-US/docs/Web/API/File) |
-| url       | string                                                        |
-| fields    | Object                                                        |
-
+| signedDetails | Object |
 **returns**: Promise
 
-`url` and `fields` can be generated with the Pixelbin Backend SDK @pixelbin/core.
+`signedDetails` can be generated with the Pixelbin Backend SDK @pixelbin/core.
 
-<details>
-<summary>Example</summary>
-
+Example : 
+1. Define an html file input element
 ```html
 <input type="file" id="fileInput" />
 ```
 
+2. Generate the presignedUrl with the backend sdk. [click here](#add-link).
+
+3. Use the response object as is with the upload api as shown below.
+
 ```javascript
 const fileInput = document.getElementById("fileInput");
 // the signed url and fields can be generated and served with @pixelbin/core
-const { url: signedUrl, fields } = {
-    url: "PRESIGNED-URL",
-    fields: {
-        key: "FIELD-SET-FROM-BACKEND",
-        acl: "FIELD-SET-FROM-BACKEND",
-        "x-amz-meta-assetData": "FIELD-SET-FROM-BACKEND",
-        bucket: "FIELD-SET-FROM-BACKEND",
-        "X-Amz-Algorithm": "FIELD-SET-FROM-BACKEND",
-        "X-Amz-Credential": "FIELD-SET-FROM-BACKEND",
-        "X-Amz-Date": "FIELD-SET-FROM-BACKEND",
-        Policy: "FIELD-SET-FROM-BACKEND",
-        "X-Amz-Signature": "FIELD-SET-FROM-BACKEND",
-    },
-};
 
 const handleFileInputEvent = function (e) {
     const file = e.target.files[0];
-    Pixelbin.upload(file, signedUrl, fields)
+    Pixelbin.upload(file, signedDetails)
         .then(() => console.log("Uploaded Successfully"))
         .catch((err) => console.log("Error while uploading"));
 };
 fileInput.addEventListener("change", handleFileInputEvent);
 ```
 
-</details>
-
 ---
 
-### Using the URL utilities
+## Utilities
 
-Pixelbin provides url utilities to construct and deconstruct pixelbin urls.
+Pixelbin provides url utilities to construct and deconstruct Pixelbin urls.
 
-#### 1. urlToObj
+### urlToObj
+
+Deconstruct a pixelbin url
 
 | parameter   | type   |
 | ----------- | ------ |
 | pixelbinUrl | String |
 
-<details>
-<summary> Example </summary>
-
+Example: 
 ```javascript
 const pixelbinUrl =
     "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg";
 
-const obj = Pixelbin.url.urlToObj(pixelbinUrl);
+const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
+// obj
+// {
+//     "cloudName": "your-cloud-name",
+//     "zone": "z-slug",
+//     "version": "v2",
+//     "transformations": [
+//         {
+//             "plugin": "t",
+//             "name": "resize",
+//             "isPreset": false,
+//             "values": [
+//                 {
+//                     "key": "h",
+//                     "value": "100"
+//                 },
+//                 {
+//                     "key": "w",
+//                     "value": "200"
+//                 }
+//             ]
+//         },
+//         {
+//             "plugin": "t",
+//             "name": "flip",
+//             "isPreset": false
+//         }
+//     ],
+//     "original": "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg"
+// }
 ```
-</details>
 
 **Returns**:
 
-| property        | type            | example                           |
+| property        | description            | example                           |
 | --------------- | --------------- | --------------------------------- |
-| cloudName       | String          | `your-cloud-name`                 |
-| zone            | String          | `z-slug`                          |
-| version         | String          | `v2`                              |
-| transformations | Transformations | example                           |
-| pattern         | String          | `t.resize(h:100, w:200)~t.flip()` |
-| original        | String            | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg`|
+| cloudName (string)       | The cloudname extracted from the url          | `your-cloud-name`                 |
+| zone (string)          | 6 character zone slug          | `z-slug` |
+| version (string)    | cdn api version          | `v2` |
+| transformations (array) | Extracted transformations from the url |   |
+| pattern (string)  | Transformation pattern extracted from the url          | `t.resize(h:100, w:200)~t.flip()` |
+| original (string) | Url of the original image | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg`|
 
-<details>
-<summary> Example </summary>
+#### 2. objToUrl
 
-```json
-// obj
-{
+Converts the extracted url obj to a Pixelbin url. 
+| property        | description            | example                           |
+| --------------- | --------------- | --------------------------------- |
+| cloudName (string)       | The cloudname extracted from the url          | `your-cloud-name`                 |
+| zone (string)          | 6 character zone slug          | `z-slug` |
+| version (string)    | cdn api version          | `v2` |
+| transformations (array) | Extracted transformations from the url |   |
+| pattern (string)  | Transformation pattern extracted from the url          | `t.resize(h:100, w:200)~t.flip()` |
+| original (string) | Url of the original image | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg`|
+
+```javascript
+const obj = {
     "cloudName": "your-cloud-name",
     "zone": "z-slug",
     "version": "v2",
@@ -204,35 +227,9 @@ const obj = Pixelbin.url.urlToObj(pixelbinUrl);
     ],
     "original": "https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg"
 }
-```
-</details>
-
-#### 2. objToUrl
-
-| parameter       | type              | example                           |
-| --------------- | ----------------- | --------------------------------- |
-| cloudName       | String            | `your-cloud-name`                 |
-| zone            | String            | `z-slug`                          |
-| version         | String            | `v2`                              |
-| transformations | Transformations   | example                           |
-| pattern         | String [optional] | `t.resize(h:100, w:200)~t.flip()` |
-| original        | String            | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/original/path/to/image.jpeg`|
-
-<details>
-<summary> Example </summary>
-
-```javascript
-// add transformations to another image.
-const url = Pixelbin.url.objToUrl(obj); // obj is as shown above
-```
-</details>
-
-**Returns**:
-
--   Pixelbin url
-
-```
-https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg
+const url = Pixelbin.utils.objToUrl(obj); // obj is as shown above
+// url
+// https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg
 ```
 
 ## Transformation
