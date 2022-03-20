@@ -92,14 +92,13 @@ The SDK provides a `upload` utility to upload images directly from the browser w
 
 ### upload(file, signedDetails):
 
-| parameter     | type                                                          |
-| ------------- | ------------------------------------------------------------- |
-| file          | [File](https://developer.mozilla.org/en-US/docs/Web/API/File) |
-| signedDetails | Object                                                        |
+| parameter                                                            | type                                                                           |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| file ([File](https://developer.mozilla.org/en-US/docs/Web/API/File)) | File to upload to Pixelbin                                                     |
+| signedDetails (Object)                                               | `signedDetails` can be generated with the Pixelbin Backend SDK @pixelbin/core. |
+|  |
 
 **returns**: Promise
-
-`signedDetails` can be generated with the Pixelbin Backend SDK @pixelbin/core.
 
 Example :
 
