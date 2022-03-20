@@ -134,9 +134,9 @@ Pixelbin provides url utilities to construct and deconstruct Pixelbin urls.
 
 Deconstruct a pixelbin url
 
-| parameter   | type   |
-| ----------- | ------ |
-| pixelbinUrl | String |
+| parameter            | description          | example                                                                                               |
+| -------------------- | -------------------- | ----------------------------------------------------------------------------------------------------- |
+| pixelbinUrl (string) | A valid pixelbin url | `https://cdn.pixelbin.io/v2/your-cloud-name/z-slug/t.resize(h:100,w:200)~t.flip()/path/to/image.jpeg` |
 
 **Returns**:
 
