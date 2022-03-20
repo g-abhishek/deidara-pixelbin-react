@@ -8,13 +8,12 @@ describe("UrlUtils tests", () => {
             {
                 "plugin": "t",
                 "name": "resize",
-                isPreset: false,
             }
         ])
         expect(obj.cloudName).toBe("red-scene-95b6ea")
         expect(obj.zone).toBeUndefined();
         expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
-        expect(obj.pattern).toBe("t.resize()");
+        expect(obj.pattern).toBeUndefined();
         expect(obj.filePath).toBe("__playground/playground-default.jpeg");
     });
     it("should get obj from url - 1", async() => {
@@ -23,7 +22,6 @@ describe("UrlUtils tests", () => {
             {
                 "plugin": "t",
                 "name": "resize",
-                isPreset: false,
                 "values": [
                     {
                         "key": "h",
@@ -39,7 +37,7 @@ describe("UrlUtils tests", () => {
         expect(obj.cloudName).toBe("red-scene-95b6ea")
         expect(obj.zone).toBeUndefined();
         expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
-        expect(obj.pattern).toBe("t.resize(h:200,w:100)");
+        expect(obj.pattern).toBeUndefined();
         expect(obj.filePath).toBe("__playground/playground-default.jpeg");
     });
     it("should get obj from url - 2", async() => {
@@ -48,7 +46,6 @@ describe("UrlUtils tests", () => {
             {
                 "plugin": "t",
                 "name": "resize",
-                isPreset: false,
                 "values": [
                     {
                         "key": "h",
@@ -67,30 +64,28 @@ describe("UrlUtils tests", () => {
             {
                 "plugin": "erase",
                 "name": "bg",
-                isPreset: false,
             },
             {
                 "plugin": "t",
                 "name": "extend",
-                isPreset: false,
             }
         ]);
         expect(obj.cloudName).toBe("red-scene-95b6ea")
         expect(obj.zone).toBeUndefined();
         expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
-        expect(obj.pattern).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()");
+        expect(obj.pattern).toBeUndefined();
         expect(obj.filePath).toBe("__playground/playground-default.jpeg");
     });
     it("should get obj from url with preset", async ()=> {
         const presetUrl = "https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.compress()~t.resize()~t.extend()~p.apply(n:presetNameXyx)/alien_fig_tree_planet_x_wallingford_seattle_washington_usa_517559.jpeg";
         const obj = urlToObj(presetUrl);
         expect(obj.transformations).toEqual(
-            [{"isPreset": false, "name": "compress", "plugin": "t"}, {"isPreset": false, "name": "resize", "plugin": "t"}, {"isPreset": false, "name": "extend", "plugin": "t"}, {"isPreset": true, "name": "presetNameXyx"}]
+            [{"name": "compress", "plugin": "t"}, {"name": "resize", "plugin": "t"}, {"name": "extend", "plugin": "t"}, {plugin: "p", "name": "presetNameXyx"}]
         );
         expect(obj.cloudName).toBe("red-scene-95b6ea")
         expect(obj.zone).toBeUndefined();
         expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
-        expect(obj.pattern).toBe("t.compress()~t.resize()~t.extend()~p.apply(n:presetNameXyx)");
+        expect(obj.pattern).toBeUndefined();
         expect(obj.filePath).toBe("alien_fig_tree_planet_x_wallingford_seattle_washington_usa_517559.jpeg");
     })
     it("should generate url from obj", async()=> {
@@ -98,7 +93,6 @@ describe("UrlUtils tests", () => {
             {
                 "plugin": "t",
                 "name": "resize",
-                isPreset: false,
                 "values": [
                     {
                         "key": "h",
@@ -117,16 +111,14 @@ describe("UrlUtils tests", () => {
             {
                 "plugin": "erase",
                 "name": "bg",
-                isPreset: false,
             },
             {
                 "plugin": "t",
                 "name": "extend",
-                isPreset: false,
             },
             {
+                "plugin": "p",
                 "name": "preset1",
-                isPreset: true,
             }
         ];
         const obj = {

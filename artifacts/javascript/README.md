@@ -169,7 +169,6 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 //         {
 //             "plugin": "t",
 //             "name": "resize",
-//             "isPreset": false,
 //             "values": [
 //                 {
 //                     "key": "h",
@@ -184,7 +183,6 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 //         {
 //             "plugin": "t",
 //             "name": "flip",
-//             "isPreset": false
 //         }
 //     ],
 //     "filePath": "path/to/image.jpeg",
@@ -197,15 +195,14 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 
 Converts the extracted url obj to a Pixelbin url.
 
-| property                | description                                   | example                           |
-| ----------------------- | --------------------------------------------- | --------------------------------- |
-| cloudName (string)      | The cloudname extracted from the url          | `your-cloud-name`                 |
-| zone (string)           | 6 character zone slug                         | `z-slug`                          |
-| version (string)        | cdn api version                               | `v2`                              |
-| transformations (array) | Extracted transformations from the url        |                                   |
-| pattern (string)        | Transformation pattern extracted from the url | `t.resize(h:100, w:200)~t.flip()` |
-| filePath                | Path to the file on Pixelbin storage          | `/path/to/image.jpeg`             |
-| baseUrl (string)        | Base url                                      | `https://cdn.pixelbin.io/`        |
+| property                | description                            | example                    |
+| ----------------------- | -------------------------------------- | -------------------------- |
+| cloudName (string)      | The cloudname extracted from the url   | `your-cloud-name`          |
+| zone (string)           | 6 character zone slug                  | `z-slug`                   |
+| version (string)        | cdn api version                        | `v2`                       |
+| transformations (array) | Extracted transformations from the url |                            |
+| filePath                | Path to the file on Pixelbin storage   | `/path/to/image.jpeg`      |
+| baseUrl (string)        | Base url                               | `https://cdn.pixelbin.io/` |
 
 ```javascript
 const obj = {
@@ -216,7 +213,6 @@ const obj = {
         {
             plugin: "t",
             name: "resize",
-            isPreset: false,
             values: [
                 {
                     key: "h",
@@ -231,11 +227,9 @@ const obj = {
         {
             plugin: "t",
             name: "flip",
-            isPreset: false,
         },
     ],
     filePath: "path/to/image.jpeg",
-    pattern: "t.resize(h:100,w:200)~t.flip()",
     baseUrl: "https://cdn.pixelbin.io",
 };
 const url = Pixelbin.utils.objToUrl(obj); // obj is as shown above

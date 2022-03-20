@@ -5,7 +5,7 @@ export const getUrlFromObj = function (obj, config){
     if(!obj.baseUrl) obj["baseUrl"] = "https://cdn.pixelbin.io";
     if(!obj.cloudName) throw new PDKIllegalArgumentError("key cloudName should be defined");
     if(!obj.filePath) throw new PDKIllegalArgumentError("key filePath should be defined");
-    if(!obj.pattern) obj["pattern"] = getPatternFromTransformations(obj["transformations"], config) || "original";
+    obj["pattern"] = getPatternFromTransformations(obj["transformations"], config) || "original";
     if(!obj.version || !version2Regex.test(obj.version)) obj.version = "v2";
     if(!obj.zone || !/([a-zA-Z0-9_-]{6})/.test(obj.zone)) obj.zone = "";
     const urlKeySorted = ["baseUrl", "version", "cloudName", "zoneSlug", "pattern", "filePath"];
@@ -57,15 +57,16 @@ function getParamsObject(paramsList) {
 function txtToOptions(dSplit, originalFormat, config, flatten, isPreset = false) {
     // Figure Out Module
     const fullFnName = dSplit.split("(")[0];
+    
     const [pluginId, operationName] = fullFnName.split(".");
 
-    if (fullFnName === "p.apply") {
+    if (pluginId === "p") {
         const params = getParamsObject(getParamsList(dSplit, ""));
         const presetName = params.find(({key, value}) => key === "n");
         if(presetName?.key){
             return {
+                plugin: pluginId,
                 name: presetName.value,
-                isPreset: true,
             }
         }
         return;
@@ -77,7 +78,6 @@ function txtToOptions(dSplit, originalFormat, config, flatten, isPreset = false)
         values: values,
         plugin,
         name,
-        isPreset: false,
     };
     if(!transformation.values)
         delete transformation["values"];
@@ -101,10 +101,7 @@ const getTransformationsFromPattern = function (pattern, url, config, flatten = 
         .map((x) => {
             if (x.startsWith("p:")) {
                 const [, presetString] = x.split(":");
-                return {
-                    name: presetString,
-                    isPreset: true,
-                }
+                x = `p.apply(n:${presetString})`
             }
             return txtToOptions(x, originalFormat, config, flatten);
         })
@@ -116,6 +113,7 @@ const getTransformationsFromPattern = function (pattern, url, config, flatten = 
 export const getObjFromUrl = function (url, config, flatten) {
     const parts = getPartsFromUrl(url);
     parts.transformations = getTransformationsFromPattern(parts.pattern, url, config, flatten);
+    delete parts["pattern"];
     return parts;
 };
 
@@ -124,7 +122,7 @@ export const getPatternFromTransformations = function (transformationList, confi
         ? transformationList
               .map((o) => {
                   if (o.hasOwnProperty("name")) {
-                      if (o.isPreset) {
+                      if (o.plugin === "p") {
                           return `p:${o.name}`;
                       } else {
                         o.values = o.values || [];
