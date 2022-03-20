@@ -187,9 +187,10 @@ const obj = Pixelbin.utils.urlToObj(pixelbinUrl);
 // }
 ```
 
-#### 2. objToUrl
+### objToUrl
 
 Converts the extracted url obj to a Pixelbin url. 
+
 | property        | description            | example                           |
 | --------------- | --------------- | --------------------------------- |
 | cloudName (string)       | The cloudname extracted from the url          | `your-cloud-name`                 |
