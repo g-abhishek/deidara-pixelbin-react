@@ -2,11 +2,11 @@ const path = require("path");
 
 module.exports = {
     entry: {
-        pixelbin: path.resolve("./", "pixelbin.js")
+        pixelbin: path.resolve("./artifacts/javascript/", "pixelbin.js")
     },
     output: {
-        path: path.resolve("./", "dist"),
-        filename: "[name].[contenthash].js",
+        path: path.resolve("./artifacts/javascript/", "./dist"),
+        filename: "[name].v1.js",
         library: {
             name: "Pixelbin",
             type: "umd",
@@ -32,6 +32,6 @@ module.exports = {
         extensions: ["*", ".js"],
     },
     devServer: {
-        contentBase: path.resolve("./", "./dist"),
+        contentBase: path.resolve("./artifacts/javascript/", "./dist"),
     },
 };

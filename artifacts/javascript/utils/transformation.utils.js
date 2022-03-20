@@ -9,7 +9,7 @@ export const getImageUrlWithOptions = function (url, pattern, version = "v2") {
         );
     urlParts["pattern"] = pattern || "original";
     urlParts["version"] = version || "v2";
-    urlParts["host"] = "https://cdn.pixelbin.io";
+    urlParts["host"] = "cdn.pixelbin.io";
     const urlKeySorted = ["host", "version", "cloudName", "zoneSlug", "pattern", "filePath"];
     const urlArr = [];
     urlKeySorted.forEach((key) => {

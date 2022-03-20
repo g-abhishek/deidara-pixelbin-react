@@ -1,5 +1,5 @@
-import {Transformation} from "@pixelbin/js";
-import {PDKIllegalArgumentError} from "@pixelbin/js/errors/PixelbinErrors";
+import {Transformation} from "../pixelbin.js";
+import {PDKIllegalArgumentError} from "../errors/PixelbinErrors";
 
 describe("Transformation tests", () => {
     it("should throw invalid argument error if values not array", async () => {

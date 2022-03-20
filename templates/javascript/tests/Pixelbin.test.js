@@ -1,8 +1,8 @@
-import Pixelbin from "@pixelbin/js";
-import { Transformation } from "@pixelbin/js";
-import { extend, resize, flip } from "@pixelbin/js/plugins/Basic";
-import { bg } from "@pixelbin/js/plugins/EraseBG";
-import { upscale } from "@pixelbin/js/plugins/SuperResolution";
+import Pixelbin from "../pixelbin.js";
+import { Transformation } from "../pixelbin.js";
+import { extend, resize, flip } from "../plugins/Basic";
+import { bg } from "../plugins/EraseBG";
+import { upscale } from "../plugins/SuperResolution";
 
 describe("SDK tests", () => {
     it("should run", async () => {

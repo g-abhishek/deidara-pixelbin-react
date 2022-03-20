@@ -1,8 +1,8 @@
-import {objToUrl, urlToObj} from "@pixelbin/js/utils";
+import {objToUrl, urlToObj} from "../utils";
 
 describe("UrlUtils tests", () => {
     it("should get transformation list from url", async() => {
-        const {transformations} =  urlToObj("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize()/__playground/playground-default.jpeg");
+        const {transformations} =  urlToObj("https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.resize()/__playground/playground-default.jpeg");
         expect(transformations).toEqual([
             {
                 "plugin": "t",
@@ -12,7 +12,7 @@ describe("UrlUtils tests", () => {
         ])
     });
     it("should get transformation list from url", async() => {
-        const {transformations} =  urlToObj("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize(h:200,w:100)/__playground/playground-default.jpeg");
+        const {transformations} =  urlToObj("https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.resize(h:200,w:100)/__playground/playground-default.jpeg");
         expect(transformations).toEqual([
             {
                 "plugin": "t",
@@ -32,7 +32,7 @@ describe("UrlUtils tests", () => {
         ])
     });
     it("should get transformation list from url - 2", async() => {
-        const {transformations} =  urlToObj("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()/__playground/playground-default.jpeg");
+        const {transformations} =  urlToObj("https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()/__playground/playground-default.jpeg");
         expect(transformations).toEqual([
             {
                 "plugin": "t",
@@ -66,7 +66,7 @@ describe("UrlUtils tests", () => {
         ])
     });
     it("deconstruct url with preset", async ()=> {
-        const presetUrl = "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.compress()~t.resize()~t.extend()~p.apply(n:presetNameXyx)/alien_fig_tree_planet_x_wallingford_seattle_washington_usa_517559.jpeg";
+        const presetUrl = "https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.compress()~t.resize()~t.extend()~p.apply(n:presetNameXyx)/alien_fig_tree_planet_x_wallingford_seattle_washington_usa_517559.jpeg";
         const { transformations } = urlToObj(presetUrl);
         expect(transformations).toEqual(
             [{"isPreset": false, "name": "compress", "plugin": "t"}, {"isPreset": false, "name": "resize", "plugin": "t"}, {"isPreset": false, "name": "extend", "plugin": "t"}, {"isPreset": true, "name": "presetNameXyx"}]
@@ -113,13 +113,13 @@ describe("UrlUtils tests", () => {
             zone: "z-slug",
             version: "v2",
             transformations: transformations,
-            original: "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            original: "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
-        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v2/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg");
         obj.version = "v1";
         url = objToUrl(obj);
-        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v1/red-scene-95b6ea/t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1/__playground/playground-default.jpeg");
     })
     it("should generate url from transformation list when empty", async()=> {
         const transformations = [];
@@ -128,28 +128,28 @@ describe("UrlUtils tests", () => {
             zone: "z-slug",
             version: "v2",
             transformations: transformations,
-            original: "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            original: "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
         // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
-        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
         obj.version = "v1";
         url = objToUrl(obj);
-        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
     })
     it("should generate url from transformation list undefined", async()=> {
         const obj = {
             cloudName: "red-scene-95b6ea",
             zone: "z-slug",
             version: "v2",
-            original: "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            original: "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
         // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
-        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
         obj.version = "v1";
         url = objToUrl(obj);
-        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
     })
     it("should generate url from transformation list undefined", async()=> {
         const obj = {
@@ -157,14 +157,14 @@ describe("UrlUtils tests", () => {
             zone: "z-slug",
             version: "v2",
             transformations: [{}],
-            original: "https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
+            original: "https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg",
         };
         let url = objToUrl(obj);
         // expect(urlUtils.generatePixelbinPattern(transformation)).toBe("t.resize(h:200,w:100,fill:999)~erase.bg()~t.extend()~p:preset1");
-        expect(url).toBe("https://cdn.pixelbinx0.de/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v2/red-scene-95b6ea/original/__playground/playground-default.jpeg");
         obj.version = "v1";
         url = objToUrl(obj);
-        expect(url).toBe("https://cdn.pixelbinx0.de/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
+        expect(url).toBe("https://cdn.pixelbin.io/v1/red-scene-95b6ea/original/__playground/playground-default.jpeg");
     })
 
 });
