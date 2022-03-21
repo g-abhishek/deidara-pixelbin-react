@@ -6,6 +6,5 @@
 module.exports = async () => {
     return {
         testEnvironment: "jsdom",
-        transformIgnorePatterns: ["/node_modules/(?!@pixelbin/js)/.+\\.js$"],
     };
 };
