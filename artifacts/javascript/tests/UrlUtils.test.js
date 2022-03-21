@@ -16,6 +16,24 @@ describe("UrlUtils tests", () => {
         expect(obj.zone).toBeUndefined();
         expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
         expect(obj.pattern).toBeUndefined();
+        expect(obj.version).toBe("v2");
+        expect(obj.filePath).toBe("__playground/playground-default.jpeg");
+    });
+    it("should get obj from url no version", async () => {
+        const obj = urlToObj(
+            "https://cdn.pixelbin.io/red-scene-95b6ea/t.resize()/__playground/playground-default.jpeg",
+        );
+        expect(obj.transformations).toEqual([
+            {
+                plugin: "t",
+                name: "resize",
+            },
+        ]);
+        expect(obj.cloudName).toBe("red-scene-95b6ea");
+        expect(obj.zone).toBeUndefined();
+        expect(obj.baseUrl).toBe("https://cdn.pixelbin.io");
+        expect(obj.pattern).toBeUndefined();
+        expect(obj.version).toBe("v1");
         expect(obj.filePath).toBe("__playground/playground-default.jpeg");
     });
     it("should get obj from url - 1", async () => {
