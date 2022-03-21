@@ -37,8 +37,8 @@ describe("Transformation tests", () => {
     });
     it("should create preset correctly", async () => {
         const t = Transformation.customTransformation({
+            plugin: "p",
             name: "preset1",
-            isPreset: true,
         });
         expect(t.getTransformation()).toBe("p:preset1");
     });

@@ -42,14 +42,13 @@ class Transformation {
   * @param {boolean} [arg.isPreset] - whether the transformation is a preset
   * returns Transformation
   */
-  static customTransformation({ plugin, name, values = [], isPreset = false }) {
+  static customTransformation({ plugin, name, values = []}) {
       if (!(values instanceof Array))
           throw new PDKIllegalArgumentError(
               `Expected values to be an Array. Got ${typeof values} instead`,
           );
       const patternArr = [];
-      if(isPreset){
-          plugin = "p";
+      if(plugin === "p"){
           patternArr.push(`${plugin}:${name}`)
           return new Transformation(patternArr.join(""));
       }
