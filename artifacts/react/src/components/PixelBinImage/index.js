@@ -5,7 +5,7 @@ import retry from "async-retry";
 const DEFAULT_RETRY_OPTS = {
     retries: 3,
     backOffFactor: 2,
-    minTimeout: 500,
+    interval: 500,
 };
 
 function fetchImageWithRetry(url, cancelToken, retryOpts) {
@@ -22,13 +22,17 @@ function fetchImageWithRetry(url, cancelToken, retryOpts) {
             return response;
         } catch (err) {
             // This will trigger a retry
-            if (err.response && err.response.status === 202) {
+            if (err.response?.status === 202) {
                 return Promise.reject(err);
             }
             // This would exit without any retries
             bail(err);
         }
-    }, retryOpts);
+    }, {
+        retries: retryOpts.retries,
+        factor: retryOpts.backOffFactor,
+        minTimeout: retryOpts.interval
+    });
 }
 
 const PixelBinImage = ({
@@ -61,21 +65,23 @@ const PixelBinImage = ({
          * Note: `setIsLoading` is called before updating the src,
          * because img tag needs to be rendered for its ref to be accessed.
          */
-        fetchImageWithRetry(imgUrl, source.token, { ...retryOpts, ...DEFAULT_RETRY_OPTS })
+        fetchImageWithRetry(imgUrl, source.token, { ...DEFAULT_RETRY_OPTS, ...retryOpts })
             .then((result) => {
                 if (unmounted) return;
 
                 setIsLoading(false);
+
                 imgRef.current.src = URL.createObjectURL(result.data);
             })
             .catch((err) => {
                 if (unmounted) return;
 
-                if (err.response && err.response.status !== 202) {
-                    onError(err);
-                }
                 setIsLoading(false);
-                onExhausted();
+
+                if (err.response?.status !== 202) {
+                    return onError(err);
+                }
+                onExhausted(err);
             });
 
         return () => {
@@ -88,17 +94,18 @@ const PixelBinImage = ({
 
     if (isLoading && LoaderComponent) {
         return (
-            <LoaderComponent />
+            <LoaderComponent/>
         );
     } else {
         return (
             <img
                 // For SSR
-                src={typeof window === "undefined" && imgUrl}
+                src={typeof window === "undefined" ? imgUrl : ""}
                 data-testid="pixelbin-image"
                 {...imgProps}
                 ref={imgRef}
                 onLoad={onLoad}
+                onError={onError}
             />
         );
     }
