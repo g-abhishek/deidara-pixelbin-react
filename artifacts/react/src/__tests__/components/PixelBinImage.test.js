@@ -113,15 +113,17 @@ describe("PixelBin Image", () => {
         render(
             <PixelBinImage
                 imgUrl={imgUrl}
-                imgProps={{
-                    style: { borderRadius: "4px" },
-                    "data-testid": "pixelbin-element"
+                style={{
+                    borderRadius: "4px",
+                    objectFit: "cover"
                 }}
+                data-testid="pixelbin-element"
             />
         );
 
-        const imgElement = await screen.findByTestId("pixelbin-element")
+        const imgElement = await screen.findByTestId("pixelbin-image")
         expect(imgElement).toBeInTheDocument();
         expect(imgElement.style.borderRadius).toBe("4px");
+        expect(imgElement.style.objectFit).toBe("cover");
     });
 })

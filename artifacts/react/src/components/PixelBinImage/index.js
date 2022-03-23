@@ -42,7 +42,7 @@ const PixelBinImage = ({
     onExhausted = () => {},
     retryOpts = {},
     LoaderComponent,
-    imgProps,
+    ...imgProps
 }) => {
     const imgRef = useRef();
     const [isLoading, setIsLoading] = useState(true);

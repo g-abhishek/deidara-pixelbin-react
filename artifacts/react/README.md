@@ -33,7 +33,7 @@ export default App;
 ## Components
 
 ### &lt;PixelBinImage /&gt;
-An `img` component to display PixelBin's transformed images, with support to poll lazy transformations.
+An `img` component to display PixelBin's transformed images. You just need to pass the image URL and the comment will handle the polling of lazy transformations internally.
 #### Props
 * `imgUrl` - URL for the transformed image.
 * `onLoad` - A function to be called when the image is loaded. Will be invoked with the event object.
@@ -44,5 +44,5 @@ An `img` component to display PixelBin's transformed images, with support to pol
     * `backoffFactor` - Factor for exponential backoff. Defaults to `2`.
     * `interval` - The number of milliseconds to wait before starting the first retry. Defaults to `500`.
 * `LoaderComponent` - A React component to be displayed while the image is being fetched.
-* `imgProps` - Any extra props that you need to pass to the rendered `img` element.
+* Note: Any extra props, other than the ones above, will be passed to the rendered `img` element.
 
