@@ -33,9 +33,17 @@ export default App;
 ## Components
 
 ### &lt;PixelBinImage /&gt;
-An `img` component to display PixelBin's transformed images. You just need to pass the image URL and the comment will handle the polling of lazy transformations internally.
+An `img` component to display PixelBin's transformed images. You just need to pass the image URL or an Object with various URL properties, and the component will handle the polling of lazy transformations internally.
 #### Props
-* `imgUrl` - URL for the transformed image.
+* `url` - URL for the transformed image.
+* `urlObj` - A PixelBin URL object with various properties like:
+    * `cloudName`: Your PixelBin cloudname. Required.
+    * `zone`: A 6 character slug of any of your PixelBin zones.
+    * `version`: CDN API version.
+    * `transformations`: Array of transformations to be applied. Optional. If not provided original will be fetched.
+    * `transformationPattern`: String of transformations to be applied. Optional. If not provided original will be fetched.
+    * `filePath`: Path to the file on Pixelbin storage. Required.
+    * `baseUrl`: Domain of your CDN. Defaults to `https://cdn.pixelbin.io/`
 * `onLoad` - A function to be called when the image is loaded. Will be invoked with the event object.
 * `onError` - A function to be called when image fetching/loading fails. Will be invoked with the error object if image fetch fails, or else will be invoked with the event object if image loading fails.
 * `onExhausted` - A function to be called, when all polling attempts have been exhausted. Will be invoked with the error object of the last attempt.

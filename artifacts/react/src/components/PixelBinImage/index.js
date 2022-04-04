@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import retry from "async-retry";
+import { getUrlFromObj } from "../../utils.js";
+import { PDKIllegalArgumentError } from "../../errors/PixelBinErrors.js";
 
 const DEFAULT_RETRY_OPTS = {
     retries: 3,
@@ -36,7 +38,8 @@ function fetchImageWithRetry(url, cancelToken, retryOpts) {
 }
 
 const PixelBinImage = ({
-    imgUrl,
+    url,
+    urlObj,
     onLoad = () => {},
     onError = () => {},
     onExhausted = () => {},
@@ -44,10 +47,21 @@ const PixelBinImage = ({
     LoaderComponent,
     ...imgProps
 }) => {
+
     const imgRef = useRef();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        // Neither `imgUrl` nor `urlObj` was provided
+        if(!(url || urlObj)) onError(new PDKIllegalArgumentError("Please provide either `imgUrl` or `urlObj` prop"));
+
+
+        try{
+            url = urlObj ? getUrlFromObj(urlObj) : url;
+        } catch(err) {
+            return onError(err);
+        }
+
         /**
          * If the component is unmounted before API call finishes, we use CancelToken to cancel the API call.
          * If in case the component unmounts just after the call is finished but any state updates haven't been made,
@@ -65,7 +79,7 @@ const PixelBinImage = ({
          * Note: `setIsLoading` is called before updating the src,
          * because img tag needs to be rendered for its ref to be accessed.
          */
-        fetchImageWithRetry(imgUrl, source.token, { ...DEFAULT_RETRY_OPTS, ...retryOpts })
+        fetchImageWithRetry(url, source.token, { ...DEFAULT_RETRY_OPTS, ...retryOpts })
             .then((result) => {
                 if (unmounted) return;
 
@@ -100,7 +114,7 @@ const PixelBinImage = ({
         return (
             <img
                 // For SSR
-                src={typeof window === "undefined" ? imgUrl : ""}
+                src={typeof window === "undefined" ? url : ""}
                 data-testid="pixelbin-image"
                 {...imgProps}
                 ref={imgRef}

@@ -11,6 +11,46 @@ jest.mock("axios");
 afterEach(cleanup);
 
 const imgUrl = "https://cdn.pixelbinx0.de/v2/cloudName/t.resize(h:200,w:200)/random.jpeg";
+const transformations = [
+    {
+        plugin: "t",
+        name: "resize",
+        values: [
+            {
+                key: "h",
+                value: "200",
+            },
+            {
+                key: "w",
+                value: "100",
+            },
+            {
+                key: "fill",
+                value: "999",
+            },
+        ],
+    },
+    {
+        plugin: "erase",
+        name: "bg",
+    },
+    {
+        plugin: "t",
+        name: "extend",
+    },
+    {
+        plugin: "p",
+        name: "preset1",
+    },
+];
+const urlObj = {
+    cloudName: "red-scene-95b6ea",
+    zone: "z-slug",
+    version: "v2",
+    transformations: transformations,
+    baseUrl: "https://cdn.pixelbin.io",
+    filePath: "__playground/playground-default.jpeg",
+};
 
 describe("PixelBin Image", () => {
     beforeAll(() => {
@@ -36,7 +76,34 @@ describe("PixelBin Image", () => {
     it("should render", async () => {
         render(<PixelBinImage imgUrl={imgUrl}/>);
 
-        expect(await screen.findByTestId("pixelbin-image")).toBeInTheDocument();
+        const imgElement = await screen.findByTestId("pixelbin-image");
+        expect(imgElement).toBeInTheDocument();
+        expect(imgElement.src).toBeDefined();
+    });
+
+    it("should render with urlObj", async () => {
+        render(<PixelBinImage urlObj={urlObj}/>);
+
+        const imgElement = await screen.findByTestId("pixelbin-image");
+        expect(imgElement).toBeInTheDocument();
+        expect(imgElement.src).toBeDefined();
+    });
+
+    it("should render with both imgUrl & urlObj", async () => {
+        render(<PixelBinImage imgUrl={imgUrl} urlObj={urlObj}/>);
+
+        const imgElement = await screen.findByTestId("pixelbin-image");
+        expect(imgElement).toBeInTheDocument();
+        expect(imgElement.src).toBeDefined();
+    });
+
+    it("should invoke onError when `imgUrl` and `urlObj` are undefined", async () => {
+        const onErrorMock = jest.fn();
+        render(<PixelBinImage onError={onErrorMock}/>);
+
+        const imgElement = await screen.findByTestId("pixelbin-image");
+        expect(imgElement).toBeInTheDocument();
+        await waitFor(() => expect(onErrorMock).toHaveBeenCalled());
     });
 
     // TODO: Debug why this test fails, even when the actual functionality works
@@ -121,7 +188,7 @@ describe("PixelBin Image", () => {
             />
         );
 
-        const imgElement = await screen.findByTestId("pixelbin-image")
+        const imgElement = await screen.findByTestId("pixelbin-element")
         expect(imgElement).toBeInTheDocument();
         expect(imgElement.style.borderRadius).toBe("4px");
         expect(imgElement.style.objectFit).toBe("cover");
