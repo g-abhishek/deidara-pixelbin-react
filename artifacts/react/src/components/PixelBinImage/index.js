@@ -50,11 +50,11 @@ const PixelBinImage = ({
 
     const imgRef = useRef();
     const [isLoading, setIsLoading] = useState(true);
+    const [isSuccess, setIsSuccess] = useState();
 
     useEffect(() => {
-        // Neither `imgUrl` nor `urlObj` was provided
-        if(!(url || urlObj)) onError(new PDKIllegalArgumentError("Please provide either `imgUrl` or `urlObj` prop"));
-
+        // Neither `url` nor `urlObj` was provided
+        if(!(url || urlObj)) return onError(new PDKIllegalArgumentError("Please provide either `url` or `urlObj` prop"));
 
         try{
             url = urlObj ? getUrlFromObj(urlObj) : url;
@@ -71,32 +71,29 @@ const PixelBinImage = ({
         let source = axios.CancelToken.source();
 
         setIsLoading(true);
-
+        setIsSuccess(false);
         /**
          * If image was fetched successfully, set it as the src.
          * If an error occurs & its status is 202, means we ran out of retries.
          * Any other error is a genuine error and needs to be propagated to the caller.
-         * Note: `setIsLoading` is called before updating the src,
+         * Note: `setIsSuccess` is called before updating the src,
          * because img tag needs to be rendered for its ref to be accessed.
          */
         fetchImageWithRetry(url, source.token, { ...DEFAULT_RETRY_OPTS, ...retryOpts })
             .then((result) => {
                 if (unmounted) return;
 
-                setIsLoading(false);
-
+                setIsSuccess(true);
                 imgRef.current.src = URL.createObjectURL(result.data);
             })
             .catch((err) => {
                 if (unmounted) return;
 
-                setIsLoading(false);
-
                 if (err.response?.status !== 202) {
                     return onError(err);
                 }
                 onExhausted(err);
-            });
+            }).finally(() => setIsLoading(false));
 
         return () => {
             unmounted = true;
@@ -104,13 +101,13 @@ const PixelBinImage = ({
             // When component is unmounted remove blob from memory
             if (imgRef.current) URL.revokeObjectURL(imgRef.current.src);
         };
-    }, []);
+    }, [url, urlObj]);
 
     if (isLoading && LoaderComponent) {
         return (
             <LoaderComponent/>
         );
-    } else {
+    } else if (isSuccess) {
         return (
             <img
                 // For SSR
@@ -122,6 +119,11 @@ const PixelBinImage = ({
                 onError={onError}
             />
         );
+    } else {
+        /**
+         * If there were any errors in fetching the image, or the retries exhausted
+         */
+        return <img data-testid="pixelbin-empty-image"/>;
     }
 }
 

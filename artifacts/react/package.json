@@ -1,6 +1,6 @@
 {
   "name": "amey-pb-image",
-  "version": "1.0.7",
+  "version": "1.0.12",
   "description": "React components from Amey",
   "scripts": {
     "build": "npx webpack --mode production",

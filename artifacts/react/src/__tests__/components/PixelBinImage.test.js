@@ -10,7 +10,7 @@ import { PixelBinImage } from "../../components";
 jest.mock("axios");
 afterEach(cleanup);
 
-const imgUrl = "https://cdn.pixelbinx0.de/v2/cloudName/t.resize(h:200,w:200)/random.jpeg";
+const url = "https://cdn.pixelbinx0.de/v2/cloudName/t.resize(h:200,w:200)/random.jpeg";
 const transformations = [
     {
         plugin: "t",
@@ -74,11 +74,13 @@ describe("PixelBin Image", () => {
     });
 
     it("should render", async () => {
-        render(<PixelBinImage imgUrl={imgUrl}/>);
+        const onErrorMock = jest.fn();
+        render(<PixelBinImage url={url} onError={onErrorMock}/>);
 
         const imgElement = await screen.findByTestId("pixelbin-image");
         expect(imgElement).toBeInTheDocument();
         expect(imgElement.src).toBeDefined();
+        await waitFor(() => expect(onErrorMock).not.toHaveBeenCalled());
     });
 
     it("should render with urlObj", async () => {
@@ -89,27 +91,25 @@ describe("PixelBin Image", () => {
         expect(imgElement.src).toBeDefined();
     });
 
-    it("should render with both imgUrl & urlObj", async () => {
-        render(<PixelBinImage imgUrl={imgUrl} urlObj={urlObj}/>);
+    it("should render with both url & urlObj", async () => {
+        render(<PixelBinImage url={url} urlObj={urlObj}/>);
 
         const imgElement = await screen.findByTestId("pixelbin-image");
         expect(imgElement).toBeInTheDocument();
         expect(imgElement.src).toBeDefined();
     });
 
-    it("should invoke onError when `imgUrl` and `urlObj` are undefined", async () => {
+    it("should invoke onError when `url` and `urlObj` are undefined", async () => {
         const onErrorMock = jest.fn();
         render(<PixelBinImage onError={onErrorMock}/>);
 
-        const imgElement = await screen.findByTestId("pixelbin-image");
-        expect(imgElement).toBeInTheDocument();
         await waitFor(() => expect(onErrorMock).toHaveBeenCalled());
     });
 
     // TODO: Debug why this test fails, even when the actual functionality works
     xit("should invoke onLoad when image is loaded", async () => {
         const onLoadMock = jest.fn();
-        render(<PixelBinImage imgUrl={imgUrl} onLoad={onLoadMock}/>);
+        render(<PixelBinImage url={url} onLoad={onLoadMock}/>);
 
         expect(await screen.findByTestId("pixelbin-image")).toBeInTheDocument();
 
@@ -122,9 +122,9 @@ describe("PixelBin Image", () => {
         });
 
         const onErrorMock = jest.fn();
-        render(<PixelBinImage imgUrl={imgUrl} onError={onErrorMock}/>);
+        render(<PixelBinImage url={url} onError={onErrorMock}/>);
 
-        expect(await screen.findByTestId("pixelbin-image")).toBeInTheDocument();
+        expect(await screen.findByTestId("pixelbin-empty-image")).toBeInTheDocument();
 
         await waitFor(() => expect(onErrorMock).toHaveBeenCalledWith({
             data: "Failed"
@@ -143,13 +143,13 @@ describe("PixelBin Image", () => {
         const onExhaustedMock = jest.fn();
         render(
             <PixelBinImage
-                imgUrl={imgUrl}
+                url={url}
                 onExhausted={onExhaustedMock}
                 retryOpts={{ retries: 1, interval: 10 }}
             />
         );
 
-        expect(await screen.findByTestId("pixelbin-image")).toBeInTheDocument();
+        expect(await screen.findByTestId("pixelbin-empty-image")).toBeInTheDocument();
         await waitFor(() => expect(onExhaustedMock).toHaveBeenCalledWith(errResponse));
     });
 
@@ -165,7 +165,7 @@ describe("PixelBin Image", () => {
         const onExhaustedMock = jest.fn();
         render(
             <PixelBinImage
-                imgUrl={imgUrl}
+                url={url}
                 onExhausted={onExhaustedMock}
                 retryOpts={{ retries: 1, interval: 10 }}
                 LoaderComponent={() => <div data-testid="loading-component"></div>}
@@ -179,7 +179,7 @@ describe("PixelBin Image", () => {
     it("should accept extra imageProps", async () => {
         render(
             <PixelBinImage
-                imgUrl={imgUrl}
+                url={url}
                 style={{
                     borderRadius: "4px",
                     objectFit: "cover"

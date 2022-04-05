@@ -19,7 +19,7 @@ const App = () => {
 
     return (
         <PixelBinImage
-            imgUrl={imgUrl}
+            url={imgUrl}
             retryOpts={{
                 retries: 2, interval: 100
             }}
