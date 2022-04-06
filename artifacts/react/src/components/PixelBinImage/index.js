@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import retry from "async-retry";
-import { getUrlFromObj } from "../../utils.js";
+import { getUrlFromObj } from "../../utils";
 import { PDKIllegalArgumentError } from "../../errors/PixelBinErrors.js";
 
 const DEFAULT_RETRY_OPTS = {

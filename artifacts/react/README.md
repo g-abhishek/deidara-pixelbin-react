@@ -41,7 +41,6 @@ An `img` component to display PixelBin's transformed images. You just need to pa
     * `zone`: A 6 character slug of any of your PixelBin zones.
     * `version`: CDN API version.
     * `transformations`: Array of transformations to be applied. Optional. If not provided original will be fetched.
-    * `transformationPattern`: String of transformations to be applied. Optional. If not provided original will be fetched.
     * `filePath`: Path to the file on Pixelbin storage. Required.
     * `baseUrl`: Domain of your CDN. Defaults to `https://cdn.pixelbin.io/`
 * `onLoad` - A function to be called when the image is loaded. Will be invoked with the event object.
