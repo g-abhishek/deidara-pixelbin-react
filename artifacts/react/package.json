@@ -1,6 +1,6 @@
 {
   "name": "amey-pb-image",
-  "version": "1.0.13",
+  "version": "1.0.17",
   "description": "React components from Amey",
   "scripts": {
     "build": "npx webpack --mode production",
@@ -23,6 +23,7 @@
     "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^14.0.4",
     "@types/jest": "^27.4.1",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
