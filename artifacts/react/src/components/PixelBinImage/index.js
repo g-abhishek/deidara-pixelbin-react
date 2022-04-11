@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import retry from "async-retry";
-import { getUrlFromObj } from "../../utils";
+import PixelBin from "@pixelbin/core"
+
 import { PDKIllegalArgumentError } from "../../errors/PixelBinErrors.js";
 
 const DEFAULT_RETRY_OPTS = {
@@ -57,7 +58,7 @@ const PixelBinImage = ({
         if(!(url || urlObj)) return onError(new PDKIllegalArgumentError("Please provide either `url` or `urlObj` prop"));
 
         try{
-            url = urlObj ? getUrlFromObj(urlObj) : url;
+            url = urlObj ? PixelBin.utils.objToUrl(urlObj) : url;
         } catch(err) {
             return onError(err);
         }

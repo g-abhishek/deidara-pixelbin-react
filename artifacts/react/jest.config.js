@@ -4,5 +4,6 @@ module.exports = () => {
         moduleNameMapper: {},
         modulePaths: ["<rootDir>/src/"],
         testEnvironment: "jsdom",
+        transformIgnorePatterns: ["/node_modules/(?!@pixelbin/core)/.+\\.js$"],
     };
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import retry from "async-retry";
+import PixelBin from "@pixelbin/core"
 
-import { getUrlFromObj } from "../../utils";
 import { PDKIllegalArgumentError } from "../../errors/PixelBinErrors.js";
 
 const DEFAULT_RETRY_OPTS = {
@@ -63,7 +63,7 @@ export default function PixelBinDownloadButton({
         if(!(url || urlObj)) return onError(new PDKIllegalArgumentError("Please provide either `url` or `urlObj` prop"));
 
         try{
-            url = urlObj ? getUrlFromObj(urlObj) : url;
+            url = urlObj ? PixelBin.utils.objToUrl(urlObj) : url;
         } catch(err) {
             return onError(err);
         }
