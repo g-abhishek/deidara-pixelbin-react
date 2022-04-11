@@ -38,7 +38,7 @@ describe("PixelBin Image", () => {
         expect(screen.getByText(/Download/)).toBeInTheDocument();
     });
 
-    xit("should call onDownloadStart", async () => {
+    it("should call onDownloadStart when download starts", async () => {
         const onDownloadStartMock = jest.fn();
         render(
             <PixelBinDownloadButton
@@ -53,8 +53,57 @@ describe("PixelBin Image", () => {
         expect(buttonElement).toBeInTheDocument();
         expect(screen.getByText(/Download/)).toBeInTheDocument();
         userEvent.click(screen.getByText(/Download/));
-        waitFor(() => Promise.resolve, 0);
+        waitFor(() => expect(onDownloadStartMock).toHaveBeenCalled());
+    });
 
-        expect(onDownloadStartMock).toHaveBeenCalled();
+    it("should call onDownloadFinish when download finishes", async () => {
+        const onDownloadStartMock = jest.fn();
+        const onDownloadFinishMock = jest.fn();
+        render(
+            <PixelBinDownloadButton
+                url={url}
+                onDownloadStart={onDownloadStartMock}
+                onDownloadFinish={onDownloadFinishMock}
+            >
+                Download
+            </PixelBinDownloadButton>
+        );
+
+        const buttonElement = screen.getByTestId("pixelbin-download-button");
+        expect(buttonElement).toBeInTheDocument();
+        expect(screen.getByText(/Download/)).toBeInTheDocument();
+        userEvent.click(screen.getByText(/Download/));
+        waitFor(() => expect(onDownloadStartMock).toHaveBeenCalled());
+        waitFor(() => expect(onDownloadFinishMock).toHaveBeenCalled());
+    });
+
+    it("should call onError when download fails", async () => {
+        axios.get.mockRejectedValue({
+            data: "Failed"
+        });
+
+        const onErrorMock = jest.fn();
+        const onDownloadStartMock = jest.fn();
+        const onDownloadFinishMock = jest.fn();
+        render(
+            <PixelBinDownloadButton
+                url={url}
+                onDownloadStart={onDownloadStartMock}
+                onDownloadFinish={onDownloadFinishMock}
+                onError={onErrorMock}
+            >
+                Download
+            </PixelBinDownloadButton>
+        );
+
+        const buttonElement = screen.getByTestId("pixelbin-download-button");
+        expect(buttonElement).toBeInTheDocument();
+        expect(screen.getByText(/Download/)).toBeInTheDocument();
+        userEvent.click(screen.getByText(/Download/));
+        waitFor(() => expect(onDownloadStartMock).toHaveBeenCalled());
+        waitFor(() => expect(onErrorMock).toHaveBeenCalledWith({
+            data: "Failed"
+        }));
+        waitFor(() => expect(onDownloadFinishMock).not.toHaveBeenCalled());
     })
 });
