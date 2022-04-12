@@ -9,6 +9,25 @@ You can install the library like this:
 npm install  @pixelbin/react --save
 ```
 
+### Other Installations:
+Add rule in webpack config:
+```
+{
+    test: /@?(amey-pb-image|pixelbin\/core).*\.(ts|js)x?$/,
+    loader: "babel-loader",
+}
+```
+Install the below packages and add it as a presets in babel config:
+```
+npm install --save-dev @babel/preset-react @babel/preset-env
+
+```
+Install the below package and add it as a plugin in babel config:
+```
+npm install --save-dev @babel/plugin-transform-modules-commonjs
+
+```
+
 And then use any of the components in your app:
 ```
 import React from "react";
