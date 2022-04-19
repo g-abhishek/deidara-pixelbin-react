@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import retry from "async-retry";
-import PixelBin from "@pixelbin/core"
+import PixelBin from "@pixelbin/core";
 
 import { PDKIllegalArgumentError } from "../../errors/PixelBinErrors.js";
 
@@ -12,30 +12,33 @@ const DEFAULT_RETRY_OPTS = {
 };
 
 function fetchImageWithRetry(url, cancelToken, retryOpts) {
-    return retry(async (bail) => {
-        try {
-            const response = await axios.get(url, {
-                withCredentials: false,
-                responseType: "blob",
-                cancelToken: cancelToken,
-                validateStatus(status) {
-                    return status === 200;
-                },
-            });
-            return response;
-        } catch (err) {
-            // This will trigger a retry
-            if (err.response?.status === 202) {
-                return Promise.reject(err);
+    return retry(
+        async (bail) => {
+            try {
+                const response = await axios.get(url, {
+                    withCredentials: false,
+                    responseType: "blob",
+                    cancelToken: cancelToken,
+                    validateStatus(status) {
+                        return status === 200;
+                    },
+                });
+                return response;
+            } catch (err) {
+                // This will trigger a retry
+                if (err.response?.status === 202) {
+                    return Promise.reject(err);
+                }
+                // This would exit without any retries
+                bail(err);
             }
-            // This would exit without any retries
-            bail(err);
-        }
-    }, {
-        retries: retryOpts.retries,
-        factor: retryOpts.backOffFactor,
-        minTimeout: retryOpts.interval
-    });
+        },
+        {
+            retries: retryOpts.retries,
+            factor: retryOpts.backOffFactor,
+            minTimeout: retryOpts.interval,
+        },
+    );
 }
 
 const PixelBinImage = ({
@@ -48,18 +51,19 @@ const PixelBinImage = ({
     LoaderComponent,
     ...imgProps
 }) => {
-
     const imgRef = useRef();
     const [isLoading, setIsLoading] = useState(true);
     const [isSuccess, setIsSuccess] = useState();
-
     useEffect(() => {
         // Neither `url` nor `urlObj` was provided
-        if(!(url || urlObj)) return onError(new PDKIllegalArgumentError("Please provide either `url` or `urlObj` prop"));
+        if (!(url || urlObj))
+            return onError(
+                new PDKIllegalArgumentError("Please provide either `url` or `urlObj` prop"),
+            );
 
-        try{
+        try {
             url = urlObj ? PixelBin.utils.objToUrl(urlObj) : url;
-        } catch(err) {
+        } catch (err) {
             return onError(err);
         }
 
@@ -94,7 +98,8 @@ const PixelBinImage = ({
                     return onError(err);
                 }
                 onExhausted(err);
-            }).finally(() => setIsLoading(false));
+            })
+            .finally(() => setIsLoading(false));
 
         return () => {
             unmounted = true;
@@ -105,27 +110,25 @@ const PixelBinImage = ({
     }, [url, urlObj]);
 
     if (isLoading && LoaderComponent) {
-        return (
-            <LoaderComponent/>
-        );
+        return <LoaderComponent />;
     } else if (isSuccess) {
         return (
             <img
                 // For SSR
                 src={typeof window === "undefined" ? url : ""}
                 data-testid="pixelbin-image"
-                {...imgProps}
                 ref={imgRef}
                 onLoad={onLoad}
                 onError={onError}
+                {...imgProps}
             />
         );
     } else {
         /**
          * If there were any errors in fetching the image, or the retries exhausted
          */
-        return <img data-testid="pixelbin-empty-image"/>;
+        return <img data-testid="pixelbin-empty-image" {...imgProps} />;
     }
-}
+};
 
-export default PixelBinImage
+export default PixelBinImage;
