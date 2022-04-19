@@ -1,10 +1,10 @@
 {
     "name": "react-pb-image",
-    "version": "1.0.25",
+    "version": "1.0.26",
     "description": "React components from Utkarsh",
     "private": false,
     "scripts": {
-        "build": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files",
+        "build": "rm -rf dist && mkdir dist &&  babel src -d dist --copy-files",
         "test": "jest --env=jsdom"
     },
     "author": "Utkarsh Gupta",
