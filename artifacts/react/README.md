@@ -29,7 +29,7 @@ npm install --save-dev @babel/plugin-transform-modules-commonjs
 ```
 
 And then use any of the components in your app:
-```javascript
+```jsx
 import React from "react";
 import { PixelBinImage } from "@pixelbin/react"
 
@@ -96,7 +96,7 @@ A `button` component to download PixelBin's transformed images. You just need to
 * Note: Any extra props, other than the ones above, will be passed to the rendered `button` element.
 
 #### Example
-```javascript
+```jsx
 import React, { useState } from "react";
 import { PixelBinDownloadButton } from "@pixelbin/react"
 
